@@ -1,0 +1,7 @@
+{
+  "site_id": "dev-05-consent",
+  "task_id": "checkout-base-price",
+  "trap_count": 3,
+  "categories": { "C5": 3 },
+  "trap_ids": ["t-01", "t-02", "t-03"]
+}

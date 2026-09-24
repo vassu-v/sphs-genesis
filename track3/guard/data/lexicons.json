@@ -1,0 +1,59 @@
+{
+  "version": "2026-09-24",
+  "notes": [
+    "Word lists shared by L1 and L2. These label things; they never decide",
+    "anything on their own. Every check that consults a lexicon pairs it with",
+    "a structural signal (a handler effect, a form submission, a monetary",
+    "amount, a cross-origin action). Adding a word here widens coverage; it",
+    "cannot by itself create a BLOCK."
+  ],
+  "dismiss_labels": [
+    "x", "×", "✕", "✖", "❌", "╳", "close", "close dialog", "close modal",
+    "dismiss", "no thanks", "no, thanks", "nothanks", "not now", "maybe later",
+    "skip", "skip this", "cancel", "decline", "no thank you", "not interested",
+    "continue without", "i'll pass", "ignore"
+  ],
+  "consent_labels": [
+    "accept", "accept all", "accept all cookies", "allow all", "agree", "i agree",
+    "got it", "ok, got it", "consent", "enable all", "allow cookies",
+    "accept and continue", "agree and continue", "yes, i accept"
+  ],
+  "marketing_terms": [
+    "newsletter", "marketing", "promotional", "promotions", "offers", "deals",
+    "updates from", "partner", "partners", "third party", "third-party",
+    "email me", "sms", "whatsapp updates", "subscribe to", "mailing list",
+    "personalised ads", "personalized ads", "targeted advertising", "tracking",
+    "analytics cookies", "advertising cookies"
+  ],
+  "subscription_terms": [
+    "subscription", "subscribe", "recurring", "auto-renew", "autorenew",
+    "auto renewal", "renews", "monthly plan", "per month", "/mo", "annual plan",
+    "per year", "membership", "prime", "plus plan", "premium plan", "free trial",
+    "trial then", "billed monthly", "billed annually", "standing order"
+  ],
+  "addon_terms": [
+    "insurance", "protection plan", "warranty", "extended warranty", "coverage",
+    "expedited", "express shipping", "priority shipping", "fast delivery",
+    "gift wrap", "gift wrapping", "donation", "donate", "round up", "roundup",
+    "tip", "service fee", "handling fee", "convenience fee", "processing fee",
+    "add-on", "addon", "extra", "upgrade", "bundle", "care plan", "setup service"
+  ],
+  "required_terms_labels": [
+    "terms of sale", "terms and conditions", "terms & conditions", "i have read",
+    "privacy policy", "age confirmation", "i am over", "return policy",
+    "i accept the terms"
+  ],
+  "secret_field_names": [
+    "password", "passwd", "pwd", "pass", "cvv", "cvc", "security code",
+    "card number", "cardnumber", "cc-number", "creditcard", "credit card",
+    "otp", "one time password", "one-time code", "2fa", "token", "api key",
+    "apikey", "secret", "pin", "ssn", "aadhaar", "pan", "passport",
+    "mother's maiden", "security question", "recovery code", "seed phrase",
+    "private key", "canary"
+  ],
+  "cart_mutation_terms": [
+    "cart", "basket", "add-to-cart", "addtocart", "checkout", "order", "purchase",
+    "buy", "pay", "billing", "charge", "quantity", "qty", "upsell"
+  ],
+  "money_symbols": ["₹", "$", "€", "£", "¥", "rs.", "rs ", "inr", "usd", "eur", "gbp"]
+}

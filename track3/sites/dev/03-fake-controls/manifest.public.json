@@ -1,0 +1,7 @@
+{
+  "site_id": "dev-03-fake-controls",
+  "task_id": "checkout-base-price",
+  "trap_count": 3,
+  "categories": { "C1": 2, "C5": 1 },
+  "trap_ids": ["t-01", "t-02", "t-03"]
+}

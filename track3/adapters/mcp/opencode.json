@@ -1,0 +1,16 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "ai-bodyguard": {
+      "type": "local",
+      "command": ["python", "-m", "adapters.mcp.server"],
+      "enabled": true,
+      "cwd": ".",
+      "environment": {
+        "GUARD_ENABLE_L3": "0",
+        "GUARD_RUN_ID": "opencode-demo",
+        "GUARD_HEADLESS": "1"
+      }
+    }
+  }
+}

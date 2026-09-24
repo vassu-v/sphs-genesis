@@ -1,0 +1,242 @@
+[
+  {
+    "claim_id": "T-01",
+    "claim": "The paper 'Investigating the Impact of Dark Patterns on LLM-Based Web Agents' is authored by Ersoy, Lee, Shreekumar, Arunasalam, Ibrahim, Bianchi, Celik and is accepted to IEEE S&P 2026.",
+    "source": {
+      "title": "Investigating the Impact of Dark Patterns on LLM-Based Web Agents",
+      "authors": ["Devin Ersoy", "Brandon Lee", "Ananth Shreekumar", "Arjun Arunasalam", "Muhammad Ibrahim", "Antonio Bianchi", "Z. Berkay Celik"],
+      "year": 2025,
+      "venue": "arXiv (accepted IEEE S&P 2026)",
+      "arxiv_id": "2510.18113",
+      "doi": null,
+      "url": "https://arxiv.org/abs/2510.18113"
+    },
+    "evidence_quote": "Accepted to IEEE Symposium on Security and Privacy 2026",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "T-02",
+    "claim": "Agents are susceptible to a single dark pattern an average of 41% of the time across six agents.",
+    "source": {
+      "title": "Investigating the Impact of Dark Patterns on LLM-Based Web Agents",
+      "authors": ["Devin Ersoy", "Brandon Lee", "et al."],
+      "year": 2025,
+      "venue": "arXiv (IEEE S&P 2026)",
+      "arxiv_id": "2510.18113",
+      "doi": null,
+      "url": "https://arxiv.org/pdf/2510.18113"
+    },
+    "evidence_quote": "agents are susceptible to it an average of 41% of the time",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "T-03",
+    "claim": "The LiteAgent GitHub repository (both LiteAgent/liteagent and the paper's canonical purseclab/liteagent) has no LICENSE file; GitHub's API reports license:null for both.",
+    "source": {
+      "title": "LiteAgent repository (GitHub)",
+      "authors": ["purseclab / LiteAgent org"],
+      "year": 2025,
+      "venue": "GitHub",
+      "arxiv_id": null,
+      "doi": null,
+      "url": "https://github.com/purseclab/liteagent"
+    },
+    "evidence_quote": "\"license\": null (GitHub repo API); GET /contents/LICENSE returns 404 Not Found",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "T-04",
+    "claim": "TrickyArena is hosted at agenttrickydps.vercel.app and dark patterns are toggled via a `?dp=<code>` URL query parameter, with multiple patterns joined by underscores.",
+    "source": {
+      "title": "LiteAgent README.md",
+      "authors": ["purseclab/LiteAgent authors"],
+      "year": 2025,
+      "venue": "GitHub raw file",
+      "arxiv_id": null,
+      "doi": null,
+      "url": "https://raw.githubusercontent.com/LiteAgent/liteagent/main/README.md"
+    },
+    "evidence_quote": "https://agenttrickydps.vercel.app/<site_category>?dp=<dark_pattern1>_<dark_pattern2>_<dark_pattern3>",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "T-05",
+    "claim": "Live-verified: navigating agenttrickydps.vercel.app, selecting 'Bait and Switch' for the News site, and clicking through produces the URL https://agenttrickydps.vercel.app/news?dp=bs, confirming the hosted site and query scheme are functional as of Sept 2026.",
+    "source": {
+      "title": "TrickyArena hosted instance",
+      "authors": ["purseclab/LiteAgent authors"],
+      "year": 2026,
+      "venue": "Live website",
+      "arxiv_id": null,
+      "doi": null,
+      "url": "https://agenttrickydps.vercel.app/news?dp=bs"
+    },
+    "evidence_quote": "window.location.href -> https://agenttrickydps.vercel.app/news?dp=bs",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "T-06",
+    "claim": "TrickyArena's evaluation/consts.py defines dark-pattern code-to-name mappings for six site categories: shopping, news, spotify, wiki, health, linkedin — though only shopping/news/spotify/health are exposed on the live homepage.",
+    "source": {
+      "title": "LiteAgent evaluation/consts.py",
+      "authors": ["purseclab/LiteAgent authors"],
+      "year": 2025,
+      "venue": "GitHub raw file",
+      "arxiv_id": null,
+      "doi": null,
+      "url": "https://raw.githubusercontent.com/LiteAgent/liteagent/main/evaluation/consts.py"
+    },
+    "evidence_quote": "site_dp_mapping = bidict({\"shopping\":..., \"news\":..., \"spotify\":..., \"wiki\":..., \"health\":..., \"linkedin\":...})",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "T-07",
+    "claim": "Dark pattern susceptibility scoring (Agent Action Validator) is defined entirely by logical conditions over an action-trace database of DOM interactions (clicks/inputs on specific element IDs/xpaths) — not by verifying a real-world outcome such as a completed charge.",
+    "source": {
+      "title": "Investigating the Impact of Dark Patterns on LLM-Based Web Agents",
+      "authors": ["Devin Ersoy", "Brandon Lee", "et al."],
+      "year": 2025,
+      "venue": "arXiv (IEEE S&P 2026)",
+      "arxiv_id": "2510.18113",
+      "doi": null,
+      "url": "https://arxiv.org/pdf/2510.18113"
+    },
+    "evidence_quote": "Each condition involves an action trace database query to determine the existence, non-existence, or uniqueness of a specific action",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "T-08",
+    "claim": "The paper's dp_checks.py implementation confirms this concretely: e.g. the Warranty dark pattern checks only that 'add to cart' was clicked, the warranty item's remove button was NOT clicked, and checkout was clicked — all DOM element-ID click checks, no payment/order verification.",
+    "source": {
+      "title": "LiteAgent evaluation/dp_checks.py",
+      "authors": ["purseclab/LiteAgent authors"],
+      "year": 2025,
+      "venue": "GitHub raw file",
+      "arxiv_id": null,
+      "doi": null,
+      "url": "https://raw.githubusercontent.com/LiteAgent/liteagent/main/evaluation/dp_checks.py"
+    },
+    "evidence_quote": "create_check(CheckTypes.DB_ELEMENT_ID_SUBSTRING_MATCH_CLICK, ELEMENT_ID_SUBSTRING: \"add\\\\_to\\\\_cart\\\\_\")",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "T-09",
+    "claim": "The paper uses Gray et al.'s 5-category dark pattern ontology (Obstruction, Sneaking, Interface Interference, Forced Action, Social Engineering) and implements exactly 14 dark patterns across 4 TrickyArena sites (E-Commerce/Shopping, News, Streaming/Spotify-style Music, Health Portal), enumerated in Appendix B Table 5.",
+    "source": {
+      "title": "Investigating the Impact of Dark Patterns on LLM-Based Web Agents",
+      "authors": ["Devin Ersoy", "Brandon Lee", "et al."],
+      "year": 2025,
+      "venue": "arXiv (IEEE S&P 2026)",
+      "arxiv_id": "2510.18113",
+      "doi": null,
+      "url": "https://arxiv.org/pdf/2510.18113"
+    },
+    "evidence_quote": "compile a representative list of 14 specific dark patterns to implement. We outline the objectives for each dark pattern in Appendix B",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "T-10",
+    "claim": "Table 1: DPSR by category and agent. Overall DPSR by category: Obstruction 52.2%, Sneaking 33.9%, Interface Interference 41.7%, Forced Action 43.9%, Social Engineering 47.9%, aggregate 41.1%. Skyvern (72.3%) and BrowserUse (69.3%) are most susceptible overall; Agent-E (12.1%) and WebArena (14.9%) least.",
+    "source": {
+      "title": "Investigating the Impact of Dark Patterns on LLM-Based Web Agents",
+      "authors": ["Devin Ersoy", "Brandon Lee", "et al."],
+      "year": 2025,
+      "venue": "arXiv (IEEE S&P 2026)",
+      "arxiv_id": "2510.18113",
+      "doi": null,
+      "url": "https://arxiv.org/pdf/2510.18113"
+    },
+    "evidence_quote": "Skyvern and BrowserUse are the most vulnerable agents, with susceptibility rates of 72.3% and 69.3%",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "T-11",
+    "claim": "Table 2: Per-LLM metrics across BrowserUse/Skyvern/Agent-E — Benign TSR: Claude 65.2%, GPT-4o 68.5%, Gemini 68.8%. Single-DP TSR: Claude 56.8%, GPT-4o 48.7%, Gemini 56.8%. DPSR: Claude 53.8%, GPT-4o 51.3%, Gemini 65.8%.",
+    "source": {
+      "title": "Investigating the Impact of Dark Patterns on LLM-Based Web Agents",
+      "authors": ["Devin Ersoy", "Brandon Lee", "et al."],
+      "year": 2025,
+      "venue": "arXiv (IEEE S&P 2026)",
+      "arxiv_id": "2510.18113",
+      "doi": null,
+      "url": "https://arxiv.org/pdf/2510.18113"
+    },
+    "evidence_quote": "Gemini 2.5 Pro exhibiting the highest overall rate (65.78%), followed by Claude 3.7 Sonnet (53.79%), and GPT-4o (51.26%)",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "T-12",
+    "claim": "LiteAgent is agent-agnostic at the harness/instrumentation level (works via CDP/Playwright event-listener injection regardless of agent's backend LLM), but each individual agent submodule (BrowserUse, Skyvern, Agent-E, etc.) must be independently configured with its own supported LLM API keys; the README's setup notes specifically instruct providing OpenAI keys for the agent submodules, and only 3 of 6 agents (BrowserUse, Skyvern, Agent-E) were shown in the paper to 'readily support' swapping to Claude/Gemini backends.",
+    "source": {
+      "title": "LiteAgent README.md / Investigating the Impact of Dark Patterns on LLM-Based Web Agents",
+      "authors": ["purseclab/LiteAgent authors"],
+      "year": 2025,
+      "venue": "GitHub raw file + arXiv paper",
+      "arxiv_id": "2510.18113",
+      "doi": null,
+      "url": "https://raw.githubusercontent.com/LiteAgent/liteagent/main/README.md"
+    },
+    "evidence_quote": "We evaluate these models using three agent implementations that readily support these backend LLMs with minimal configuration changes: BrowserUse, Skyvern, and Agent-E",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "T-13",
+    "claim": "The paper's own code/data availability statement points to https://github.com/purseclab/liteagent as the canonical repo for public use and validation.",
+    "source": {
+      "title": "Investigating the Impact of Dark Patterns on LLM-Based Web Agents",
+      "authors": ["Devin Ersoy", "Brandon Lee", "et al."],
+      "year": 2025,
+      "venue": "arXiv (IEEE S&P 2026)",
+      "arxiv_id": "2510.18113",
+      "doi": null,
+      "url": "https://arxiv.org/pdf/2510.18113"
+    },
+    "evidence_quote": "Our code and datasets are available at https://github.com/purseclab/liteagent for public use and validation.",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "T-14",
+    "claim": "The paper's own meta-review (Appendix G) explicitly flags the absence of a human baseline as a limitation, and the authors concede in their response that they cannot directly compare human vs. agent susceptibility rates because the TrickyArena UI/scenarios differ from prior human dark-pattern studies.",
+    "source": {
+      "title": "Investigating the Impact of Dark Patterns on LLM-Based Web Agents",
+      "authors": ["Devin Ersoy", "Brandon Lee", "et al."],
+      "year": 2025,
+      "venue": "arXiv (IEEE S&P 2026)",
+      "arxiv_id": "2510.18113",
+      "doi": null,
+      "url": "https://arxiv.org/pdf/2510.18113"
+    },
+    "evidence_quote": "The paper lacks a baseline of human performance for the dark patterns evaluated.",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "T-15",
+    "claim": "Two closely related follow-on benchmarks appeared after this paper's acceptance: 'Dark Patterns Meet GUI Agents' (arXiv:2509.10723) and 'SusBench' (arXiv:2510.11035), which the authors distinguish from their own automated/comprehensive approach.",
+    "source": {
+      "title": "Investigating the Impact of Dark Patterns on LLM-Based Web Agents",
+      "authors": ["Devin Ersoy", "Brandon Lee", "et al."],
+      "year": 2025,
+      "venue": "arXiv (IEEE S&P 2026)",
+      "arxiv_id": "2510.18113",
+      "doi": null,
+      "url": "https://arxiv.org/pdf/2510.18113"
+    },
+    "evidence_quote": "SusBench, an online benchmark that measures how agents and humans respond to generated dark patterns injected into real-world websites",
+    "verified": "fetched",
+    "confidence": "high"
+  }
+]

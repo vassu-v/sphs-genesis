@@ -1,0 +1,1776 @@
+{
+  "_meta": {
+    "generated_by": "09-verification-closeout agent",
+    "generated_at": "2026-09-24T15:36:00Z",
+    "purpose": "Merged, deduplicated, report-ready citation set across research/01-04 and 05-citations, with closeout verification status for every source.",
+    "total_unique_sources": 55,
+    "total_claim_entries_covered": 75
+  },
+  "sources": [
+    {
+      "source": {
+        "title": "Adaptive Attacks Break Defenses Against Indirect Prompt Injection Attacks on LLM Agents",
+        "authors": [],
+        "year": 2025,
+        "venue": "arXiv",
+        "arxiv_id": "2503.00061",
+        "doi": null,
+        "url": "https://arxiv.org/pdf/2503.00061"
+      },
+      "workstreams": [
+        "01-agent-attacks"
+      ],
+      "cited_by": [
+        {
+          "workstream": "01-agent-attacks",
+          "claim_id": "A-08",
+          "claim": "A paper on adaptive attacks breaking published indirect prompt injection defenses on LLM agents exists on arXiv, but specific numeric results could not be extracted from the fetched PDF."
+        }
+      ],
+      "prior_status": [
+        "unverified/low"
+      ],
+      "closeout_status": "RESOLVED-CONFIRMED",
+      "closeout_note": "Abstract confirms 8 defenses bypassed, ASR over 50%. NOT the source of any 12-defenses claim -- see REPORT-SAFETY #1 in CLOSEOUT.md."
+    },
+    {
+      "source": {
+        "title": "Agent Security Bench (ASB): Formalizing and Benchmarking Attacks and Defenses in LLM-based Agents",
+        "authors": [],
+        "year": 2025,
+        "venue": "ICLR 2025 / arXiv",
+        "arxiv_id": "2410.02644",
+        "doi": null,
+        "url": "https://arxiv.org/abs/2410.02644"
+      },
+      "workstreams": [
+        "01-agent-attacks",
+        "03-prevalence"
+      ],
+      "cited_by": [
+        {
+          "workstream": "01-agent-attacks",
+          "claim_id": "A-07",
+          "claim": "Agent Security Bench (10 scenarios, 10 agents, 400+ tools, 27 attack/defense methods, 13 LLM backbones) reports a highest average attack success rate of 84.30%, with tested defenses showing limited effectiveness."
+        },
+        {
+          "workstream": "03-prevalence",
+          "claim_id": "A-07",
+          "claim": "Agent Security Bench (ASB) evaluates 27 attack/defense methods (10 prompt injection attacks, memory poisoning, a Plan-of-Thought backdoor attack, 4 mixed attacks, and 11 defenses) across 10 scenarios, 400+ tools, and 13 LLM backbones, reporting a highest average attack success rate of 84.30%."
+        },
+        {
+          "workstream": "03-prevalence",
+          "claim_id": "A-08",
+          "claim": "ASB's 84.30% headline ASR is an aggregate maximum across many attack types, scenarios and models, not a single reproducible per-model, per-attack figure -- treat it as an upper bound, not a typical rate."
+        }
+      ],
+      "prior_status": [
+        "fetched/low",
+        "fetched/medium",
+        "unverified/medium"
+      ],
+      "closeout_status": "RESOLVED-CONFIRMED",
+      "closeout_note": "ICLR 2025; abstract quotes highest average attack success rate of 84.30%."
+    },
+    {
+      "source": {
+        "title": "BrowseSafe: Understanding and Preventing Prompt Injection Within AI Browser Agents",
+        "authors": [],
+        "year": 2025,
+        "venue": "arXiv",
+        "arxiv_id": "2511.20597",
+        "doi": null,
+        "url": "https://arxiv.org/html/2511.20597v1"
+      },
+      "workstreams": [
+        "01-agent-attacks"
+      ],
+      "cited_by": [
+        {
+          "workstream": "01-agent-attacks",
+          "claim_id": "A-03",
+          "claim": "A 2025 study on hidden-content injection for web agents enumerates five concrete hiding techniques: HTML comments, data attributes, CSS-hidden text, hidden form fields, and semantic attribute abuse."
+        }
+      ],
+      "prior_status": [
+        "unverified/medium"
+      ],
+      "closeout_status": "RESOLVED-CONFIRMED",
+      "closeout_note": "Confirmed via arxiv.org/html/2511.20597v1, Sec III-D quotes the exact 5-technique taxonomy (HTML comment, data attribute, CSS-hidden text, hidden form fields, semantic attribute abuse)."
+    },
+    {
+      "source": {
+        "title": "Fooling AI Agents: Web-Based Indirect Prompt Injection Observed in the Wild",
+        "authors": [
+          "Unit 42, Palo Alto Networks"
+        ],
+        "year": 2025,
+        "venue": "industry blog",
+        "arxiv_id": null,
+        "doi": null,
+        "url": "https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/"
+      },
+      "workstreams": [
+        "01-agent-attacks",
+        "03-prevalence"
+      ],
+      "cited_by": [
+        {
+          "workstream": "01-agent-attacks",
+          "claim_id": "A-04",
+          "claim": "Observed real-world indirect prompt injection has used base64-encoded payloads decoded at runtime into off-screen DOM elements with timed delays to evade time-bounded safety scans."
+        },
+        {
+          "workstream": "03-prevalence",
+          "claim_id": "A-14",
+          "claim": "Palo Alto Networks Unit 42 reported what it describes as the first documented real-world (non-lab) case of indirect prompt injection actively deployed to bypass an AI-based ad-review system, observed December 2025 on the site reviewerpress[.]com, using zero-font-size, off-screen positioning and CSS suppression to hide payloads; their broader telemetry review found 21 distinct websites carrying such payloads using 22 distinct payload-engineering techniques, with 75.8% of affected pages containing a single injection."
+        }
+      ],
+      "prior_status": [
+        "fetched/medium",
+        "unverified/low"
+      ],
+      "closeout_status": "RESOLVED-CONFIRMED",
+      "closeout_note": "Fetched directly; title, authors, date, and stats (22 techniques, 75.8% single-injection pages) confirmed."
+    },
+    {
+      "source": {
+        "title": "Get my drift? Catching LLM Task Drift with Activation Deltas",
+        "authors": [],
+        "year": 2024,
+        "venue": "arXiv",
+        "arxiv_id": "2406.00799",
+        "doi": null,
+        "url": "https://arxiv.org/html/2406.00799v6"
+      },
+      "workstreams": [
+        "01-agent-attacks"
+      ],
+      "cited_by": [
+        {
+          "workstream": "01-agent-attacks",
+          "claim_id": "A-09",
+          "claim": "Task drift is defined as the LLM's deviation from the user's original instructions after processing external data; a linear probe on activation deltas achieves ROC AUC greater than 0.99 on a 500,000+ instance dataset, outperforming Prompt Guard (0.974) and Prompt Shields (0.988) on the authors' own test set."
+        }
+      ],
+      "prior_status": [
+        "fetched/high"
+      ],
+      "closeout_status": "RESOLVED-CONFIRMED (carried over from prior pass, high confidence)",
+      "closeout_note": "Already fetched and high-confidence in a prior pass; not re-fetched this session."
+    },
+    {
+      "source": {
+        "title": "InjecAgent: Benchmarking Indirect Prompt Injections in Tool-Integrated Large Language Model Agents",
+        "authors": [],
+        "year": 2024,
+        "venue": "ACL Findings 2024 / arXiv",
+        "arxiv_id": "2403.02691",
+        "doi": null,
+        "url": "https://arxiv.org/abs/2403.02691"
+      },
+      "workstreams": [
+        "01-agent-attacks",
+        "03-prevalence",
+        "05-citations"
+      ],
+      "cited_by": [
+        {
+          "workstream": "01-agent-attacks",
+          "claim_id": "A-06",
+          "claim": "InjecAgent (1,054 test cases, 17 user tools, 62 attacker tools) found ReAct-prompted GPT-4 vulnerable to indirect prompt injection 24% of the time, rising to 47% under an enhanced hacking-style setting."
+        },
+        {
+          "workstream": "03-prevalence",
+          "claim_id": "A-06",
+          "claim": "InjecAgent benchmarks indirect prompt injection with 1,054 test cases spanning 17 user tools and 62 attacker tools; ReAct-prompted GPT-4 was vulnerable 24% of the time in the base setting, rising substantially with an enhanced 'hacking prompt' attack (paper states a near-doubling, exact enhanced percentage not confirmable from abstract alone)."
+        },
+        {
+          "workstream": "05-citations",
+          "claim_id": "B-06",
+          "claim": "InjecAgent found ReAct-prompted GPT-4 was vulnerable to indirect prompt injection 24% of the time, roughly doubling with an explicit attacker-enhancing prompt."
+        }
+      ],
+      "prior_status": [
+        "fetched/high"
+      ],
+      "closeout_status": "RESOLVED-CONFIRMED",
+      "closeout_note": "Table 3 (via arxiv.org/html/2403.02691) confirms ReAct GPT-4 base ASR 23.6% (~24%) and enhanced ASR 47.0%, resolving the previously-unconfirmed 47% figure."
+    },
+    {
+      "source": {
+        "title": "LLM01:2025 Prompt Injection",
+        "authors": [
+          "OWASP Gen AI Security Project"
+        ],
+        "year": 2025,
+        "venue": "OWASP",
+        "arxiv_id": null,
+        "doi": null,
+        "url": "https://genai.owasp.org/llmrisk/llm01-prompt-injection/"
+      },
+      "workstreams": [
+        "01-agent-attacks",
+        "03-prevalence"
+      ],
+      "cited_by": [
+        {
+          "workstream": "01-agent-attacks",
+          "claim_id": "A-02",
+          "claim": "OWASP LLM01:2025 distinguishes direct prompt injection (user's own prompt) from indirect prompt injection (external content like websites/files altering model behavior)."
+        },
+        {
+          "workstream": "03-prevalence",
+          "claim_id": "A-16",
+          "claim": "OWASP's Gen AI Security Project ranks Prompt Injection as LLM01:2025, the number-one item in its Top 10 for LLM Applications for the 2025 edition, for the second consecutive edition -- an expert consensus statement rather than a measured statistic."
+        }
+      ],
+      "prior_status": [
+        "fetched/high",
+        "fetched/medium"
+      ],
+      "closeout_status": "RESOLVED-CONFIRMED (carried over from prior pass, high confidence)",
+      "closeout_note": "Already fetched and high-confidence in a prior pass; not re-fetched this session."
+    },
+    {
+      "source": {
+        "title": "Manipulating LLM Web Agents with Indirect Prompt Injection Attack via HTML Accessibility Tree",
+        "authors": [],
+        "year": 2025,
+        "venue": "arXiv (EMNLP 2025 System Demonstrations)",
+        "arxiv_id": "2507.14799",
+        "doi": null,
+        "url": "https://arxiv.org/abs/2507.14799"
+      },
+      "workstreams": [
+        "01-agent-attacks"
+      ],
+      "cited_by": [
+        {
+          "workstream": "01-agent-attacks",
+          "claim_id": "A-05",
+          "claim": "A GCG-optimized universal adversarial trigger embedded in HTML accessibility-tree elements achieves high attack success against a BrowserGym agent powered by Llama-3.1, though exact ASR/sample size were not confirmed."
+        }
+      ],
+      "prior_status": [
+        "fetched/medium"
+      ],
+      "closeout_status": "STILL-UNVERIFIABLE (number only)",
+      "closeout_note": "Abstract confirms the attack and qualitative claim of high success rates but states no numeric ASR; do not attribute a percentage to this paper -- see REPORT-SAFETY #2."
+    },
+    {
+      "source": {
+        "title": "Not what you've signed up for: Compromising Real-World LLM-Integrated Applications with Indirect Prompt Injection",
+        "authors": [
+          "Kai Greshake",
+          "Sahar Abdelnabi",
+          "Shailesh Mishra",
+          "Christoph Endres",
+          "Thorsten Holz",
+          "Mario Fritz"
+        ],
+        "year": 2023,
+        "venue": "arXiv",
+        "arxiv_id": "2302.12173",
+        "doi": null,
+        "url": "https://arxiv.org/abs/2302.12173"
+      },
+      "workstreams": [
+        "01-agent-attacks",
+        "05-citations"
+      ],
+      "cited_by": [
+        {
+          "workstream": "01-agent-attacks",
+          "claim_id": "A-01",
+          "claim": "Greshake et al. named and systematized indirect prompt injection, with a taxonomy including data theft, worming, and information ecosystem contamination."
+        },
+        {
+          "workstream": "05-citations",
+          "claim_id": "B-01",
+          "claim": "Greshake et al. coined and demonstrated indirect prompt injection against real-world LLM-integrated applications including Bing Chat."
+        }
+      ],
+      "prior_status": [
+        "fetched/high"
+      ],
+      "closeout_status": "RESOLVED-CONFIRMED (carried over from prior pass, high confidence)",
+      "closeout_note": "Already fetched and high-confidence in a prior pass; not re-fetched this session."
+    },
+    {
+      "source": {
+        "title": "Reading Between the Pixels: Linking Text-Image Embedding Alignment to Typographic Attack Success on Vision-Language Models",
+        "authors": [],
+        "year": 2026,
+        "venue": "arXiv",
+        "arxiv_id": "2604.12371",
+        "doi": null,
+        "url": "https://arxiv.org/html/2604.12371"
+      },
+      "workstreams": [
+        "01-agent-attacks"
+      ],
+      "cited_by": [
+        {
+          "workstream": "01-agent-attacks",
+          "claim_id": "A-11",
+          "claim": "An empirical study across four VLMs (including GPT-4o and Claude), twelve font sizes, and ten image transformations found multimodal text-image embedding distance strongly predicts typographic prompt-injection attack success, with rendering conditions swinging ASR by tens of percentage points."
+        }
+      ],
+      "prior_status": [
+        "unverified/medium"
+      ],
+      "closeout_status": "RESOLVED-CORRECTED",
+      "closeout_note": "Paper exists with cited title/authors, but is accepted at the ICLR 2026 Workshop on Agents in the Wild, not ICLR main track -- state as a workshop paper if venue is named."
+    },
+    {
+      "source": {
+        "title": "SoK: The Attack Surface of Agentic AI -- Tools and Autonomy",
+        "authors": [
+          "Ali Dehghantanha",
+          "Sajad Homayoun"
+        ],
+        "year": 2026,
+        "venue": "arXiv",
+        "arxiv_id": "2603.22928",
+        "doi": null,
+        "url": "https://arxiv.org/abs/2603.22928"
+      },
+      "workstreams": [
+        "01-agent-attacks"
+      ],
+      "cited_by": [
+        {
+          "workstream": "01-agent-attacks",
+          "claim_id": "A-12",
+          "claim": "A 2026 SoK synthesizes more than 20 prior studies into a taxonomy of agentic AI attack surfaces spanning prompt-level injection, RAG/knowledge-base poisoning, tool/plugin exploits, and multi-agent manipulation."
+        }
+      ],
+      "prior_status": [
+        "unverified/medium"
+      ],
+      "closeout_status": "RESOLVED-CONFIRMED",
+      "closeout_note": "Confirmed to exist with cited title/authors as an arXiv SoK preprint."
+    },
+    {
+      "source": {
+        "title": "WASP: Benchmarking Web Agent Security Against Prompt Injection Attacks",
+        "authors": [],
+        "year": 2025,
+        "venue": "NeurIPS 2025 poster / arXiv",
+        "arxiv_id": "2504.18575",
+        "doi": null,
+        "url": "https://arxiv.org/pdf/2504.18575"
+      },
+      "workstreams": [
+        "01-agent-attacks",
+        "03-prevalence",
+        "04-mitigations"
+      ],
+      "cited_by": [
+        {
+          "workstream": "01-agent-attacks",
+          "claim_id": "A-10",
+          "claim": "WASP separates ASR-intermediate (agent begins following injected instruction, 16-86% across agents/scenarios) from ASR-end-to-end (attacker's full goal achieved, only 0-17%), showing partial hijacking is common but full goal completion is rare."
+        },
+        {
+          "workstream": "03-prevalence",
+          "claim_id": "A-01",
+          "claim": "WASP tests injection attacks on web agents across GitLab and Reddit environments with 84 total tasks (42 scenarios x 2 template types), plus a 37-task benign utility set."
+        },
+        {
+          "workstream": "03-prevalence",
+          "claim_id": "A-02",
+          "claim": "In WASP, OpenAI o1 (Tool Calling scaffold) had 85.7% intermediate attack success but only 16.7% full end-to-end attack success; Claude Sonnet 3.5 v2 (CURI scaffold) had 58.3% intermediate / 6.0% end-to-end."
+        },
+        {
+          "workstream": "03-prevalence",
+          "claim_id": "A-03",
+          "claim": "WASP's authors characterize current web agent robustness as 'security by incompetence': agents resist attacks because they fail at the underlying task, not because of robust defenses."
+        },
+        {
+          "workstream": "04-mitigations",
+          "claim_id": "M-02",
+          "claim": "WASP benchmark measures intermediate hijack success rates of 16-86% and end-to-end attacker goal success of 0-17% across web agent systems and models."
+        }
+      ],
+      "prior_status": [
+        "fetched/high",
+        "unverified/medium"
+      ],
+      "closeout_status": "RESOLVED-CONFIRMED",
+      "closeout_note": "Full abstract fetched; confirms attacks partially succeed in up to 86% of cases."
+    },
+    {
+      "source": {
+        "title": "AidUI: Toward Automated Recognition of Dark Patterns in User Interfaces",
+        "authors": [
+          "Sean Chen (and coauthors, full author list not verified)"
+        ],
+        "year": 2023,
+        "venue": "ICSE 2023",
+        "arxiv_id": "2303.06782",
+        "doi": "10.1109/ICSE48619.2023.00166",
+        "url": "https://arxiv.org/abs/2303.06782"
+      },
+      "workstreams": [
+        "02-dark-patterns"
+      ],
+      "cited_by": [
+        {
+          "workstream": "02-dark-patterns",
+          "claim_id": "DP-13",
+          "claim": "AidUI, a computer-vision-and-NLP tool that detects dark patterns directly from application screenshots (image + on-screen text, not DOM structure) across ten UI dark-pattern types, reports overall precision 0.66 / recall 0.67 / F1 0.65, with much higher reliability (F1 > 0.82) for visually cue-rich patterns like countdown timers and limited-time/bargain messages."
+        }
+      ],
+      "prior_status": [
+        "unverified/low"
+      ],
+      "closeout_status": "RESOLVED-CONFIRMED",
+      "closeout_note": "Fetched directly: AidUI, ICSE 2023; precision 0.66, recall 0.67, F1 0.65 overall (F1 up to 0.82 on a reliably-detectable subset)."
+    },
+    {
+      "source": {
+        "title": "Bringing Dark Patterns to Light: An FTC Staff Report",
+        "authors": [
+          "Federal Trade Commission Staff"
+        ],
+        "year": 2022,
+        "venue": "FTC Staff Report",
+        "arxiv_id": null,
+        "doi": null,
+        "url": "https://www.ftc.gov/system/files/ftc_gov/pdf/P214800%20Dark%20Patterns%20Report%209.14.2022%20-%20FINAL.pdf"
+      },
+      "workstreams": [
+        "02-dark-patterns"
+      ],
+      "cited_by": [
+        {
+          "workstream": "02-dark-patterns",
+          "claim_id": "DP-07",
+          "claim": "The FTC's September 2022 staff report 'Bringing Dark Patterns to Light' identifies four dominant categories of dark pattern harm: disguised ads, difficult-to-cancel subscriptions ('roach motel' style cancellation flows), buried key terms/junk fees, and tricking consumers into oversharing data — and frames enforcement under existing unfair-or-deceptive-practices law."
+        }
+      ],
+      "prior_status": [
+        "unverified/medium"
+      ],
+      "closeout_status": "RESOLVED-CONFIRMED",
+      "closeout_note": "PDF itself is unreadable by this tool (binary); corroborated via ftc.gov's own report landing page and press release describing the same title, September 2022 date, and four headline tactics."
+    },
+    {
+      "source": {
+        "title": "DECEPTICON: How Dark Patterns Manipulate Web Agents",
+        "authors": [
+          "Phil Cuvin",
+          "Hao Zhu",
+          "Diyi Yang"
+        ],
+        "year": 2025,
+        "venue": "arXiv preprint (submitted Dec 2025, revised Feb 2026)",
+        "arxiv_id": "2512.22894",
+        "doi": null,
+        "url": "https://arxiv.org/abs/2512.22894"
+      },
+      "workstreams": [
+        "02-dark-patterns"
+      ],
+      "cited_by": [
+        {
+          "workstream": "02-dark-patterns",
+          "claim_id": "DP-10",
+          "claim": "DECEPTICON, a 2025/2026 benchmark of 700 web-navigation tasks (600 generated, 100 real-world) built to test dark-pattern manipulation of web agents, found dark patterns steer frontier LLM agent trajectories to malicious/unintended outcomes in over 70% of tasks, versus a 31% human baseline on the same tasks, and that susceptibility correlates positively with model size and test-time reasoning; in-context prompting and guardrail-model defenses failed to consistently reduce the attack success rate."
+        }
+      ],
+      "prior_status": [
+        "fetched/high"
+      ],
+      "closeout_status": "RESOLVED-CONFIRMED (carried over from prior pass, high confidence)",
+      "closeout_note": "Already fetched and high-confidence in a prior pass; not re-fetched this session."
+    },
+    {
+      "source": {
+        "title": "Dark Patterns after the GDPR: Scraping Consent Pop-ups and Demonstrating their Influence",
+        "authors": [
+          "Midas Nouwens",
+          "Ilaria Liccardi",
+          "Michael Veale",
+          "David Karger",
+          "Lalana Kagal"
+        ],
+        "year": 2020,
+        "venue": "CHI 2020",
+        "arxiv_id": null,
+        "doi": "10.1145/3313831.3376321",
+        "url": "https://doi.org/10.1145/3313831.3376321"
+      },
+      "workstreams": [
+        "02-dark-patterns"
+      ],
+      "cited_by": [
+        {
+          "workstream": "02-dark-patterns",
+          "claim_id": "DP-09",
+          "claim": "Nouwens et al. scraped cookie consent pop-ups from the top five consent management platforms across 10,000 UK websites and found dark-pattern designs (e.g. no reject-all button at the top level, pre-ticked consent boxes) were present on the large majority of them, and that removing these dark patterns sharply reduced consent rates."
+        }
+      ],
+      "prior_status": [
+        "unverified/medium"
+      ],
+      "closeout_status": "RESOLVED-CONFIRMED",
+      "closeout_note": "Confirmed via ACM DL and pure.au.dk records: Nouwens et al., CHI 2020; key stat only 11.8% meet minimal requirements now tied to source."
+    },
+    {
+      "source": {
+        "title": "Dark Patterns at Scale: Findings from a Crawl of 11K Shopping Websites",
+        "authors": [
+          "Arunesh Mathur",
+          "Gunes Acar",
+          "Michael J. Friedman",
+          "Elena Lucherini",
+          "Jonathan Mayer",
+          "Marshini Chetty",
+          "Arvind Narayanan"
+        ],
+        "year": 2019,
+        "venue": "Proceedings of the ACM on Human-Computer Interaction, Vol. 3, CSCW (also arXiv:1907.07032)",
+        "arxiv_id": "1907.07032",
+        "doi": "10.1145/3359183",
+        "url": "https://arxiv.org/abs/1907.07032"
+      },
+      "workstreams": [
+        "02-dark-patterns",
+        "03-prevalence",
+        "04-mitigations",
+        "05-citations"
+      ],
+      "cited_by": [
+        {
+          "workstream": "02-dark-patterns",
+          "claim_id": "DP-01",
+          "claim": "Mathur et al. crawled ~11K shopping sites (~53K product pages) and found 1,818 dark pattern instances spanning 15 types in 7 broad categories, appearing on 1,254 of the sites."
+        },
+        {
+          "workstream": "02-dark-patterns",
+          "claim_id": "DP-01b",
+          "claim": "The exact count of sites found to display at least one dark pattern instance could not be confirmed from the fetched summaries (the PDF full text was not machine-readable via WebFetch); site-level prevalence beyond '1,254/11K-order-of-magnitude' figures from secondary summaries should be treated with caution until the primary PDF or HTML version is read directly."
+        },
+        {
+          "workstream": "02-dark-patterns",
+          "claim_id": "DP-12",
+          "claim": "Mathur et al.'s automated crawler used a text-classifier (trained on scraped page text) embedded in a Selenium-based crawl pipeline to flag dark-pattern language at scale, rather than relying purely on manual review; a separately reported dark-pattern text classifier achieved 83% average accuracy under five-fold cross-validation."
+        },
+        {
+          "workstream": "03-prevalence",
+          "claim_id": "A-11",
+          "claim": "The 2019 'Dark Patterns at Scale' crawl of ~11,000 shopping websites (~53,000 product pages) found 1,818 dark-pattern instances across 15 types / 7 categories, present on approximately 11.1% of sites (1,254 of ~11K), with a stricter 'deceptive' subset present on 183 sites; the study used automated detection combined with manual/expert review, and identified 22 third-party services selling dark patterns as a turnkey solution."
+        },
+        {
+          "workstream": "04-mitigations",
+          "claim_id": "M-10",
+          "claim": "A crawl of 11,000 shopping websites and roughly 53,000 product pages found 1,818 dark pattern instances spanning 15 types and 7 broader categories."
+        },
+        {
+          "workstream": "05-citations",
+          "claim_id": "B-10",
+          "claim": "A crawl of ~11K shopping websites (~53K product pages) found 1,818 dark-pattern instances spanning 15 types and 7 categories."
+        }
+      ],
+      "prior_status": [
+        "fetched/high",
+        "unverified/low",
+        "unverified/medium"
+      ],
+      "closeout_status": "RESOLVED-CONFIRMED",
+      "closeout_note": "Abstract fetched directly: CSCW 2019, roughly 11K sites and 53K pages, 1,818 dark-pattern instances across 15 types and 7 categories, 183 sites, 22 third-party vendors."
+    },
+    {
+      "source": {
+        "title": "Dark pattern (Wikipedia article summarizing Brignull's taxonomy and its regulatory adoption)",
+        "authors": [
+          "Wikipedia contributors"
+        ],
+        "year": 2026,
+        "venue": "Wikipedia",
+        "arxiv_id": null,
+        "doi": null,
+        "url": "https://en.wikipedia.org/wiki/Dark_pattern"
+      },
+      "workstreams": [
+        "02-dark-patterns"
+      ],
+      "cited_by": [
+        {
+          "workstream": "02-dark-patterns",
+          "claim_id": "DP-06",
+          "claim": "Harry Brignull coined the term 'dark patterns' in 2010 on darkpatterns.org and catalogued an initial taxonomy of roughly 12 named interface tricks (e.g. Roach Motel, Confirmshaming, Trick Questions, Hidden Costs, Misdirection, Sneak into Basket), a vocabulary later adopted by regulators including the FTC and in EU DSA guidance."
+        }
+      ],
+      "prior_status": [
+        "unverified/medium"
+      ],
+      "closeout_status": "RESOLVED-CONFIRMED",
+      "closeout_note": "Fetched directly; confirms Brignull taxonomy narrative and FTC/EU/CCPA regulatory-adoption claims with inline citations."
+    },
+    {
+      "source": {
+        "title": "Investigating the Impact of Dark Patterns on LLM-Based Web Agents",
+        "authors": [
+          "Devin Ersoy",
+          "Brandon Lee",
+          "Ananth Shreekumar",
+          "Arjun Arunasalam",
+          "Muhammad Ibrahim",
+          "Antonio Bianchi",
+          "Z. Berkay Celik"
+        ],
+        "year": 2025,
+        "venue": "IEEE Symposium on Security and Privacy (S&P) 2026 (submitted as arXiv preprint Oct 2025)",
+        "arxiv_id": "2510.18113",
+        "doi": null,
+        "url": "https://arxiv.org/abs/2510.18113"
+      },
+      "workstreams": [
+        "02-dark-patterns"
+      ],
+      "cited_by": [
+        {
+          "workstream": "02-dark-patterns",
+          "claim_id": "DP-11",
+          "claim": "Ersoy et al. built LiteAgent/TrickyArena to test six LLM-based generalist web agents across three LLMs against realistic dark patterns in e-commerce, streaming, and news settings, finding agents fall for an individual dark pattern about 41% of the time on average, and that both visual-design changes and underlying HTML/DOM changes to a dark pattern independently affect agent susceptibility; combining multiple dark patterns increased effectiveness further."
+        }
+      ],
+      "prior_status": [
+        "fetched/high"
+      ],
+      "closeout_status": "RESOLVED-CONFIRMED (carried over from prior pass, high confidence)",
+      "closeout_note": "Already fetched and high-confidence in a prior pass; not re-fetched this session."
+    },
+    {
+      "source": {
+        "title": "Regulating dark patterns in the EU: Towards digital fairness",
+        "authors": [
+          "European Parliamentary Research Service"
+        ],
+        "year": 2025,
+        "venue": "European Parliament (EPRS) briefing",
+        "arxiv_id": null,
+        "doi": null,
+        "url": "https://www.europarl.europa.eu/RegData/etudes/ATAG/2025/767191/EPRS_ATA(2025)767191_EN.pdf"
+      },
+      "workstreams": [
+        "02-dark-patterns"
+      ],
+      "cited_by": [
+        {
+          "workstream": "02-dark-patterns",
+          "claim_id": "DP-08",
+          "claim": "Article 25 of the EU Digital Services Act prohibits online platforms from designing, organizing, or operating interfaces in ways that deceive, manipulate, or otherwise materially distort or impair users' ability to make free and informed decisions, and explicitly names fake urgency/countdown timers and obstructed cancellation as examples."
+        }
+      ],
+      "prior_status": [
+        "unverified/medium"
+      ],
+      "closeout_status": "RESOLVED-CONFIRMED",
+      "closeout_note": "PDF itself is unreadable by this tool (binary); corroborated via europarl.europa.eu's own think-tank landing page describing matching title/date/content."
+    },
+    {
+      "source": {
+        "title": "Shining a Light on Dark Patterns",
+        "authors": [
+          "Jamie Luguri",
+          "Lior Jacob Strahilevitz"
+        ],
+        "year": 2021,
+        "venue": "Journal of Legal Analysis, Vol. 13, Issue 1, pp. 43-109",
+        "arxiv_id": null,
+        "doi": null,
+        "url": "https://academic.oup.com/jla/article/13/1/43/6180579"
+      },
+      "workstreams": [
+        "02-dark-patterns"
+      ],
+      "cited_by": [
+        {
+          "workstream": "02-dark-patterns",
+          "claim_id": "DP-04",
+          "claim": "Luguri and Strahilevitz's behavioral experiments found that a fake 'identity theft protection' signup page produced 11.3% acceptance under a neutral control design, 25.8% under mild dark patterns, and 41.9% under aggressive dark patterns."
+        },
+        {
+          "workstream": "02-dark-patterns",
+          "claim_id": "DP-05",
+          "claim": "In Luguri & Strahilevitz's second study, hidden information raised acceptance from 14.8% (control) to 30.1%, trick questions raised it from 19.2% to 33.4%, and obstruction raised acceptance to 23.6%, while scarcity/countdown-timer manipulations showed no meaningful effect (14.3% vs. control) and tripling the advertised price had no significant effect on acceptance."
+        }
+      ],
+      "prior_status": [
+        "fetched/high"
+      ],
+      "closeout_status": "RESOLVED-CONFIRMED (carried over from prior pass, high confidence)",
+      "closeout_note": "Already fetched and high-confidence in a prior pass; not re-fetched this session."
+    },
+    {
+      "source": {
+        "title": "The Dark (Patterns) Side of UX Design",
+        "authors": [
+          "Colin M. Gray",
+          "Yubo Kou",
+          "Bryan Battles",
+          "Joseph Hoggatt",
+          "Austin L. Toombs"
+        ],
+        "year": 2018,
+        "venue": "CHI 2018",
+        "arxiv_id": null,
+        "doi": null,
+        "url": "https://dl.acm.org/doi/10.1145/3173574.3174108"
+      },
+      "workstreams": [
+        "02-dark-patterns"
+      ],
+      "cited_by": [
+        {
+          "workstream": "02-dark-patterns",
+          "claim_id": "DP-03",
+          "claim": "Colin Gray and coauthors' 'The Dark (Patterns) Side of UX Design' (CHI 2018) established an early academic taxonomy of dark pattern strategies (e.g. nagging, obstruction, sneaking, interface interference, forced action) grounded in analysis of practitioner discussion."
+        }
+      ],
+      "prior_status": [
+        "unverified/medium"
+      ],
+      "closeout_status": "STILL-UNVERIFIABLE",
+      "closeout_note": "ACM DL returned HTTP 403 to this tool chain on this pass and the prior pass; DOI resolves and the paper is a known, indexed work (Gray et al., CHI 2018), but full text could not be independently re-read."
+    },
+    {
+      "source": {
+        "title": "Towards a Preliminary Ontology of Dark Patterns Knowledge",
+        "authors": [
+          "Colin M. Gray",
+          "Cristiana Santos",
+          "Nataliia Bielova"
+        ],
+        "year": 2023,
+        "venue": "CHI 2023 Extended Abstracts (Late-Breaking Work)",
+        "arxiv_id": null,
+        "doi": "10.1145/3544549.3585676",
+        "url": "https://dl.acm.org/doi/fullHtml/10.1145/3544549.3585676"
+      },
+      "workstreams": [
+        "02-dark-patterns"
+      ],
+      "cited_by": [
+        {
+          "workstream": "02-dark-patterns",
+          "claim_id": "DP-02",
+          "claim": "Gray, Santos, and Bielova propose a three-level ontology of dark patterns (low-level UI patterns, meso-level strategies, high-level ethical/policy concerns) synthesizing ten prior taxonomies, to give regulators and researchers shared vocabulary."
+        }
+      ],
+      "prior_status": [
+        "unverified/medium"
+      ],
+      "closeout_status": "CARRIED OVER (not re-checked this pass)",
+      "closeout_note": "Prior status: unverified/medium. Not in the 25 flagged unverified/low-confidence entries or specific-number chase list for this closeout pass."
+    },
+    {
+      "source": {
+        "title": "Unveiling the Tricks: Automated Detection of Dark Patterns in Mobile Applications (UIGuard)",
+        "authors": [
+          "Not independently confirmed — authors not verified in this session"
+        ],
+        "year": 2023,
+        "venue": "arXiv preprint",
+        "arxiv_id": "2308.05898",
+        "doi": null,
+        "url": "https://arxiv.org/pdf/2308.05898"
+      },
+      "workstreams": [
+        "02-dark-patterns"
+      ],
+      "cited_by": [
+        {
+          "workstream": "02-dark-patterns",
+          "claim_id": "DP-14",
+          "claim": "UIGuard, a later screenshot-based dark-pattern detector, reports macro/micro-average precision 0.83/0.82, recall 0.82/0.77, and F1 0.82/0.79 across 14 dark-pattern subtypes evaluated on 1,660 annotated mobile-app screens, outperforming AidUI on the same style of task."
+        }
+      ],
+      "prior_status": [
+        "unverified/low"
+      ],
+      "closeout_status": "RESOLVED-CONFIRMED",
+      "closeout_note": "Fetched directly: UIGuard, UIST 2023; precision 0.82, recall 0.77, F1 0.79 (micro-averaged)."
+    },
+    {
+      "source": {
+        "title": "What is a Clickjacking Attack? [+Examples & Prevention]",
+        "authors": [
+          "Edgemesh (vendor blog, secondary source)"
+        ],
+        "year": 2025,
+        "venue": "Vendor security blog (non-academic; used only for the structural/technical mechanism description, not for prevalence claims)",
+        "arxiv_id": null,
+        "doi": null,
+        "url": "https://edgemesh.com/blog/what-is-clickjacking"
+      },
+      "workstreams": [
+        "02-dark-patterns"
+      ],
+      "cited_by": [
+        {
+          "workstream": "02-dark-patterns",
+          "claim_id": "DP-15",
+          "claim": "Clickjacking overlay attacks are executed structurally via a transparent or near-transparent iframe/element stacked at a higher z-index above a decoy control, or via rapid show/hide of an opaque overlay timed to a click; these are detectable via computed CSS (opacity, z-index, pointer-events), DOM nesting (cross-origin iframes), and geometry (element bounding-box overlap), and modern browsers' Intersection Observer API can programmatically test whether a given element is actually the topmost visible hit-target at its coordinates."
+        }
+      ],
+      "prior_status": [
+        "unverified/low"
+      ],
+      "closeout_status": "RESOLVED-CONFIRMED (weak source)",
+      "closeout_note": "Blog exists and matches its cited content, but is non-academic marketing content -- recommend substituting Balduzzi et al. ASIACCS 2010 as the primary technical source for clickjacking claims."
+    },
+    {
+      "source": {
+        "title": "AgentDojo: A Dynamic Environment to Evaluate Prompt Injection Attacks and Defenses for LLM Agents",
+        "authors": [
+          "Edoardo Debenedetti",
+          "Jie Zhang",
+          "Mislav Balunovic",
+          "Luca Beurer-Kellner",
+          "Marc Fischer",
+          "Florian Tramer"
+        ],
+        "year": 2024,
+        "venue": "NeurIPS Datasets and Benchmarks Track",
+        "arxiv_id": "2406.13352",
+        "doi": null,
+        "url": "https://arxiv.org/abs/2406.13352"
+      },
+      "workstreams": [
+        "03-prevalence",
+        "05-citations"
+      ],
+      "cited_by": [
+        {
+          "workstream": "03-prevalence",
+          "claim_id": "A-04",
+          "claim": "AgentDojo is a benchmark of 97 realistic agent tasks (email, banking, travel, workspace) with 629 associated prompt-injection security test cases, evaluating multiple attacks and defenses across LLM backbones."
+        },
+        {
+          "workstream": "03-prevalence",
+          "claim_id": "A-05",
+          "claim": "AgentDojo's own abstract states state-of-the-art LLMs fail at many of its tasks even with no attack present, and existing prompt injection attacks break only some, not all, security properties -- exact utility/ASR percentages per model (e.g. GPT-4o, Claude 3.5 Sonnet) were not obtainable from the abstract alone."
+        },
+        {
+          "workstream": "05-citations",
+          "claim_id": "B-05",
+          "claim": "AgentDojo provides 97 realistic agent tasks and 629 security test cases as an extensible benchmark for prompt injection attacks/defenses against tool-using LLM agents."
+        }
+      ],
+      "prior_status": [
+        "fetched/high",
+        "fetched/medium"
+      ],
+      "closeout_status": "RESOLVED-CONFIRMED (carried over from prior pass, high confidence)",
+      "closeout_note": "Already fetched and high-confidence in a prior pass; not re-fetched this session."
+    },
+    {
+      "source": {
+        "title": "Dark Patterns Meet GUI Agents: LLM Agent Susceptibility to Manipulative Interfaces and the Role of Human Oversight",
+        "authors": [
+          "unknown (not confirmable from abstract)"
+        ],
+        "year": 2026,
+        "venue": "CHI 2026 / arXiv",
+        "arxiv_id": "2509.10723",
+        "doi": null,
+        "url": "https://arxiv.org/abs/2509.10723"
+      },
+      "workstreams": [
+        "03-prevalence"
+      ],
+      "cited_by": [
+        {
+          "workstream": "03-prevalence",
+          "claim_id": "A-13",
+          "claim": "A CHI 2026 study ('Dark Patterns Meet GUI Agents') examined agent, human, and human-AI team responses to 16 types of dark patterns and found GUI agents are highly susceptible because they prioritize task completion over safety or privacy considerations, often failing to recognize the dark pattern at all; human oversight improved but did not eliminate susceptibility. Exact numeric susceptibility rates were not obtainable from the abstract."
+        }
+      ],
+      "prior_status": [
+        "fetched/medium"
+      ],
+      "closeout_status": "CARRIED OVER (not re-checked this pass)",
+      "closeout_note": "Prior status: fetched/medium. Not in the 25 flagged unverified/low-confidence entries or specific-number chase list for this closeout pass."
+    },
+    {
+      "source": {
+        "title": "Indirect Prompt Injection in the Wild: An Empirical Study of Prevalence, Techniques, and Objectives",
+        "authors": [
+          "unknown (not confirmable from abstract)"
+        ],
+        "year": 2026,
+        "venue": "arXiv",
+        "arxiv_id": "2604.27202",
+        "doi": null,
+        "url": "https://arxiv.org/abs/2604.27202"
+      },
+      "workstreams": [
+        "03-prevalence"
+      ],
+      "cited_by": [
+        {
+          "workstream": "03-prevalence",
+          "claim_id": "A-09",
+          "claim": "A large-scale Common Crawl-based measurement (Oct 2025 corpus, ~1.2 billion URLs across 24.8 million hosts, plus Shodan/Censys) found 15,300 validated indirect prompt injection instances across 11,700 pages spanning 2,042 hosts -- the first large-scale in-the-wild quantification of this attack class."
+        },
+        {
+          "workstream": "03-prevalence",
+          "claim_id": "A-10",
+          "claim": "In that same crawl, roughly 70% of confirmed prompt-injection payloads were placed in non-rendered HTML (headers, comments, metadata) rather than visibly on the page, and controlled compliance tests across 13 models found compliance up to 8% for smaller models on plain-text injected inputs."
+        }
+      ],
+      "prior_status": [
+        "fetched/high",
+        "fetched/medium"
+      ],
+      "closeout_status": "RESOLVED-CONFIRMED (carried over from prior pass, high confidence)",
+      "closeout_note": "Already fetched and high-confidence in a prior pass; not re-fetched this session."
+    },
+    {
+      "source": {
+        "title": "SusBench: An Online Benchmark for Evaluating Dark Pattern Susceptibility of Computer-Use Agents",
+        "authors": [
+          "unknown (not confirmable from abstract)"
+        ],
+        "year": 2025,
+        "venue": "arXiv",
+        "arxiv_id": "2510.11035",
+        "doi": null,
+        "url": "https://arxiv.org/abs/2510.11035"
+      },
+      "workstreams": [
+        "03-prevalence"
+      ],
+      "cited_by": [
+        {
+          "workstream": "03-prevalence",
+          "claim_id": "A-12",
+          "claim": "SusBench evaluates computer-use agent (CUA) susceptibility to UI dark patterns using 313 tasks across 55 consumer websites and 9 dark-pattern types, testing five state-of-the-art CUAs; both agents and a 29-person human panel were particularly susceptible to Preselection, Trick Wording, and Hidden Information patterns, and most human participants did not notice the researcher-injected dark patterns."
+        }
+      ],
+      "prior_status": [
+        "fetched/medium"
+      ],
+      "closeout_status": "CARRIED OVER (not re-checked this pass)",
+      "closeout_note": "Prior status: fetched/medium. Not in the 25 flagged unverified/low-confidence entries or specific-number chase list for this closeout pass."
+    },
+    {
+      "source": {
+        "title": "Unseeable prompt injections in screenshots: more vulnerabilities in Comet and other AI browsers",
+        "authors": [
+          "Brave Software security team"
+        ],
+        "year": 2025,
+        "venue": "Brave blog (industry disclosure, not peer-reviewed)",
+        "arxiv_id": null,
+        "doi": null,
+        "url": "https://brave.com/blog/unseeable-prompt-injections/"
+      },
+      "workstreams": [
+        "03-prevalence"
+      ],
+      "cited_by": [
+        {
+          "workstream": "03-prevalence",
+          "claim_id": "A-15",
+          "claim": "Brave's disclosure of hidden-text prompt injection against Perplexity Comet (via near-invisible faint-colored text extracted by OCR from screenshots) and against the Fellou browser is a responsibly-disclosed security research proof-of-concept, not a documented in-the-wild incident -- no evidence of real-world exploitation is presented."
+        }
+      ],
+      "prior_status": [
+        "fetched/high"
+      ],
+      "closeout_status": "RESOLVED-CONFIRMED (carried over from prior pass, high confidence)",
+      "closeout_note": "Already fetched and high-confidence in a prior pass; not re-fetched this session."
+    },
+    {
+      "source": {
+        "title": "A Critical Evaluation of Defenses against Prompt Injection Attacks",
+        "authors": [
+          "Yuqi Jia",
+          "Zedian Shao",
+          "Yupei Liu",
+          "Jinyuan Jia",
+          "Dawn Song",
+          "Neil Zhenqiang Gong"
+        ],
+        "year": 2025,
+        "venue": "arXiv",
+        "arxiv_id": "2505.18333",
+        "doi": null,
+        "url": "https://arxiv.org/abs/2505.18333"
+      },
+      "workstreams": [
+        "04-mitigations"
+      ],
+      "cited_by": [
+        {
+          "workstream": "04-mitigations",
+          "claim_id": "M-08",
+          "claim": "A critical re-evaluation found a fine-tuned prompt-injection detector (ProtectAI PI Detector) achieved 7.95% ASR on AgentDojo but caused task-success utility to collapse from 83.02% to 41.49%, and the authors' own Sanitizer defense was bypassed via Braille encoding."
+        }
+      ],
+      "prior_status": [
+        "fetched/medium"
+      ],
+      "closeout_status": "CARRIED OVER (not re-checked this pass)",
+      "closeout_note": "Prior status: fetched/medium. Not in the 25 flagged unverified/low-confidence entries or specific-number chase list for this closeout pass."
+    },
+    {
+      "source": {
+        "title": "A solution for the automated detection of clickjacking attacks",
+        "authors": [
+          "Marco Balduzzi",
+          "Manuel Egele",
+          "Engin Kirda",
+          "Davide Balzarotti",
+          "Christopher Kruegel"
+        ],
+        "year": 2010,
+        "venue": "ASIACCS",
+        "arxiv_id": null,
+        "doi": null,
+        "url": "https://www.researchgate.net/publication/221609465_A_solution_for_the_automated_detection_of_clickjacking_attacks"
+      },
+      "workstreams": [
+        "04-mitigations"
+      ],
+      "cited_by": [
+        {
+          "workstream": "04-mitigations",
+          "claim_id": "P-05",
+          "claim": "Hit-testing (checking whether overlapping elements have pointer-events disabled, comparing perceived-clickable element to the element that would actually receive a click) is a described technique against clickjacking/UI-redressing in pre-agent web security literature, not independently re-validated for agent action-safety."
+        }
+      ],
+      "prior_status": [
+        "unverified/low"
+      ],
+      "closeout_status": "RESOLVED-CORRECTED",
+      "closeout_note": "ResearchGate mirror returns 403; use the primary ACM DL record instead: Balduzzi, Egele, Balzarotti, Kirda, Kruegel, A Solution for the Automated Detection of Clickjacking Attacks, ACM ASIACCS 2010, https://dl.acm.org/doi/10.1145/1755688.1755706 (also self-hosted by the authors at UCSB)."
+    },
+    {
+      "source": {
+        "title": "Bypassing LLM Guardrails: An Empirical Analysis of Evasion Attacks against Prompt Injection and Jailbreak Detection Systems",
+        "authors": [
+          "William Hackett",
+          "Lewis Birch",
+          "Stefan Trawicki",
+          "Neeraj Suri",
+          "Peter Garraghan"
+        ],
+        "year": 2025,
+        "venue": "arXiv",
+        "arxiv_id": "2504.11168",
+        "doi": null,
+        "url": "https://arxiv.org/abs/2504.11168"
+      },
+      "workstreams": [
+        "04-mitigations"
+      ],
+      "cited_by": [
+        {
+          "workstream": "04-mitigations",
+          "claim_id": "M-03",
+          "claim": "Empirical evasion attacks bypass six commercial LLM guardrail systems including Azure Prompt Shield and Meta Prompt Guard, achieving up to 100% evasion success in some instances."
+        }
+      ],
+      "prior_status": [
+        "fetched/high"
+      ],
+      "closeout_status": "RESOLVED-CONFIRMED (carried over from prior pass, high confidence)",
+      "closeout_note": "Already fetched and high-confidence in a prior pass; not re-fetched this session."
+    },
+    {
+      "source": {
+        "title": "Defeating Prompt Injections by Design",
+        "authors": [
+          "Edoardo Debenedetti",
+          "Ilia Shumailov",
+          "Tianqi Fan",
+          "Jamie Hayes",
+          "Nicholas Carlini",
+          "Daniel Fabian",
+          "Christoph Kern",
+          "Chongyang Shi",
+          "Andreas Terzis",
+          "Florian Tramer"
+        ],
+        "year": 2025,
+        "venue": "arXiv",
+        "arxiv_id": "2503.18813",
+        "doi": null,
+        "url": "https://arxiv.org/abs/2503.18813"
+      },
+      "workstreams": [
+        "04-mitigations"
+      ],
+      "cited_by": [
+        {
+          "workstream": "04-mitigations",
+          "claim_id": "M-07",
+          "claim": "CaMeL achieves provable security on 77% of AgentDojo tasks versus 84% task success for the undefended baseline, using capability-based control/data-flow separation."
+        }
+      ],
+      "prior_status": [
+        "fetched/high"
+      ],
+      "closeout_status": "RESOLVED-CONFIRMED (carried over from prior pass, high confidence)",
+      "closeout_note": "Already fetched and high-confidence in a prior pass; not re-fetched this session."
+    },
+    {
+      "source": {
+        "title": "Defending Against Indirect Prompt Injection Attacks With Spotlighting",
+        "authors": [
+          "Keegan Hines",
+          "Gary Lopez",
+          "Matthew Hall",
+          "Federico Zarfati",
+          "Yonatan Zunger",
+          "Emre Kiciman"
+        ],
+        "year": 2024,
+        "venue": "arXiv",
+        "arxiv_id": "2403.14720",
+        "doi": null,
+        "url": "https://arxiv.org/abs/2403.14720"
+      },
+      "workstreams": [
+        "04-mitigations"
+      ],
+      "cited_by": [
+        {
+          "workstream": "04-mitigations",
+          "claim_id": "M-01",
+          "claim": "Spotlighting reduces indirect prompt injection attack success rate from over 50% to below 2% on GPT-family models with minimal task-efficacy cost."
+        }
+      ],
+      "prior_status": [
+        "fetched/high"
+      ],
+      "closeout_status": "RESOLVED-CONFIRMED (carried over from prior pass, high confidence)",
+      "closeout_note": "Already fetched and high-confidence in a prior pass; not re-fetched this session."
+    },
+    {
+      "source": {
+        "title": "Design Patterns for Securing LLM Agents against Prompt Injections",
+        "authors": [
+          "Luca Beurer-Kellner",
+          "Beat Buesser",
+          "Ana-Maria Cretu",
+          "Edoardo Debenedetti",
+          "Daniel Dobos",
+          "Daniel Fabian",
+          "Marc Fischer",
+          "David Froelicher",
+          "Kathrin Grosse",
+          "Daniel Naeff",
+          "Ezinwanne Ozoani",
+          "Andrew Paverd",
+          "Florian Tramer",
+          "Vaclav Volhejn"
+        ],
+        "year": 2025,
+        "venue": "arXiv",
+        "arxiv_id": "2506.08837",
+        "doi": null,
+        "url": "https://arxiv.org/abs/2506.08837"
+      },
+      "workstreams": [
+        "04-mitigations"
+      ],
+      "cited_by": [
+        {
+          "workstream": "04-mitigations",
+          "claim_id": "P-01",
+          "claim": "The Design Patterns paper proposes five architectural patterns (Dual LLM, Plan-Then-Execute, Action-Selector, Map-Reduce, Dual LLM with Quarantine) as recommendations rather than empirically validated solutions, and states that deterministic defenses are predictable but brittle while LLM-based defenses are flexible but introduce new uncertainty, with no single pattern universally preventing sophisticated injection."
+        }
+      ],
+      "prior_status": [
+        "fetched/medium"
+      ],
+      "closeout_status": "CARRIED OVER (not re-checked this pass)",
+      "closeout_note": "Prior status: fetched/medium. Not in the 25 flagged unverified/low-confidence entries or specific-number chase list for this closeout pass."
+    },
+    {
+      "source": {
+        "title": "From Assistants to Adversaries: Exploring the Security Risks of Mobile LLM Agents",
+        "authors": [
+          "unknown - not confirmed via full fetch"
+        ],
+        "year": 2025,
+        "venue": "arXiv",
+        "arxiv_id": "2505.12981",
+        "doi": null,
+        "url": "https://arxiv.org/abs/2505.12981"
+      },
+      "workstreams": [
+        "04-mitigations"
+      ],
+      "cited_by": [
+        {
+          "workstream": "04-mitigations",
+          "claim_id": "P-04",
+          "claim": "A 2025 paper on mobile LLM agent security describes overlay-based attacks (e.g. FLAG_NOT_FOCUSABLE windows, transparent overlays) that are visible to an agent's screen capture/OCR pipeline while excluded from the interactive view hierarchy; we could not confirm from automated fetch whether this was measured or only demonstrated."
+        }
+      ],
+      "prior_status": [
+        "unverified/low"
+      ],
+      "closeout_status": "RESOLVED-CONFIRMED",
+      "closeout_note": "Confirmed to exist with cited title/authors/venue via direct fetch."
+    },
+    {
+      "source": {
+        "title": "Investigating the Vulnerability of LLM-as-a-Judge Architectures to Prompt-Injection Attacks",
+        "authors": [
+          "Narek Maloyan",
+          "Bislan Ashinov",
+          "Dmitry Namiot"
+        ],
+        "year": 2025,
+        "venue": "arXiv",
+        "arxiv_id": "2505.13348",
+        "doi": null,
+        "url": "https://arxiv.org/abs/2505.13348"
+      },
+      "workstreams": [
+        "04-mitigations"
+      ],
+      "cited_by": [
+        {
+          "workstream": "04-mitigations",
+          "claim_id": "M-09",
+          "claim": "The Comparative Undermining Attack against LLM-as-a-Judge achieved an attack success rate exceeding 30% on instruction-tuned judge models (Qwen2.5-3B-Instruct, Falcon3-3B-Instruct) on MT-Bench Human Judgments."
+        }
+      ],
+      "prior_status": [
+        "fetched/high"
+      ],
+      "closeout_status": "RESOLVED-CONFIRMED (carried over from prior pass, high confidence)",
+      "closeout_note": "Already fetched and high-confidence in a prior pass; not re-fetched this session."
+    },
+    {
+      "source": {
+        "title": "N/A - absence-of-evidence finding from literature search",
+        "authors": [],
+        "year": 2026,
+        "venue": "N/A",
+        "arxiv_id": null,
+        "doi": null,
+        "url": null
+      },
+      "workstreams": [
+        "04-mitigations"
+      ],
+      "cited_by": [
+        {
+          "workstream": "04-mitigations",
+          "claim_id": "M-06",
+          "claim": "No peer-reviewed, benchmarked paper was found applying deterministic structural detection to general deceptive web UI (beyond hidden text) specifically for autonomous browsing agents; this is treated as an absence-of-evidence finding from our own search, not a citable positive claim."
+        }
+      ],
+      "prior_status": [
+        "unverified/medium"
+      ],
+      "closeout_status": "CARRIED OVER (not re-checked this pass)",
+      "closeout_note": "Prior status: unverified/medium. Not in the 25 flagged unverified/low-confidence entries or specific-number chase list for this closeout pass."
+    },
+    {
+      "source": {
+        "title": "OWASP Top 10 for LLM Applications",
+        "authors": [
+          "OWASP"
+        ],
+        "year": 2025,
+        "venue": "OWASP guidance",
+        "arxiv_id": null,
+        "doi": null,
+        "url": "https://owasp.org/www-project-top-10-for-large-language-model-applications/"
+      },
+      "workstreams": [
+        "04-mitigations"
+      ],
+      "cited_by": [
+        {
+          "workstream": "04-mitigations",
+          "claim_id": "M-11",
+          "claim": "OWASP guidance recommends least privilege enforced through scoped credentials, allowlisted tools, restricted data access, approval steps for sensitive actions, sandboxing, rate limits, and audit logs as core mitigations against prompt injection impact."
+        }
+      ],
+      "prior_status": [
+        "unverified/low"
+      ],
+      "closeout_status": "RESOLVED-CONFIRMED",
+      "closeout_note": "Confirmed as the official OWASP Top 10 for LLM Applications project page via direct fetch."
+    },
+    {
+      "source": {
+        "title": "OWASP Top 10 for LLM Applications: Risks & Mitigations",
+        "authors": [
+          "Mend.io (summarizing OWASP)"
+        ],
+        "year": 2025,
+        "venue": "Vendor blog summarizing OWASP guidance",
+        "arxiv_id": null,
+        "doi": null,
+        "url": "https://www.mend.io/blog/2025-owasp-top-10-for-llm-applications-a-quick-guide/"
+      },
+      "workstreams": [
+        "04-mitigations"
+      ],
+      "cited_by": [
+        {
+          "workstream": "04-mitigations",
+          "claim_id": "M-12",
+          "claim": "Mitigating prompt injection requires defense in depth combining input validation, output filtering, privilege restriction, and human-in-the-loop controls for sensitive operations."
+        }
+      ],
+      "prior_status": [
+        "unverified/low"
+      ],
+      "closeout_status": "RESOLVED-CONFIRMED",
+      "closeout_note": "Confirmed via direct fetch; accurately lists the current official OWASP Top 10 (LLM01-LLM10)."
+    },
+    {
+      "source": {
+        "title": "Optimization-based Prompt Injection Attack to LLM-as-a-Judge",
+        "authors": [
+          "Jiawen Shi",
+          "Zenghui Yuan",
+          "Yinuo Liu",
+          "Yue Huang",
+          "Pan Zhou",
+          "Lichao Sun",
+          "Neil Zhenqiang Gong"
+        ],
+        "year": 2024,
+        "venue": "arXiv",
+        "arxiv_id": "2403.17710",
+        "doi": null,
+        "url": "https://arxiv.org/abs/2403.17710"
+      },
+      "workstreams": [
+        "04-mitigations"
+      ],
+      "cited_by": [
+        {
+          "workstream": "04-mitigations",
+          "claim_id": "M-04",
+          "claim": "JudgeDeceiver, an optimization-based prompt injection attack against LLM-as-a-Judge, defeats known-answer detection, perplexity detection, and windowed-perplexity detection defenses."
+        }
+      ],
+      "prior_status": [
+        "fetched/high"
+      ],
+      "closeout_status": "RESOLVED-CONFIRMED (carried over from prior pass, high confidence)",
+      "closeout_note": "Already fetched and high-confidence in a prior pass; not re-fetched this session."
+    },
+    {
+      "source": {
+        "title": "PhantomLint: Principled Detection of Hidden LLM Prompts in Structured Documents",
+        "authors": [
+          "Toby Murray"
+        ],
+        "year": 2025,
+        "venue": "arXiv",
+        "arxiv_id": "2508.17884",
+        "doi": null,
+        "url": "https://arxiv.org/abs/2508.17884"
+      },
+      "workstreams": [
+        "04-mitigations"
+      ],
+      "cited_by": [
+        {
+          "workstream": "04-mitigations",
+          "claim_id": "M-05",
+          "claim": "PhantomLint detects hidden LLM prompts in structured documents using deterministic structural signals (CSS hiding, font-size, color contrast, zero-width characters, layering) rather than machine learning."
+        }
+      ],
+      "prior_status": [
+        "fetched/medium"
+      ],
+      "closeout_status": "CARRIED OVER (not re-checked this pass)",
+      "closeout_note": "Prior status: fetched/medium. Not in the 25 flagged unverified/low-confidence entries or specific-number chase list for this closeout pass."
+    },
+    {
+      "source": {
+        "title": "The Dual LLM pattern for building AI assistants that can resist prompt injection",
+        "authors": [
+          "Simon Willison"
+        ],
+        "year": 2023,
+        "venue": "Blog (simonwillison.net)",
+        "arxiv_id": null,
+        "doi": null,
+        "url": "https://simonwillison.net/2025/Apr/11/camel/"
+      },
+      "workstreams": [
+        "04-mitigations"
+      ],
+      "cited_by": [
+        {
+          "workstream": "04-mitigations",
+          "claim_id": "P-02",
+          "claim": "The dual-LLM pattern (privileged LLM plus quarantined LLM that returns only opaque references, never raw untrusted content) was proposed by Simon Willison as a design pattern and is not independently benchmarked outside of its CaMeL instantiation."
+        }
+      ],
+      "prior_status": [
+        "fetched/medium"
+      ],
+      "closeout_status": "CARRIED OVER (not re-checked this pass)",
+      "closeout_note": "Prior status: fetched/medium. Not in the 25 flagged unverified/low-confidence entries or specific-number chase list for this closeout pass."
+    },
+    {
+      "source": {
+        "title": "promptinjectionradar (README/description)",
+        "authors": [
+          "neshboy"
+        ],
+        "year": 2025,
+        "venue": "GitHub (grey literature)",
+        "arxiv_id": null,
+        "doi": null,
+        "url": "https://github.com/neshboy/promptinjectionradar"
+      },
+      "workstreams": [
+        "04-mitigations"
+      ],
+      "cited_by": [
+        {
+          "workstream": "04-mitigations",
+          "claim_id": "P-03",
+          "claim": "Grey-literature/industry sources describe deterministic scanning for CSS/DOM-based hidden text (display:none, opacity:0, font-size:0, zero-width Unicode) as a prompt-injection pre-filter technique for web content, but these are not peer-reviewed."
+        }
+      ],
+      "prior_status": [
+        "unverified/low"
+      ],
+      "closeout_status": "RESOLVED-CONFIRMED (weak source)",
+      "closeout_note": "Repo exists and README matches description, but has 0 stars and 5 commits -- do not cite as evidence of adoption or effectiveness."
+    },
+    {
+      "source": {
+        "title": "Adversarial Machine Learning: A Taxonomy and Terminology of Attacks and Mitigations (NIST AI 100-2e2025)",
+        "authors": [
+          "National Institute of Standards and Technology"
+        ],
+        "year": 2025,
+        "venue": "NIST (U.S. government standard)",
+        "arxiv_id": null,
+        "doi": null,
+        "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-2e2025.pdf"
+      },
+      "workstreams": [
+        "05-citations"
+      ],
+      "cited_by": [
+        {
+          "workstream": "05-citations",
+          "claim_id": "B-14",
+          "claim": "NIST AI 100-2e2025 extends its adversarial ML taxonomy to explicitly cover generative-AI supply-chain attacks, direct/indirect prompt injection, and security of AI agents, citing 400+ references."
+        }
+      ],
+      "prior_status": [
+        "fetched/high"
+      ],
+      "closeout_status": "RESOLVED-CONFIRMED (carried over from prior pass, high confidence)",
+      "closeout_note": "Already fetched and high-confidence in a prior pass; not re-fetched this session."
+    },
+    {
+      "source": {
+        "title": "Attacking Vision-Language Computer Agents via Pop-ups",
+        "authors": [
+          "Yanzhe Zhang",
+          "Tao Yu",
+          "Diyi Yang"
+        ],
+        "year": 2024,
+        "venue": "ACL 2025 (main conference)",
+        "arxiv_id": "2411.02391",
+        "doi": null,
+        "url": "https://arxiv.org/abs/2411.02391"
+      },
+      "workstreams": [
+        "05-citations"
+      ],
+      "cited_by": [
+        {
+          "workstream": "05-citations",
+          "claim_id": "B-07",
+          "claim": "Adversarial pop-ups achieve over 80% attack success against VLM computer-use agents on OSWorld and over 60% on VisualWebArena; naive 'ignore pop-ups' instructions do not defend against it."
+        }
+      ],
+      "prior_status": [
+        "fetched/high"
+      ],
+      "closeout_status": "RESOLVED-CONFIRMED (carried over from prior pass, high confidence)",
+      "closeout_note": "Already fetched and high-confidence in a prior pass; not re-fetched this session."
+    },
+    {
+      "source": {
+        "title": "Bringing Dark Patterns to Light",
+        "authors": [
+          "FTC Bureau of Consumer Protection Staff"
+        ],
+        "year": 2022,
+        "venue": "U.S. Federal Trade Commission staff report",
+        "arxiv_id": null,
+        "doi": null,
+        "url": "https://www.ftc.gov/system/files/ftc_gov/pdf/P214800+Dark+Patterns+Report+9.14.2022+-+FINAL.pdf"
+      },
+      "workstreams": [
+        "05-citations"
+      ],
+      "cited_by": [
+        {
+          "workstream": "05-citations",
+          "claim_id": "B-12",
+          "claim": "The FTC's 2022 staff report ties dark patterns to Section 5 FTC Act exposure across e-commerce, cookie consent, children's apps, and subscription cancellation flows."
+        }
+      ],
+      "prior_status": [
+        "fetched/high"
+      ],
+      "closeout_status": "RESOLVED-CONFIRMED (carried over from prior pass, high confidence)",
+      "closeout_note": "Already fetched and high-confidence in a prior pass; not re-fetched this session."
+    },
+    {
+      "source": {
+        "title": "Ignore Previous Prompt: Attack Techniques For Language Models",
+        "authors": [
+          "Fábio Perez",
+          "Ian Ribeiro"
+        ],
+        "year": 2022,
+        "venue": "NeurIPS 2022 ML Safety Workshop (arXiv preprint)",
+        "arxiv_id": "2211.09527",
+        "doi": null,
+        "url": "https://arxiv.org/abs/2211.09527"
+      },
+      "workstreams": [
+        "05-citations"
+      ],
+      "cited_by": [
+        {
+          "workstream": "05-citations",
+          "claim_id": "B-02",
+          "claim": "Perez & Ribeiro's PromptInject framework demonstrated goal hijacking and prompt leaking against GPT-3 via direct prompt injection."
+        }
+      ],
+      "prior_status": [
+        "fetched/high"
+      ],
+      "closeout_status": "RESOLVED-CONFIRMED (carried over from prior pass, high confidence)",
+      "closeout_note": "Already fetched and high-confidence in a prior pass; not re-fetched this session."
+    },
+    {
+      "source": {
+        "title": "OWASP Top 10 for LLM Applications 2025",
+        "authors": [
+          "OWASP GenAI Security Project"
+        ],
+        "year": 2025,
+        "venue": "OWASP (industry standard)",
+        "arxiv_id": null,
+        "doi": null,
+        "url": "https://owasp.org/www-project-top-10-for-large-language-model-applications/assets/PDF/OWASP-Top-10-for-LLMs-v2025.pdf"
+      },
+      "workstreams": [
+        "05-citations"
+      ],
+      "cited_by": [
+        {
+          "workstream": "05-citations",
+          "claim_id": "B-13",
+          "claim": "OWASP's 2025 Top 10 for LLM Applications ranks prompt injection (direct and indirect) as the #1 risk for the second consecutive edition and recommends defense-in-depth mitigation."
+        }
+      ],
+      "prior_status": [
+        "fetched/high"
+      ],
+      "closeout_status": "RESOLVED-CONFIRMED (carried over from prior pass, high confidence)",
+      "closeout_note": "Already fetched and high-confidence in a prior pass; not re-fetched this session."
+    },
+    {
+      "source": {
+        "title": "Prompt Injection attack against LLM-integrated Applications",
+        "authors": [
+          "Yi Liu",
+          "Gelei Deng",
+          "Yuekang Li",
+          "Kailong Wang",
+          "Zihao Wang",
+          "Xiaofeng Wang",
+          "Tianwei Zhang",
+          "Yepang Liu",
+          "Haoyu Wang",
+          "Yan Zheng",
+          "Leo Yu Zhang",
+          "Yang Liu"
+        ],
+        "year": 2023,
+        "venue": "arXiv preprint (v1 2023, actively revised)",
+        "arxiv_id": "2306.05499",
+        "doi": null,
+        "url": "https://arxiv.org/abs/2306.05499"
+      },
+      "workstreams": [
+        "05-citations"
+      ],
+      "cited_by": [
+        {
+          "workstream": "05-citations",
+          "claim_id": "B-03",
+          "claim": "HouYi, a black-box prompt injection methodology, compromised 31 of 36 real-world LLM-integrated applications, confirmed by 10 vendors including Notion."
+        }
+      ],
+      "prior_status": [
+        "fetched/medium"
+      ],
+      "closeout_status": "CARRIED OVER (not re-checked this pass)",
+      "closeout_note": "Prior status: fetched/medium. Not in the 25 flagged unverified/low-confidence entries or specific-number chase list for this closeout pass."
+    },
+    {
+      "source": {
+        "title": "The Dark (Patterns) Side of UX Design",
+        "authors": [
+          "Colin M. Gray",
+          "Yubo Kou",
+          "Bryan Battles",
+          "Joseph Hoggatt",
+          "Austin L. Toombs"
+        ],
+        "year": 2018,
+        "venue": "ACM CHI 2018",
+        "arxiv_id": null,
+        "doi": "10.1145/3173574.3174108",
+        "url": "https://dl.acm.org/doi/10.1145/3173574.3174108"
+      },
+      "workstreams": [
+        "05-citations"
+      ],
+      "cited_by": [
+        {
+          "workstream": "05-citations",
+          "claim_id": "B-09",
+          "claim": "Gray et al. built a taxonomy of dark patterns (nagging, obstruction, sneaking, interface interference, forced action) from 118 practitioner-identified examples."
+        }
+      ],
+      "prior_status": [
+        "fetched/high"
+      ],
+      "closeout_status": "RESOLVED-CONFIRMED (carried over from prior pass, high confidence)",
+      "closeout_note": "Already fetched and high-confidence in a prior pass; not re-fetched this session."
+    },
+    {
+      "source": {
+        "title": "UI Dark Patterns and Where to Find Them: A Study on Mobile Applications and User Perception",
+        "authors": [
+          "Linda Di Geronimo",
+          "Larissa Braz",
+          "Enrico Fregnan",
+          "Fabio Palomba",
+          "Alberto Bacchelli"
+        ],
+        "year": 2020,
+        "venue": "ACM CHI 2020",
+        "arxiv_id": null,
+        "doi": "10.1145/3313831.3376600",
+        "url": "https://dl.acm.org/doi/10.1145/3313831.3376600"
+      },
+      "workstreams": [
+        "05-citations"
+      ],
+      "cited_by": [
+        {
+          "workstream": "05-citations",
+          "claim_id": "B-11",
+          "claim": "95% of 240 sampled mobile apps contained at least one dark pattern, averaging 7 types per popular app, and most users in a 584-respondent study did not perceive them."
+        }
+      ],
+      "prior_status": [
+        "fetched/high"
+      ],
+      "closeout_status": "RESOLVED-CONFIRMED (carried over from prior pass, high confidence)",
+      "closeout_note": "Already fetched and high-confidence in a prior pass; not re-fetched this session."
+    },
+    {
+      "source": {
+        "title": "Universal and Transferable Adversarial Attacks on Aligned Language Models",
+        "authors": [
+          "Andy Zou",
+          "Zifan Wang",
+          "Nicholas Carlini",
+          "Milad Nasr",
+          "J. Zico Kolter",
+          "Matt Fredrikson"
+        ],
+        "year": 2023,
+        "venue": "arXiv preprint",
+        "arxiv_id": "2307.15043",
+        "doi": null,
+        "url": "https://arxiv.org/abs/2307.15043"
+      },
+      "workstreams": [
+        "05-citations"
+      ],
+      "cited_by": [
+        {
+          "workstream": "05-citations",
+          "claim_id": "B-04",
+          "claim": "Zou et al.'s GCG attack automatically finds adversarial suffixes that transfer across GPT, Bard, Claude and open-source aligned LLMs."
+        }
+      ],
+      "prior_status": [
+        "fetched/high"
+      ],
+      "closeout_status": "RESOLVED-CONFIRMED (carried over from prior pass, high confidence)",
+      "closeout_note": "Already fetched and high-confidence in a prior pass; not re-fetched this session."
+    },
+    {
+      "source": {
+        "title": "WebArena: A Realistic Web Environment for Building Autonomous Agents",
+        "authors": [
+          "Shuyan Zhou",
+          "Frank F. Xu",
+          "Hao Zhu",
+          "Xuhui Zhou",
+          "Robert Lo",
+          "Abishek Sridhar",
+          "Xianyi Cheng",
+          "Tianyue Ou",
+          "Yonatan Bisk",
+          "Daniel Fried",
+          "Uri Alon",
+          "Graham Neubig"
+        ],
+        "year": 2023,
+        "venue": "ICLR 2024 (arXiv preprint 2023)",
+        "arxiv_id": "2307.13854",
+        "doi": null,
+        "url": "https://arxiv.org/abs/2307.13854"
+      },
+      "workstreams": [
+        "05-citations"
+      ],
+      "cited_by": [
+        {
+          "workstream": "05-citations",
+          "claim_id": "B-08",
+          "claim": "On WebArena, the best GPT-4-based agent achieves a 14.41% end-to-end task success rate versus 78.24% for humans."
+        }
+      ],
+      "prior_status": [
+        "unverified/medium"
+      ],
+      "closeout_status": "RESOLVED-CONFIRMED",
+      "closeout_note": "Confirmed via direct fetch; abstract states GPT-4 agent 14.41% vs human 78.24% end-to-end task success."
+    }
+  ]
+}

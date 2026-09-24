@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Exclusive Member Offer — ShopKart</title>
+<link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="logo" href="/">ShopKart</a>
+  <nav><a href="/cart.html">Back to cart</a></nav>
+</header>
+<main>
+  <div class="card" style="text-align:center;">
+    <h1>🎉 ShopKart Plus — Members Offer</h1>
+    <p style="max-width:520px;margin:0 auto;">
+      Join ShopKart Plus and save 20% on this order plus free express delivery on every future
+      order. ShopKart Plus renews monthly at ₹299/month until cancelled.
+    </p>
+    <button class="btn btn-huge" id="subscribe-btn" style="margin-top:18px;">Yes, activate ShopKart Plus &amp; save</button>
+    <p style="margin-top:18px;">
+      <a class="btn-link" href="/checkout.html" id="no-thanks">No thanks, continue to checkout without the offer</a>
+    </p>
+  </div>
+</main>
+<script src="/static/js/common.js"></script>
+<script>
+document.getElementById("subscribe-btn").addEventListener("click", function () {
+  apiPost("/api/offer/subscribe", {}).then(function () {
+    window.location.href = "/offer-thanks.html";
+  });
+});
+</script>
+</body>
+</html>

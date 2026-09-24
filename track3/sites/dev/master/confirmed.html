@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Order Confirmed — Northline Basics</title>
+<link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+<header class="site-header">
+  <div class="brand">Northline Basics</div>
+  <nav><a href="#">Help</a><a href="#">Track Order</a></nav>
+</header>
+
+<main class="page">
+  <div class="card confirm-box">
+    <div class="check">&#10003;</div>
+    <h1>Order confirmed</h1>
+    <p class="muted">Thank you! Your order has been placed.</p>
+    <div id="final-summary" style="text-align:left; max-width:360px; margin:20px auto;"></div>
+  </div>
+</main>
+
+<footer class="site-footer">Northline Basics — fixture store for AI Bodyguard, Track 3 (master / integration site).</footer>
+
+<script data-site-id="dev-master" src="/oracle.js"></script>
+<script src="/store.js"></script>
+<script>
+  var cart = Store.getCart();
+  var box = document.getElementById('final-summary');
+  if (!cart.item) {
+    box.innerHTML = '<p class="muted">No order details found.</p>';
+  } else {
+    var rows = '<div class="row"><span>' + cart.item.name + '</span><span>' + Store.formatPrice(cart.item.price) + '</span></div>';
+    Object.keys(cart.extras).forEach(function (k) {
+      var e = cart.extras[k];
+      if (e.active) rows += '<div class="row"><span>' + e.label + '</span><span>' + Store.formatPrice(e.price) + (e.recurring ? '/mo' : '') + '</span></div>';
+    });
+    rows += '<div class="row total-row"><span>Total charged</span><span>' + Store.formatPrice(Store.total(cart)) + '</span></div>';
+    box.innerHTML = rows;
+  }
+</script>
+</body>
+</html>

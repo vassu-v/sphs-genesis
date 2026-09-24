@@ -1,0 +1,208 @@
+[
+  {
+    "claim_id": "A-01",
+    "claim": "Greshake et al. named and systematized indirect prompt injection, with a taxonomy including data theft, worming, and information ecosystem contamination.",
+    "source": {
+      "title": "Not what you've signed up for: Compromising Real-World LLM-Integrated Applications with Indirect Prompt Injection",
+      "authors": [
+        "Kai Greshake",
+        "Sahar Abdelnabi",
+        "Shailesh Mishra",
+        "Christoph Endres",
+        "Thorsten Holz",
+        "Mario Fritz"
+      ],
+      "year": 2023,
+      "venue": "arXiv",
+      "arxiv_id": "2302.12173",
+      "doi": null,
+      "url": "https://arxiv.org/abs/2302.12173"
+    },
+    "evidence_quote": "LLM-Integrated Applications blur the line between data and instructions",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "A-02",
+    "claim": "OWASP LLM01:2025 distinguishes direct prompt injection (user's own prompt) from indirect prompt injection (external content like websites/files altering model behavior).",
+    "source": {
+      "title": "LLM01:2025 Prompt Injection",
+      "authors": [
+        "OWASP Gen AI Security Project"
+      ],
+      "year": 2025,
+      "venue": "OWASP",
+      "arxiv_id": null,
+      "doi": null,
+      "url": "https://genai.owasp.org/llmrisk/llm01-prompt-injection/"
+    },
+    "evidence_quote": "Direct prompt injections occur when a user's prompt input directly alters the behavior of the model",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "A-03",
+    "claim": "A 2025 study on hidden-content injection for web agents enumerates five concrete hiding techniques: HTML comments, data attributes, CSS-hidden text, hidden form fields, and semantic attribute abuse.",
+    "source": {
+      "title": "BrowseSafe: Understanding and Preventing Prompt Injection Within AI Browser Agents",
+      "authors": [],
+      "year": 2025,
+      "venue": "arXiv",
+      "arxiv_id": "2511.20597",
+      "doi": null,
+      "url": "https://arxiv.org/html/2511.20597v1"
+    },
+    "evidence_quote": "five hidden strategies include HTML comments, data attributes, CSS-hidden text, form hidden fields, and semantic attribute abuse",
+    "verified": "unverified",
+    "confidence": "medium"
+  },
+  {
+    "claim_id": "A-04",
+    "claim": "Observed real-world indirect prompt injection has used base64-encoded payloads decoded at runtime into off-screen DOM elements with timed delays to evade time-bounded safety scans.",
+    "source": {
+      "title": "Fooling AI Agents: Web-Based Indirect Prompt Injection Observed in the Wild",
+      "authors": [
+        "Unit 42, Palo Alto Networks"
+      ],
+      "year": 2025,
+      "venue": "industry blog",
+      "arxiv_id": null,
+      "doi": null,
+      "url": "https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/"
+    },
+    "evidence_quote": "Base64-encoded instructions are decoded at runtime and inserted as off-screen, invisible DOM elements",
+    "verified": "unverified",
+    "confidence": "low"
+  },
+  {
+    "claim_id": "A-05",
+    "claim": "A GCG-optimized universal adversarial trigger embedded in HTML accessibility-tree elements achieves high attack success against a BrowserGym agent powered by Llama-3.1, though exact ASR/sample size were not confirmed.",
+    "source": {
+      "title": "Manipulating LLM Web Agents with Indirect Prompt Injection Attack via HTML Accessibility Tree",
+      "authors": [],
+      "year": 2025,
+      "venue": "arXiv (EMNLP 2025 System Demonstrations)",
+      "arxiv_id": "2507.14799",
+      "doi": null,
+      "url": "https://arxiv.org/abs/2507.14799"
+    },
+    "evidence_quote": "high success rates across real websites in both targeted and general attacks",
+    "verified": "fetched",
+    "confidence": "medium"
+  },
+  {
+    "claim_id": "A-06",
+    "claim": "InjecAgent (1,054 test cases, 17 user tools, 62 attacker tools) found ReAct-prompted GPT-4 vulnerable to indirect prompt injection 24% of the time, rising to 47% under an enhanced hacking-style setting.",
+    "source": {
+      "title": "InjecAgent: Benchmarking Indirect Prompt Injections in Tool-Integrated Large Language Model Agents",
+      "authors": [],
+      "year": 2024,
+      "venue": "ACL Findings 2024 / arXiv",
+      "arxiv_id": "2403.02691",
+      "doi": null,
+      "url": "https://arxiv.org/abs/2403.02691"
+    },
+    "evidence_quote": "ReAct-prompted GPT-4 is vulnerable to attacks 24% of the time",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "A-07",
+    "claim": "Agent Security Bench (10 scenarios, 10 agents, 400+ tools, 27 attack/defense methods, 13 LLM backbones) reports a highest average attack success rate of 84.30%, with tested defenses showing limited effectiveness.",
+    "source": {
+      "title": "Agent Security Bench (ASB): Formalizing and Benchmarking Attacks and Defenses in LLM-based Agents",
+      "authors": [],
+      "year": 2025,
+      "venue": "ICLR 2025 / arXiv",
+      "arxiv_id": "2410.02644",
+      "doi": null,
+      "url": "https://arxiv.org/abs/2410.02644"
+    },
+    "evidence_quote": "highest average attack success rate of 84.30%, but limited effectiveness shown in current defenses",
+    "verified": "unverified",
+    "confidence": "medium"
+  },
+  {
+    "claim_id": "A-08",
+    "claim": "A paper on adaptive attacks breaking published indirect prompt injection defenses on LLM agents exists on arXiv, but specific numeric results could not be extracted from the fetched PDF.",
+    "source": {
+      "title": "Adaptive Attacks Break Defenses Against Indirect Prompt Injection Attacks on LLM Agents",
+      "authors": [],
+      "year": 2025,
+      "venue": "arXiv",
+      "arxiv_id": "2503.00061",
+      "doi": null,
+      "url": "https://arxiv.org/pdf/2503.00061"
+    },
+    "evidence_quote": "title and existence confirmed via arXiv listing; PDF did not parse cleanly for numeric details",
+    "verified": "unverified",
+    "confidence": "low"
+  },
+  {
+    "claim_id": "A-09",
+    "claim": "Task drift is defined as the LLM's deviation from the user's original instructions after processing external data; a linear probe on activation deltas achieves ROC AUC greater than 0.99 on a 500,000+ instance dataset, outperforming Prompt Guard (0.974) and Prompt Shields (0.988) on the authors' own test set.",
+    "source": {
+      "title": "Get my drift? Catching LLM Task Drift with Activation Deltas",
+      "authors": [],
+      "year": 2024,
+      "venue": "arXiv",
+      "arxiv_id": "2406.00799",
+      "doi": null,
+      "url": "https://arxiv.org/html/2406.00799v6"
+    },
+    "evidence_quote": "the LLM's deviation from the user's original instruction(s)",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "A-10",
+    "claim": "WASP separates ASR-intermediate (agent begins following injected instruction, 16-86% across agents/scenarios) from ASR-end-to-end (attacker's full goal achieved, only 0-17%), showing partial hijacking is common but full goal completion is rare.",
+    "source": {
+      "title": "WASP: Benchmarking Web Agent Security Against Prompt Injection Attacks",
+      "authors": [],
+      "year": 2025,
+      "venue": "NeurIPS 2025 poster / arXiv",
+      "arxiv_id": "2504.18575",
+      "doi": null,
+      "url": "https://arxiv.org/pdf/2504.18575"
+    },
+    "evidence_quote": "agents begin executing the adversarial instruction between 16 and 86% but only achieve the goal between 0 and 17%",
+    "verified": "unverified",
+    "confidence": "medium"
+  },
+  {
+    "claim_id": "A-11",
+    "claim": "An empirical study across four VLMs (including GPT-4o and Claude), twelve font sizes, and ten image transformations found multimodal text-image embedding distance strongly predicts typographic prompt-injection attack success, with rendering conditions swinging ASR by tens of percentage points.",
+    "source": {
+      "title": "Reading Between the Pixels: Linking Text-Image Embedding Alignment to Typographic Attack Success on Vision-Language Models",
+      "authors": [],
+      "year": 2026,
+      "venue": "arXiv",
+      "arxiv_id": "2604.12371",
+      "doi": null,
+      "url": "https://arxiv.org/html/2604.12371"
+    },
+    "evidence_quote": "multimodal embedding distance strongly predicts attack success rate",
+    "verified": "unverified",
+    "confidence": "medium"
+  },
+  {
+    "claim_id": "A-12",
+    "claim": "A 2026 SoK synthesizes more than 20 prior studies into a taxonomy of agentic AI attack surfaces spanning prompt-level injection, RAG/knowledge-base poisoning, tool/plugin exploits, and multi-agent manipulation.",
+    "source": {
+      "title": "SoK: The Attack Surface of Agentic AI -- Tools and Autonomy",
+      "authors": [
+        "Ali Dehghantanha",
+        "Sajad Homayoun"
+      ],
+      "year": 2026,
+      "venue": "arXiv",
+      "arxiv_id": "2603.22928",
+      "doi": null,
+      "url": "https://arxiv.org/abs/2603.22928"
+    },
+    "evidence_quote": "develops a comprehensive taxonomy of attacks spanning prompt-level injections, knowledge-base poisoning, tool/plug-in exploits",
+    "verified": "unverified",
+    "confidence": "medium"
+  }
+]

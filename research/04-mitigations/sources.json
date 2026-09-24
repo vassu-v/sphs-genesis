@@ -1,0 +1,274 @@
+[
+  {
+    "claim_id": "M-01",
+    "claim": "Spotlighting reduces indirect prompt injection attack success rate from over 50% to below 2% on GPT-family models with minimal task-efficacy cost.",
+    "source": {
+      "title": "Defending Against Indirect Prompt Injection Attacks With Spotlighting",
+      "authors": ["Keegan Hines", "Gary Lopez", "Matthew Hall", "Federico Zarfati", "Yonatan Zunger", "Emre Kiciman"],
+      "year": 2024,
+      "venue": "arXiv",
+      "arxiv_id": "2403.14720",
+      "doi": null,
+      "url": "https://arxiv.org/abs/2403.14720"
+    },
+    "evidence_quote": "reduces the attack success rate from greater than 50% to below 2%",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "M-02",
+    "claim": "WASP benchmark measures intermediate hijack success rates of 16-86% and end-to-end attacker goal success of 0-17% across web agent systems and models.",
+    "source": {
+      "title": "WASP: Benchmarking Web Agent Security Against Prompt Injection Attacks",
+      "authors": ["Ivan Evtimov", "Arman Zharmagambetov", "Aaron Grattafiori", "Chuan Guo", "Kamalika Chaudhuri"],
+      "year": 2025,
+      "venue": "arXiv",
+      "arxiv_id": "2504.18575",
+      "doi": null,
+      "url": "https://arxiv.org/abs/2504.18575"
+    },
+    "evidence_quote": "even AI agents backed by models with advanced reasoning capabilities... are susceptible to low-effort human-written prompt injections",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "M-03",
+    "claim": "Empirical evasion attacks bypass six commercial LLM guardrail systems including Azure Prompt Shield and Meta Prompt Guard, achieving up to 100% evasion success in some instances.",
+    "source": {
+      "title": "Bypassing LLM Guardrails: An Empirical Analysis of Evasion Attacks against Prompt Injection and Jailbreak Detection Systems",
+      "authors": ["William Hackett", "Lewis Birch", "Stefan Trawicki", "Neeraj Suri", "Peter Garraghan"],
+      "year": 2025,
+      "venue": "arXiv",
+      "arxiv_id": "2504.11168",
+      "doi": null,
+      "url": "https://arxiv.org/abs/2504.11168"
+    },
+    "evidence_quote": "achieving in some instances up to 100% evasion success",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "M-04",
+    "claim": "JudgeDeceiver, an optimization-based prompt injection attack against LLM-as-a-Judge, defeats known-answer detection, perplexity detection, and windowed-perplexity detection defenses.",
+    "source": {
+      "title": "Optimization-based Prompt Injection Attack to LLM-as-a-Judge",
+      "authors": ["Jiawen Shi", "Zenghui Yuan", "Yinuo Liu", "Yue Huang", "Pan Zhou", "Lichao Sun", "Neil Zhenqiang Gong"],
+      "year": 2024,
+      "venue": "arXiv",
+      "arxiv_id": "2403.17710",
+      "doi": null,
+      "url": "https://arxiv.org/abs/2403.17710"
+    },
+    "evidence_quote": "JudgeDeceiver is highly effective, and is much more effective than existing prompt injection attacks",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "M-05",
+    "claim": "PhantomLint detects hidden LLM prompts in structured documents using deterministic structural signals (CSS hiding, font-size, color contrast, zero-width characters, layering) rather than machine learning.",
+    "source": {
+      "title": "PhantomLint: Principled Detection of Hidden LLM Prompts in Structured Documents",
+      "authors": ["Toby Murray"],
+      "year": 2025,
+      "venue": "arXiv",
+      "arxiv_id": "2508.17884",
+      "doi": null,
+      "url": "https://arxiv.org/abs/2508.17884"
+    },
+    "evidence_quote": "principled detection of hidden LLM prompts in structured documents",
+    "verified": "fetched",
+    "confidence": "medium"
+  },
+  {
+    "claim_id": "M-06",
+    "claim": "No peer-reviewed, benchmarked paper was found applying deterministic structural detection to general deceptive web UI (beyond hidden text) specifically for autonomous browsing agents; this is treated as an absence-of-evidence finding from our own search, not a citable positive claim.",
+    "source": {
+      "title": "N/A - absence-of-evidence finding from literature search",
+      "authors": [],
+      "year": 2026,
+      "venue": "N/A",
+      "arxiv_id": null,
+      "doi": null,
+      "url": null
+    },
+    "evidence_quote": "N/A - negative/gap finding, not a specific source quote",
+    "verified": "unverified",
+    "confidence": "medium"
+  },
+  {
+    "claim_id": "M-07",
+    "claim": "CaMeL achieves provable security on 77% of AgentDojo tasks versus 84% task success for the undefended baseline, using capability-based control/data-flow separation.",
+    "source": {
+      "title": "Defeating Prompt Injections by Design",
+      "authors": ["Edoardo Debenedetti", "Ilia Shumailov", "Tianqi Fan", "Jamie Hayes", "Nicholas Carlini", "Daniel Fabian", "Christoph Kern", "Chongyang Shi", "Andreas Terzis", "Florian Tramer"],
+      "year": 2025,
+      "venue": "arXiv",
+      "arxiv_id": "2503.18813",
+      "doi": null,
+      "url": "https://arxiv.org/abs/2503.18813"
+    },
+    "evidence_quote": "77% of tasks with provable security (compared to 84% with an undefended system) in AgentDojo",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "M-08",
+    "claim": "A critical re-evaluation found a fine-tuned prompt-injection detector (ProtectAI PI Detector) achieved 7.95% ASR on AgentDojo but caused task-success utility to collapse from 83.02% to 41.49%, and the authors' own Sanitizer defense was bypassed via Braille encoding.",
+    "source": {
+      "title": "A Critical Evaluation of Defenses against Prompt Injection Attacks",
+      "authors": ["Yuqi Jia", "Zedian Shao", "Yupei Liu", "Jinyuan Jia", "Dawn Song", "Neil Zhenqiang Gong"],
+      "year": 2025,
+      "venue": "arXiv",
+      "arxiv_id": "2505.18333",
+      "doi": null,
+      "url": "https://arxiv.org/abs/2505.18333"
+    },
+    "evidence_quote": "prior studies have not followed such a comprehensive evaluation methodology",
+    "verified": "fetched",
+    "confidence": "medium"
+  },
+  {
+    "claim_id": "M-09",
+    "claim": "The Comparative Undermining Attack against LLM-as-a-Judge achieved an attack success rate exceeding 30% on instruction-tuned judge models (Qwen2.5-3B-Instruct, Falcon3-3B-Instruct) on MT-Bench Human Judgments.",
+    "source": {
+      "title": "Investigating the Vulnerability of LLM-as-a-Judge Architectures to Prompt-Injection Attacks",
+      "authors": ["Narek Maloyan", "Bislan Ashinov", "Dmitry Namiot"],
+      "year": 2025,
+      "venue": "arXiv",
+      "arxiv_id": "2505.13348",
+      "doi": null,
+      "url": "https://arxiv.org/abs/2505.13348"
+    },
+    "evidence_quote": "Attack Success Rate (ASR) exceeding 30%",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "M-10",
+    "claim": "A crawl of 11,000 shopping websites and roughly 53,000 product pages found 1,818 dark pattern instances spanning 15 types and 7 broader categories.",
+    "source": {
+      "title": "Dark Patterns at Scale: Findings from a Crawl of 11K Shopping Websites",
+      "authors": ["Arunesh Mathur", "Gunes Acar", "Michael J. Friedman", "Elena Lucherini", "Jonathan Mayer", "Marshini Chetty", "Arvind Narayanan"],
+      "year": 2019,
+      "venue": "CSCW / PACM HCI",
+      "arxiv_id": "1907.07032",
+      "doi": "10.1145/3359183",
+      "url": "https://arxiv.org/abs/1907.07032"
+    },
+    "evidence_quote": "1,818 dark pattern instances, representing 15 types and 7 broader categories",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "P-01",
+    "claim": "The Design Patterns paper proposes five architectural patterns (Dual LLM, Plan-Then-Execute, Action-Selector, Map-Reduce, Dual LLM with Quarantine) as recommendations rather than empirically validated solutions, and states that deterministic defenses are predictable but brittle while LLM-based defenses are flexible but introduce new uncertainty, with no single pattern universally preventing sophisticated injection.",
+    "source": {
+      "title": "Design Patterns for Securing LLM Agents against Prompt Injections",
+      "authors": ["Luca Beurer-Kellner", "Beat Buesser", "Ana-Maria Cretu", "Edoardo Debenedetti", "Daniel Dobos", "Daniel Fabian", "Marc Fischer", "David Froelicher", "Kathrin Grosse", "Daniel Naeff", "Ezinwanne Ozoani", "Andrew Paverd", "Florian Tramer", "Vaclav Volhejn"],
+      "year": 2025,
+      "venue": "arXiv",
+      "arxiv_id": "2506.08837",
+      "doi": null,
+      "url": "https://arxiv.org/abs/2506.08837"
+    },
+    "evidence_quote": "no single pattern universally prevents sophisticated injection attacks",
+    "verified": "fetched",
+    "confidence": "medium"
+  },
+  {
+    "claim_id": "P-02",
+    "claim": "The dual-LLM pattern (privileged LLM plus quarantined LLM that returns only opaque references, never raw untrusted content) was proposed by Simon Willison as a design pattern and is not independently benchmarked outside of its CaMeL instantiation.",
+    "source": {
+      "title": "The Dual LLM pattern for building AI assistants that can resist prompt injection",
+      "authors": ["Simon Willison"],
+      "year": 2023,
+      "venue": "Blog (simonwillison.net)",
+      "arxiv_id": null,
+      "doi": null,
+      "url": "https://simonwillison.net/2025/Apr/11/camel/"
+    },
+    "evidence_quote": "the quarantined LLM populates references... without being exposed to those potentially malicious tokens",
+    "verified": "fetched",
+    "confidence": "medium"
+  },
+  {
+    "claim_id": "P-03",
+    "claim": "Grey-literature/industry sources describe deterministic scanning for CSS/DOM-based hidden text (display:none, opacity:0, font-size:0, zero-width Unicode) as a prompt-injection pre-filter technique for web content, but these are not peer-reviewed.",
+    "source": {
+      "title": "promptinjectionradar (README/description)",
+      "authors": ["neshboy"],
+      "year": 2025,
+      "venue": "GitHub (grey literature)",
+      "arxiv_id": null,
+      "doi": null,
+      "url": "https://github.com/neshboy/promptinjectionradar"
+    },
+    "evidence_quote": "decodes base64, strips zero-width Unicode tricks, unwraps hidden HTML/CSS",
+    "verified": "unverified",
+    "confidence": "low"
+  },
+  {
+    "claim_id": "P-04",
+    "claim": "A 2025 paper on mobile LLM agent security describes overlay-based attacks (e.g. FLAG_NOT_FOCUSABLE windows, transparent overlays) that are visible to an agent's screen capture/OCR pipeline while excluded from the interactive view hierarchy; we could not confirm from automated fetch whether this was measured or only demonstrated.",
+    "source": {
+      "title": "From Assistants to Adversaries: Exploring the Security Risks of Mobile LLM Agents",
+      "authors": ["unknown - not confirmed via full fetch"],
+      "year": 2025,
+      "venue": "arXiv",
+      "arxiv_id": "2505.12981",
+      "doi": null,
+      "url": "https://arxiv.org/abs/2505.12981"
+    },
+    "evidence_quote": "transparent overlay attacks leverage invisible UI components to intercept and misdirect agent interactions",
+    "verified": "unverified",
+    "confidence": "low"
+  },
+  {
+    "claim_id": "P-05",
+    "claim": "Hit-testing (checking whether overlapping elements have pointer-events disabled, comparing perceived-clickable element to the element that would actually receive a click) is a described technique against clickjacking/UI-redressing in pre-agent web security literature, not independently re-validated for agent action-safety.",
+    "source": {
+      "title": "A solution for the automated detection of clickjacking attacks",
+      "authors": ["Marco Balduzzi", "Manuel Egele", "Engin Kirda", "Davide Balzarotti", "Christopher Kruegel"],
+      "year": 2010,
+      "venue": "ASIACCS",
+      "arxiv_id": null,
+      "doi": null,
+      "url": "https://www.researchgate.net/publication/221609465_A_solution_for_the_automated_detection_of_clickjacking_attacks"
+    },
+    "evidence_quote": "N/A - title/topic-level citation only, full text not fetched in this session",
+    "verified": "unverified",
+    "confidence": "low"
+  },
+  {
+    "claim_id": "M-11",
+    "claim": "OWASP guidance recommends least privilege enforced through scoped credentials, allowlisted tools, restricted data access, approval steps for sensitive actions, sandboxing, rate limits, and audit logs as core mitigations against prompt injection impact.",
+    "source": {
+      "title": "OWASP Top 10 for LLM Applications",
+      "authors": ["OWASP"],
+      "year": 2025,
+      "venue": "OWASP guidance",
+      "arxiv_id": null,
+      "doi": null,
+      "url": "https://owasp.org/www-project-top-10-for-large-language-model-applications/"
+    },
+    "evidence_quote": "least privilege should be enforced through scoped credentials, allowlisted tools... approval steps for sensitive actions",
+    "verified": "unverified",
+    "confidence": "low"
+  },
+  {
+    "claim_id": "M-12",
+    "claim": "Mitigating prompt injection requires defense in depth combining input validation, output filtering, privilege restriction, and human-in-the-loop controls for sensitive operations.",
+    "source": {
+      "title": "OWASP Top 10 for LLM Applications: Risks & Mitigations",
+      "authors": ["Mend.io (summarizing OWASP)"],
+      "year": 2025,
+      "venue": "Vendor blog summarizing OWASP guidance",
+      "arxiv_id": null,
+      "doi": null,
+      "url": "https://www.mend.io/blog/2025-owasp-top-10-for-llm-applications-a-quick-guide/"
+    },
+    "evidence_quote": "combining input validation with output filtering, privilege restrictions and human-in-the-loop controls",
+    "verified": "unverified",
+    "confidence": "low"
+  }
+]

@@ -1,0 +1,180 @@
+/* Shared storefront look for all dev/ fixture sites — "Northline Basics".
+   Kept plain on purpose: traps must stay legible in the source. */
+
+:root {
+  --brand: #1e3a5f;
+  --brand-dark: #142943;
+  --accent: #d97706;
+  --bg: #f6f7f9;
+  --card: #ffffff;
+  --text: #1a1a1a;
+  --muted: #6b7280;
+  --border: #e2e5ea;
+  --danger: #b91c1c;
+  --ok: #15803d;
+  --radius: 8px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+header.site-header {
+  background: var(--brand);
+  color: #fff;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+header.site-header .brand {
+  font-weight: 700;
+  font-size: 1.2rem;
+  letter-spacing: 0.02em;
+}
+
+header.site-header nav a {
+  color: #dce6f2;
+  text-decoration: none;
+  margin-left: 18px;
+  font-size: 0.9rem;
+}
+
+main.page {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 28px 20px 80px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 18px;
+}
+
+h1 { font-size: 1.6rem; margin: 0 0 6px; }
+h2 { font-size: 1.15rem; margin: 0 0 12px; }
+p.muted, .muted { color: var(--muted); font-size: 0.92rem; }
+
+.product-row {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.product-thumb {
+  width: 140px;
+  height: 140px;
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, #dce6f2, #b9cbe0);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--brand-dark);
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.price {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--brand-dark);
+}
+
+.price .strike {
+  text-decoration: line-through;
+  color: var(--muted);
+  font-weight: 400;
+  font-size: 1rem;
+  margin-right: 8px;
+}
+
+button, .btn {
+  display: inline-block;
+  font: inherit;
+  border: none;
+  border-radius: var(--radius);
+  padding: 11px 18px;
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: none;
+  text-align: center;
+}
+
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: #b8600a; }
+
+.btn-secondary { background: #fff; color: var(--brand); border: 1px solid var(--brand); }
+.btn-secondary:hover { background: #f0f4f9; }
+
+.btn-link {
+  background: none;
+  color: var(--brand);
+  padding: 0;
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; }
+.row + .row { border-top: 1px dashed var(--border); }
+
+.total-row { font-weight: 700; font-size: 1.1rem; border-top: 2px solid var(--border); margin-top: 6px; padding-top: 10px; }
+
+label.checkbox-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 0;
+  cursor: pointer;
+}
+label.checkbox-row input { margin-top: 3px; }
+
+input[type="text"], input[type="email"], input[type="password"], input[type="tel"] {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font: inherit;
+  margin-top: 4px;
+}
+
+.field { margin-bottom: 14px; }
+.field label { font-size: 0.88rem; font-weight: 600; display: block; }
+
+.banner {
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  font-size: 0.9rem;
+}
+.banner-info { background: #eaf1fb; color: var(--brand-dark); }
+.banner-warn { background: #fdf1e0; color: #7c4a03; }
+
+footer.site-footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.8rem;
+  padding: 30px 0;
+}
+
+.confirm-box {
+  text-align: center;
+  padding: 40px 20px;
+}
+.confirm-box .check {
+  font-size: 3rem;
+  color: var(--ok);
+}
+
+a.plain { color: var(--brand); }

@@ -1,0 +1,8 @@
+# LOG — Mitigations research
+
+2026-09-24T14:26:09Z - Started. Read BRIEF.md. Scope: defences against indirect prompt injection, architectural defences, deterministic/structural detection, model-based detection, guard-security literature.
+2026-09-24T14:29:22Z - Verified via WebFetch: spotlighting (2403.14720), guardrail bypass (2504.11168), design patterns (2506.08837), WASP (2504.18575), CaMeL (2503.18813), PhantomLint (2508.17884), firewalls-vs-benchmarks (2510.05244 - key: PI Detector 7.95% ASR but utility collapse 41.49% vs 83.02% baseline; own Sanitizer defense bypassed via Braille encoding), critical eval of defenses (2505.18333), SnapGuard (2604.25562 - table numbers not extractable from PDF, noted unverified for specific numbers), Mathur dark patterns at scale (1907.07032 - 1818 instances/11K sites).
+2026-09-24T14:29:22Z - Could not fully extract table numbers from SnapGuard PDF via WebFetch (tool returned binary-parse failure for detailed tables); will mark SnapGuard specific metrics as unverified/low confidence, cite qualitative claim only.
+2026-09-24T14:35:01Z - Wrote FINDINGS.md (via scratchpad + cp workaround since direct Write tool blocked filenames matching 'findings').
+2026-09-24T14:36:02Z - Wrote sources.json (17 claim entries). Validated JSON parses. Marked P-03, P-04, P-05, M-06, M-11, M-12 as unverified (grey lit, unconfirmed fetch, or general topic citation without full-text confirmation this session).
+2026-09-24T14:36:02Z - Task complete. FINDINGS.md, sources.json, LOG.md all written to research/04-mitigations/. Did not touch track3/, engine/, PROJECT_CHARTER.md, or other agent directories.

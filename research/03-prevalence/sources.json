@@ -1,0 +1,258 @@
+[
+  {
+    "claim_id": "A-01",
+    "claim": "WASP tests injection attacks on web agents across GitLab and Reddit environments with 84 total tasks (42 scenarios x 2 template types), plus a 37-task benign utility set.",
+    "source": {
+      "title": "WASP: Benchmarking Web Agent Security Against Prompt Injection Attacks",
+      "authors": ["Ivan Evtimov", "et al."],
+      "year": 2025,
+      "venue": "arXiv",
+      "arxiv_id": "2504.18575",
+      "doi": null,
+      "url": "https://arxiv.org/abs/2504.18575"
+    },
+    "evidence_quote": "21 attacker goals x 2 user goals = 42 test scenarios, combined with... results in a total of 84 tasks",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "A-02",
+    "claim": "In WASP, OpenAI o1 (Tool Calling scaffold) had 85.7% intermediate attack success but only 16.7% full end-to-end attack success; Claude Sonnet 3.5 v2 (CURI scaffold) had 58.3% intermediate / 6.0% end-to-end.",
+    "source": {
+      "title": "WASP: Benchmarking Web Agent Security Against Prompt Injection Attacks",
+      "authors": ["Ivan Evtimov", "et al."],
+      "year": 2025,
+      "venue": "arXiv",
+      "arxiv_id": "2504.18575",
+      "doi": null,
+      "url": "https://arxiv.org/abs/2504.18575"
+    },
+    "evidence_quote": "attacks partially succeed in up to 86% of cases... struggle to fully complete the attacker goals",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "A-03",
+    "claim": "WASP's authors characterize current web agent robustness as 'security by incompetence': agents resist attacks because they fail at the underlying task, not because of robust defenses.",
+    "source": {
+      "title": "WASP: Benchmarking Web Agent Security Against Prompt Injection Attacks",
+      "authors": ["Ivan Evtimov", "et al."],
+      "year": 2025,
+      "venue": "arXiv",
+      "arxiv_id": "2504.18575",
+      "doi": null,
+      "url": "https://arxiv.org/abs/2504.18575"
+    },
+    "evidence_quote": "highlighting the current state of security by incompetence",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "A-04",
+    "claim": "AgentDojo is a benchmark of 97 realistic agent tasks (email, banking, travel, workspace) with 629 associated prompt-injection security test cases, evaluating multiple attacks and defenses across LLM backbones.",
+    "source": {
+      "title": "AgentDojo: A Dynamic Environment to Evaluate Prompt Injection Attacks and Defenses for LLM Agents",
+      "authors": ["Edoardo Debenedetti", "Jie Zhang", "Mislav Balunovic", "Luca Beurer-Kellner", "Marc Fischer", "Florian Tramer"],
+      "year": 2024,
+      "venue": "NeurIPS Datasets and Benchmarks Track",
+      "arxiv_id": "2406.13352",
+      "doi": null,
+      "url": "https://arxiv.org/abs/2406.13352"
+    },
+    "evidence_quote": "97 realistic tasks... 629 security test cases... various attack and defense paradigms from the literature",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "A-05",
+    "claim": "AgentDojo's own abstract states state-of-the-art LLMs fail at many of its tasks even with no attack present, and existing prompt injection attacks break only some, not all, security properties -- exact utility/ASR percentages per model (e.g. GPT-4o, Claude 3.5 Sonnet) were not obtainable from the abstract alone.",
+    "source": {
+      "title": "AgentDojo: A Dynamic Environment to Evaluate Prompt Injection Attacks and Defenses for LLM Agents",
+      "authors": ["Edoardo Debenedetti", "Jie Zhang", "Mislav Balunovic", "Luca Beurer-Kellner", "Marc Fischer", "Florian Tramer"],
+      "year": 2024,
+      "venue": "NeurIPS Datasets and Benchmarks Track",
+      "arxiv_id": "2406.13352",
+      "doi": null,
+      "url": "https://arxiv.org/abs/2406.13352"
+    },
+    "evidence_quote": "state-of-the-art LLMs fail at many tasks (even in the absence of attacks)",
+    "verified": "fetched",
+    "confidence": "medium"
+  },
+  {
+    "claim_id": "A-06",
+    "claim": "InjecAgent benchmarks indirect prompt injection with 1,054 test cases spanning 17 user tools and 62 attacker tools; ReAct-prompted GPT-4 was vulnerable 24% of the time in the base setting, rising substantially with an enhanced 'hacking prompt' attack (paper states a near-doubling, exact enhanced percentage not confirmable from abstract alone).",
+    "source": {
+      "title": "InjecAgent: Benchmarking Indirect Prompt Injections in Tool-Integrated Large Language Model Agents",
+      "authors": ["Qiusi Zhan", "Zhixiang Liang", "Zifan Ying", "Daniel Kang"],
+      "year": 2024,
+      "venue": "Findings of ACL 2024",
+      "arxiv_id": "2403.02691",
+      "doi": null,
+      "url": "https://arxiv.org/abs/2403.02691"
+    },
+    "evidence_quote": "ReAct-prompted GPT-4 vulnerable to attacks 24% of the time",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "A-07",
+    "claim": "Agent Security Bench (ASB) evaluates 27 attack/defense methods (10 prompt injection attacks, memory poisoning, a Plan-of-Thought backdoor attack, 4 mixed attacks, and 11 defenses) across 10 scenarios, 400+ tools, and 13 LLM backbones, reporting a highest average attack success rate of 84.30%.",
+    "source": {
+      "title": "Agent Security Bench (ASB): Formalizing and Benchmarking Attacks and Defenses in LLM-based Agents",
+      "authors": ["Hanrong Zhang", "et al."],
+      "year": 2025,
+      "venue": "ICLR 2025",
+      "arxiv_id": "2410.02644",
+      "doi": null,
+      "url": "https://arxiv.org/abs/2410.02644"
+    },
+    "evidence_quote": "the highest average attack success rate of 84.30%",
+    "verified": "fetched",
+    "confidence": "medium"
+  },
+  {
+    "claim_id": "A-08",
+    "claim": "ASB's 84.30% headline ASR is an aggregate maximum across many attack types, scenarios and models, not a single reproducible per-model, per-attack figure -- treat it as an upper bound, not a typical rate.",
+    "source": {
+      "title": "Agent Security Bench (ASB): Formalizing and Benchmarking Attacks and Defenses in LLM-based Agents",
+      "authors": ["Hanrong Zhang", "et al."],
+      "year": 2025,
+      "venue": "ICLR 2025",
+      "arxiv_id": "2410.02644",
+      "doi": null,
+      "url": "https://arxiv.org/abs/2410.02644"
+    },
+    "evidence_quote": "does not attribute the 84.30% success rate to a specific attack type or scenario",
+    "verified": "fetched",
+    "confidence": "low"
+  },
+  {
+    "claim_id": "A-09",
+    "claim": "A large-scale Common Crawl-based measurement (Oct 2025 corpus, ~1.2 billion URLs across 24.8 million hosts, plus Shodan/Censys) found 15,300 validated indirect prompt injection instances across 11,700 pages spanning 2,042 hosts -- the first large-scale in-the-wild quantification of this attack class.",
+    "source": {
+      "title": "Indirect Prompt Injection in the Wild: An Empirical Study of Prevalence, Techniques, and Objectives",
+      "authors": ["unknown (not confirmable from abstract)"],
+      "year": 2026,
+      "venue": "arXiv",
+      "arxiv_id": "2604.27202",
+      "doi": null,
+      "url": "https://arxiv.org/abs/2604.27202"
+    },
+    "evidence_quote": "1.2B URLs from 24.8M hosts... 15.3K validated instances across 11.7K pages",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "A-10",
+    "claim": "In that same crawl, roughly 70% of confirmed prompt-injection payloads were placed in non-rendered HTML (headers, comments, metadata) rather than visibly on the page, and controlled compliance tests across 13 models found compliance up to 8% for smaller models on plain-text injected inputs.",
+    "source": {
+      "title": "Indirect Prompt Injection in the Wild: An Empirical Study of Prevalence, Techniques, and Objectives",
+      "authors": ["unknown (not confirmable from abstract)"],
+      "year": 2026,
+      "venue": "arXiv",
+      "arxiv_id": "2604.27202",
+      "doi": null,
+      "url": "https://arxiv.org/abs/2604.27202"
+    },
+    "evidence_quote": "Approximately 70% appear in non-rendered HTML... compliance reached up to 8% for smaller models",
+    "verified": "fetched",
+    "confidence": "medium"
+  },
+  {
+    "claim_id": "A-11",
+    "claim": "The 2019 'Dark Patterns at Scale' crawl of ~11,000 shopping websites (~53,000 product pages) found 1,818 dark-pattern instances across 15 types / 7 categories, present on approximately 11.1% of sites (1,254 of ~11K), with a stricter 'deceptive' subset present on 183 sites; the study used automated detection combined with manual/expert review, and identified 22 third-party services selling dark patterns as a turnkey solution.",
+    "source": {
+      "title": "Dark Patterns at Scale: Findings from a Crawl of 11K Shopping Websites",
+      "authors": ["Arunesh Mathur", "Gunes Acar", "Michael J. Friedman", "Elena Lucherini", "Jonathan Mayer", "Marshini Chetty", "Arvind Narayanan"],
+      "year": 2019,
+      "venue": "CSCW / arXiv",
+      "arxiv_id": "1907.07032",
+      "doi": null,
+      "url": "https://arxiv.org/abs/1907.07032"
+    },
+    "evidence_quote": "183 websites that engage in such practices... 15 types and 7 broader categories",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "A-12",
+    "claim": "SusBench evaluates computer-use agent (CUA) susceptibility to UI dark patterns using 313 tasks across 55 consumer websites and 9 dark-pattern types, testing five state-of-the-art CUAs; both agents and a 29-person human panel were particularly susceptible to Preselection, Trick Wording, and Hidden Information patterns, and most human participants did not notice the researcher-injected dark patterns.",
+    "source": {
+      "title": "SusBench: An Online Benchmark for Evaluating Dark Pattern Susceptibility of Computer-Use Agents",
+      "authors": ["unknown (not confirmable from abstract)"],
+      "year": 2025,
+      "venue": "arXiv",
+      "arxiv_id": "2510.11035",
+      "doi": null,
+      "url": "https://arxiv.org/abs/2510.11035"
+    },
+    "evidence_quote": "particularly susceptible to the dark patterns of Preselection, Trick Wording, and Hidden Information",
+    "verified": "fetched",
+    "confidence": "medium"
+  },
+  {
+    "claim_id": "A-13",
+    "claim": "A CHI 2026 study ('Dark Patterns Meet GUI Agents') examined agent, human, and human-AI team responses to 16 types of dark patterns and found GUI agents are highly susceptible because they prioritize task completion over safety or privacy considerations, often failing to recognize the dark pattern at all; human oversight improved but did not eliminate susceptibility. Exact numeric susceptibility rates were not obtainable from the abstract.",
+    "source": {
+      "title": "Dark Patterns Meet GUI Agents: LLM Agent Susceptibility to Manipulative Interfaces and the Role of Human Oversight",
+      "authors": ["unknown (not confirmable from abstract)"],
+      "year": 2026,
+      "venue": "CHI 2026 / arXiv",
+      "arxiv_id": "2509.10723",
+      "doi": null,
+      "url": "https://arxiv.org/abs/2509.10723"
+    },
+    "evidence_quote": "agents often fail to recognize dark patterns, and even when aware, prioritize task completion over protective action",
+    "verified": "fetched",
+    "confidence": "medium"
+  },
+  {
+    "claim_id": "A-14",
+    "claim": "Palo Alto Networks Unit 42 reported what it describes as the first documented real-world (non-lab) case of indirect prompt injection actively deployed to bypass an AI-based ad-review system, observed December 2025 on the site reviewerpress[.]com, using zero-font-size, off-screen positioning and CSS suppression to hide payloads; their broader telemetry review found 21 distinct websites carrying such payloads using 22 distinct payload-engineering techniques, with 75.8% of affected pages containing a single injection.",
+    "source": {
+      "title": "Fooling AI Agents: Web-Based Indirect Prompt Injection Observed in the Wild",
+      "authors": ["Unit 42 / Palo Alto Networks"],
+      "year": 2025,
+      "venue": "Unit 42 blog (industry report, not peer-reviewed)",
+      "arxiv_id": null,
+      "doi": null,
+      "url": "https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/"
+    },
+    "evidence_quote": "First reported detection of a real-world example of malicious IDPI designed to bypass an AI-based product ad review system",
+    "verified": "fetched",
+    "confidence": "medium"
+  },
+  {
+    "claim_id": "A-15",
+    "claim": "Brave's disclosure of hidden-text prompt injection against Perplexity Comet (via near-invisible faint-colored text extracted by OCR from screenshots) and against the Fellou browser is a responsibly-disclosed security research proof-of-concept, not a documented in-the-wild incident -- no evidence of real-world exploitation is presented.",
+    "source": {
+      "title": "Unseeable prompt injections in screenshots: more vulnerabilities in Comet and other AI browsers",
+      "authors": ["Brave Software security team"],
+      "year": 2025,
+      "venue": "Brave blog (industry disclosure, not peer-reviewed)",
+      "arxiv_id": null,
+      "doi": null,
+      "url": "https://brave.com/blog/unseeable-prompt-injections/"
+    },
+    "evidence_quote": "responsibly reported these issues to the various companies... no in-the-wild exploitation is mentioned",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "A-16",
+    "claim": "OWASP's Gen AI Security Project ranks Prompt Injection as LLM01:2025, the number-one item in its Top 10 for LLM Applications for the 2025 edition, for the second consecutive edition -- an expert consensus statement rather than a measured statistic.",
+    "source": {
+      "title": "LLM01:2025 Prompt Injection",
+      "authors": ["OWASP Gen AI Security Project"],
+      "year": 2025,
+      "venue": "OWASP (industry standards body, not peer-reviewed)",
+      "arxiv_id": null,
+      "doi": null,
+      "url": "https://genai.owasp.org/llmrisk/llm01-prompt-injection/"
+    },
+    "evidence_quote": "A Prompt Injection Vulnerability occurs when user prompts alter the LLM's behavior or output in unintended ways",
+    "verified": "fetched",
+    "confidence": "medium"
+  }
+]

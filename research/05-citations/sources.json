@@ -1,0 +1,226 @@
+[
+  {
+    "claim_id": "B-01",
+    "claim": "Greshake et al. coined and demonstrated indirect prompt injection against real-world LLM-integrated applications including Bing Chat.",
+    "source": {
+      "title": "Not what you've signed up for: Compromising Real-World LLM-Integrated Applications with Indirect Prompt Injection",
+      "authors": ["Kai Greshake", "Sahar Abdelnabi", "Shailesh Mishra", "Christoph Endres", "Thorsten Holz", "Mario Fritz"],
+      "year": 2023,
+      "venue": "ACM Workshop on Artificial Intelligence and Security (AISec)",
+      "arxiv_id": "2302.12173",
+      "doi": null,
+      "url": "https://arxiv.org/abs/2302.12173"
+    },
+    "evidence_quote": "data theft, worming, information ecosystem contamination, and other novel security risks",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "B-02",
+    "claim": "Perez & Ribeiro's PromptInject framework demonstrated goal hijacking and prompt leaking against GPT-3 via direct prompt injection.",
+    "source": {
+      "title": "Ignore Previous Prompt: Attack Techniques For Language Models",
+      "authors": ["Fábio Perez", "Ian Ribeiro"],
+      "year": 2022,
+      "venue": "NeurIPS 2022 ML Safety Workshop (arXiv preprint)",
+      "arxiv_id": "2211.09527",
+      "doi": null,
+      "url": "https://arxiv.org/abs/2211.09527"
+    },
+    "evidence_quote": "even low-aptitude, but sufficiently ill-intentioned agents, can easily exploit GPT-3's stochastic nature",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "B-03",
+    "claim": "HouYi, a black-box prompt injection methodology, compromised 31 of 36 real-world LLM-integrated applications, confirmed by 10 vendors including Notion.",
+    "source": {
+      "title": "Prompt Injection attack against LLM-integrated Applications",
+      "authors": ["Yi Liu", "Gelei Deng", "Yuekang Li", "Kailong Wang", "Zihao Wang", "Xiaofeng Wang", "Tianwei Zhang", "Yepang Liu", "Haoyu Wang", "Yan Zheng", "Leo Yu Zhang", "Yang Liu"],
+      "year": 2023,
+      "venue": "arXiv preprint (v1 2023, actively revised)",
+      "arxiv_id": "2306.05499",
+      "doi": null,
+      "url": "https://arxiv.org/abs/2306.05499"
+    },
+    "evidence_quote": "unrestricted arbitrary LLM usage and uncomplicated application prompt theft",
+    "verified": "fetched",
+    "confidence": "medium"
+  },
+  {
+    "claim_id": "B-04",
+    "claim": "Zou et al.'s GCG attack automatically finds adversarial suffixes that transfer across GPT, Bard, Claude and open-source aligned LLMs.",
+    "source": {
+      "title": "Universal and Transferable Adversarial Attacks on Aligned Language Models",
+      "authors": ["Andy Zou", "Zifan Wang", "Nicholas Carlini", "Milad Nasr", "J. Zico Kolter", "Matt Fredrikson"],
+      "year": 2023,
+      "venue": "arXiv preprint",
+      "arxiv_id": "2307.15043",
+      "doi": null,
+      "url": "https://arxiv.org/abs/2307.15043"
+    },
+    "evidence_quote": "these attacks demonstrate strong transferability across multiple systems, including commercial models",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "B-05",
+    "claim": "AgentDojo provides 97 realistic agent tasks and 629 security test cases as an extensible benchmark for prompt injection attacks/defenses against tool-using LLM agents.",
+    "source": {
+      "title": "AgentDojo: A Dynamic Environment to Evaluate Prompt Injection Attacks and Defenses for LLM Agents",
+      "authors": ["Edoardo Debenedetti", "Jie Zhang", "Mislav Balunović", "Luca Beurer-Kellner", "Marc Fischer", "Florian Tramèr"],
+      "year": 2024,
+      "venue": "NeurIPS 2024 Datasets and Benchmarks Track",
+      "arxiv_id": "2406.13352",
+      "doi": null,
+      "url": "https://arxiv.org/abs/2406.13352"
+    },
+    "evidence_quote": "97 realistic tasks (e.g., managing an email client, navigating an e-banking website, or making travel bookings), 629 security test cases",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "B-06",
+    "claim": "InjecAgent found ReAct-prompted GPT-4 was vulnerable to indirect prompt injection 24% of the time, roughly doubling with an explicit attacker-enhancing prompt.",
+    "source": {
+      "title": "InjecAgent: Benchmarking Indirect Prompt Injections in Tool-Integrated Large Language Model Agents",
+      "authors": ["Qiusi Zhan", "Zhixiang Liang", "Zifan Ying", "Daniel Kang"],
+      "year": 2024,
+      "venue": "ACL Findings 2024",
+      "arxiv_id": "2403.02691",
+      "doi": null,
+      "url": "https://arxiv.org/abs/2403.02691"
+    },
+    "evidence_quote": "ReAct-prompted GPT-4 vulnerable to attacks 24% of the time",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "B-07",
+    "claim": "Adversarial pop-ups achieve over 80% attack success against VLM computer-use agents on OSWorld and over 60% on VisualWebArena; naive 'ignore pop-ups' instructions do not defend against it.",
+    "source": {
+      "title": "Attacking Vision-Language Computer Agents via Pop-ups",
+      "authors": ["Yanzhe Zhang", "Tao Yu", "Diyi Yang"],
+      "year": 2024,
+      "venue": "ACL 2025 (main conference)",
+      "arxiv_id": "2411.02391",
+      "doi": null,
+      "url": "https://arxiv.org/abs/2411.02391"
+    },
+    "evidence_quote": "attack success rate over 80% on OSWorld and over 60% on VisualWebArena in the default setting",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "B-08",
+    "claim": "On WebArena, the best GPT-4-based agent achieves a 14.41% end-to-end task success rate versus 78.24% for humans.",
+    "source": {
+      "title": "WebArena: A Realistic Web Environment for Building Autonomous Agents",
+      "authors": ["Shuyan Zhou", "Frank F. Xu", "Hao Zhu", "Xuhui Zhou", "Robert Lo", "Abishek Sridhar", "Xianyi Cheng", "Tianyue Ou", "Yonatan Bisk", "Daniel Fried", "Uri Alon", "Graham Neubig"],
+      "year": 2023,
+      "venue": "ICLR 2024 (arXiv preprint 2023)",
+      "arxiv_id": "2307.13854",
+      "doi": null,
+      "url": "https://arxiv.org/abs/2307.13854"
+    },
+    "evidence_quote": "the best GPT-4-based agent achieves an end-to-end task success rate of 14.41%",
+    "verified": "unverified",
+    "confidence": "medium"
+  },
+  {
+    "claim_id": "B-09",
+    "claim": "Gray et al. built a taxonomy of dark patterns (nagging, obstruction, sneaking, interface interference, forced action) from 118 practitioner-identified examples.",
+    "source": {
+      "title": "The Dark (Patterns) Side of UX Design",
+      "authors": ["Colin M. Gray", "Yubo Kou", "Bryan Battles", "Joseph Hoggatt", "Austin L. Toombs"],
+      "year": 2018,
+      "venue": "ACM CHI 2018",
+      "arxiv_id": null,
+      "doi": "10.1145/3173574.3174108",
+      "url": "https://dl.acm.org/doi/10.1145/3173574.3174108"
+    },
+    "evidence_quote": "user value is supplanted in favor of shareholder value",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "B-10",
+    "claim": "A crawl of ~11K shopping websites (~53K product pages) found 1,818 dark-pattern instances spanning 15 types and 7 categories.",
+    "source": {
+      "title": "Dark Patterns at Scale: Findings from a Crawl of 11K Shopping Websites",
+      "authors": ["Arunesh Mathur", "Gunes Acar", "Michael J. Friedman", "Elena Lucherini", "Jonathan Mayer", "Marshini Chetty", "Arvind Narayanan"],
+      "year": 2019,
+      "venue": "ACM CSCW 2019 (Proc. ACM Hum.-Comput. Interact., Vol. 3)",
+      "arxiv_id": "1907.07032",
+      "doi": "10.1145/3359183",
+      "url": "https://dl.acm.org/doi/10.1145/3359183"
+    },
+    "evidence_quote": "discovered 1,818 dark pattern instances, representing 15 types and 7 broader categories",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "B-11",
+    "claim": "95% of 240 sampled mobile apps contained at least one dark pattern, averaging 7 types per popular app, and most users in a 584-respondent study did not perceive them.",
+    "source": {
+      "title": "UI Dark Patterns and Where to Find Them: A Study on Mobile Applications and User Perception",
+      "authors": ["Linda Di Geronimo", "Larissa Braz", "Enrico Fregnan", "Fabio Palomba", "Alberto Bacchelli"],
+      "year": 2020,
+      "venue": "ACM CHI 2020",
+      "arxiv_id": null,
+      "doi": "10.1145/3313831.3376600",
+      "url": "https://dl.acm.org/doi/10.1145/3313831.3376600"
+    },
+    "evidence_quote": "95% of the analyzed apps contain one or more Dark Patterns",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "B-12",
+    "claim": "The FTC's 2022 staff report ties dark patterns to Section 5 FTC Act exposure across e-commerce, cookie consent, children's apps, and subscription cancellation flows.",
+    "source": {
+      "title": "Bringing Dark Patterns to Light",
+      "authors": ["FTC Bureau of Consumer Protection Staff"],
+      "year": 2022,
+      "venue": "U.S. Federal Trade Commission staff report",
+      "arxiv_id": null,
+      "doi": null,
+      "url": "https://www.ftc.gov/system/files/ftc_gov/pdf/P214800+Dark+Patterns+Report+9.14.2022+-+FINAL.pdf"
+    },
+    "evidence_quote": "dark patterns used in a variety of industries and contexts, including e-commerce, cookie consent banners",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "B-13",
+    "claim": "OWASP's 2025 Top 10 for LLM Applications ranks prompt injection (direct and indirect) as the #1 risk for the second consecutive edition and recommends defense-in-depth mitigation.",
+    "source": {
+      "title": "OWASP Top 10 for LLM Applications 2025",
+      "authors": ["OWASP GenAI Security Project"],
+      "year": 2025,
+      "venue": "OWASP (industry standard)",
+      "arxiv_id": null,
+      "doi": null,
+      "url": "https://owasp.org/www-project-top-10-for-large-language-model-applications/assets/PDF/OWASP-Top-10-for-LLMs-v2025.pdf"
+    },
+    "evidence_quote": "Prompt injection holds the top spot for the second consecutive edition",
+    "verified": "fetched",
+    "confidence": "high"
+  },
+  {
+    "claim_id": "B-14",
+    "claim": "NIST AI 100-2e2025 extends its adversarial ML taxonomy to explicitly cover generative-AI supply-chain attacks, direct/indirect prompt injection, and security of AI agents, citing 400+ references.",
+    "source": {
+      "title": "Adversarial Machine Learning: A Taxonomy and Terminology of Attacks and Mitigations (NIST AI 100-2e2025)",
+      "authors": ["National Institute of Standards and Technology"],
+      "year": 2025,
+      "venue": "NIST (U.S. government standard)",
+      "arxiv_id": null,
+      "doi": null,
+      "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-2e2025.pdf"
+    },
+    "evidence_quote": "extends to supply chain attacks, direct and indirect prompt injection, misuse violations, and security of AI agents",
+    "verified": "fetched",
+    "confidence": "high"
+  }
+]

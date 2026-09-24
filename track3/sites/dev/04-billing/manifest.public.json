@@ -1,0 +1,7 @@
+{
+  "site_id": "dev-04-billing",
+  "task_id": "checkout-base-price",
+  "trap_count": 4,
+  "categories": { "C1": 4 },
+  "trap_ids": ["t-01", "t-02", "t-03", "t-04"]
+}

@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "ai-bodyguard": {
+      "command": "python",
+      "args": ["-m", "adapters.mcp.server"],
+      "cwd": ".",
+      "env": {
+        "GUARD_ENABLE_L3": "0",
+        "GUARD_RUN_ID": "antigravity-demo",
+        "GUARD_HEADLESS": "1"
+      }
+    }
+  }
+}

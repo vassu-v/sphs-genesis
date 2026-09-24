@@ -1,0 +1,76 @@
+{
+  "version": "2026-09-24",
+  "notes": [
+    "WEAKEST CHECK IN THE GUARD. Pattern lists are brittle by construction and",
+    "an attacker who can read this file can trivially phrase around it.",
+    "Therefore injection_phrasing is listed in GuardConfig.weak_checks and is",
+    "capped at 'medium': it can never, on its own, produce a BLOCK. It exists",
+    "to label text for ingress neutralization and to give the dashboard",
+    "something to show, not to carry the defense.",
+    "Structural checks (hit_test, invisible_text, cross_origin_form) are what",
+    "actually stop attacks. This file is extensible at run time: point",
+    "GUARD_INJECTION_PATTERNS at another JSON file with the same shape."
+  ],
+  "patterns": [
+    {
+      "id": "ignore-previous",
+      "regex": "\\b(ignore|disregard|forget|override)\\b[^.\\n]{0,40}\\b(previous|prior|earlier|above|all|any)\\b[^.\\n]{0,20}\\b(instruction|instructions|prompt|prompts|rule|rules|direction|directions|context)\\b",
+      "severity": "medium",
+      "description": "Classic instruction-override phrasing."
+    },
+    {
+      "id": "role-reassignment",
+      "regex": "\\byou are (now|actually|really)\\b|\\bfrom now on,? you\\b|\\bact as\\b[^.\\n]{0,30}\\b(assistant|agent|admin|developer)\\b|\\bnew (system )?(persona|role|identity)\\b",
+      "severity": "medium",
+      "description": "Attempts to redefine the agent's role."
+    },
+    {
+      "id": "fake-system-turn",
+      "regex": "(^|\\n|\\s)(system|assistant|user|developer|tool)\\s*(:|>>|\\]|\\|)\\s*\\S|<\\s*/?\\s*(system|im_start|im_end|assistant)\\b|\\[/?INST\\]|###\\s*(system|instruction)",
+      "severity": "medium",
+      "description": "Forged conversation turn or chat-template delimiter embedded in page text."
+    },
+    {
+      "id": "model-addressed",
+      "regex": "\\b(ai|llm|language model|chatbot|browsing agent|autonomous agent|assistant|claude|gpt|gemini|copilot)\\b[^.\\n]{0,20}\\b(assistant|agent|model|reading this|you must|please|should)\\b|\\bdear (ai|assistant|agent|model)\\b|\\battention[,:]? (ai|assistant|agent|automated)\\b",
+      "severity": "medium",
+      "description": "Text explicitly addressed to a model rather than to a human reader."
+    },
+    {
+      "id": "authority-spoof",
+      "regex": "\\b(security (scanner|review|audit)|verified safe|approved by (the )?(guard|security|admin)|compliance check passed|this page (is|has been) (verified|approved|whitelisted)|safety (check|scan) (passed|complete))\\b",
+      "severity": "medium",
+      "description": "Claims of prior approval aimed at a guard or reviewer. This is the exact attack our architecture is designed to be immune to: L3 cannot clear a finding, so text like this can only ever add suspicion."
+    },
+    {
+      "id": "covert-channel",
+      "regex": "\\b(do not (tell|mention|inform|reveal)|without (telling|informing|asking)|don'?t (mention|disclose)|keep this (secret|hidden|between us)|silently|no need to (confirm|ask))\\b[^.\\n]{0,40}\\b(user|human|owner|operator|them)\\b|\\b(do not|don'?t) (show|display|surface) this\\b",
+      "severity": "medium",
+      "description": "Instructs the agent to conceal something from its principal."
+    },
+    {
+      "id": "action-command",
+      "regex": "\\b(you (must|should|need to|have to)|please|immediately|now)\\b[^.\\n]{0,30}\\b(click|press|select|submit|confirm|accept|approve|purchase|buy|checkout|subscribe|enable|add|enter|type|fill|navigate|go to|visit|download|install)\\b",
+      "severity": "low",
+      "description": "Imperative addressed at whoever is reading, pushing a state-changing action. Low on its own: ordinary retail copy says 'please click Checkout'."
+    },
+    {
+      "id": "credential-solicitation",
+      "regex": "\\b(enter|provide|type|paste|share|confirm|verify)\\b[^.\\n]{0,30}\\b(password|passphrase|api key|secret|token|otp|one[- ]time code|cvv|card number|canary|seed phrase|private key)\\b",
+      "severity": "medium",
+      "description": "Solicits a secret. Pairs with the exfiltration policy rule in L2."
+    },
+    {
+      "id": "guard-addressed",
+      "regex": "\\b(guard|bodyguard|filter|moderator|safety layer|middleware|proxy)\\b[^.\\n]{0,30}\\b(allow|approve|permit|bypass|disable|ignore|whitelist|turn off)\\b",
+      "severity": "medium",
+      "description": "Text addressed at the defensive layer itself."
+    },
+    {
+      "id": "urgency-escalation",
+      "regex": "\\b(urgent|immediately|right now|before it'?s too late|last chance|expires in|act now)\\b[^.\\n]{0,40}\\b(confirm|accept|subscribe|pay|order|upgrade|continue)\\b",
+      "severity": "low",
+      "description": "Pressure phrasing. Very common in benign marketing copy - deliberately low severity."
+    }
+  ]
+}

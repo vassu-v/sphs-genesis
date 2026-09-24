@@ -1,0 +1,7 @@
+{
+  "site_id": "dev-master",
+  "task_id": "checkout-base-price",
+  "trap_count": 6,
+  "categories": { "C1": 3, "C3": 1, "C4": 1, "C5": 1 },
+  "trap_ids": ["t-01", "t-02", "t-03", "t-04", "t-05", "t-06"]
+}

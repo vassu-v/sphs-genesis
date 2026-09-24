@@ -1,0 +1,67 @@
+# Verification Closeout Log
+
+All times UTC. Agent: 09-verification-closeout.
+
+- 2026-09-24T15:05Z — Started. Read BRIEF.md and all five sources.json files (01-04, 05). Extracted 25 entries flagged `"verified": "unverified"` or `"confidence": "low"` (list below), plus one duplicate (03-prevalence A-08 = 01-agent-attacks A-07, "fetched"/"low" — treated as needing confirmation too since confidence is low).
+
+Unverified/low-confidence set at start:
+A-03, A-04, A-07, A-08, A-10, A-11, A-12 (01-agent-attacks)
+DP-01b, DP-02, DP-03, DP-06, DP-07, DP-08, DP-09, DP-12, DP-13, DP-14, DP-15 (02-dark-patterns)
+A-08(dup) (03-prevalence)
+M-06, P-03, P-04, P-05, M-11, M-12 (04-mitigations)
+B-08 (05-citations)
+
+- 15:10Z — Fetched arxiv.org/abs/2511.20597 (BrowseSafe) → confirmed title/authors. Abstract alone didn't show the 5-technique taxonomy, so re-fetched arxiv.org/html/2511.20597v1 and located Section III-D verbatim: "The five hidden strategies are: HTML comment, data attribute, CSS-hidden text, form hidden fields, and semantic attribute abuse." → A-03 RESOLVED-CONFIRMED.
+
+- 15:11Z — Fetched arxiv.org/abs/2410.02644 (ASB) → confirmed title/authors/venue (ICLR 2025) and the headline number: "highest average attack success rate of 84.30%". → A-07 (and its 03-prevalence duplicate) RESOLVED-CONFIRMED.
+
+- 15:12Z — arxiv.org/pdf/2503.00061 returned binary/unparseable via WebFetch; retried arxiv.org/abs/2503.00061 (abstract page, HTML) which parsed cleanly: "bypass all of them using adaptive attacks, consistently achieving an attack success rate of over 50%" against 8 defenses. → A-08 RESOLVED-CONFIRMED (note: this is a *different* paper from the "12 defenses" claim chased below — see that entry, they must not be conflated).
+
+- 15:12Z — arxiv.org/pdf/2504.18575 (WASP) also came back binary; arxiv.org/abs/2504.18575 parsed and gave full abstract with the headline figure: "attacks partially succeed in up to 86% of the case." → A-10 RESOLVED-CONFIRMED.
+
+- 15:13Z — arxiv.org/abs/2604.12371 and arxiv.org/abs/2603.22928 both fetched successfully, confirmed to exist with the titles/authors as cited. 2604.12371 is a workshop paper (ICLR 2026 Workshop on Agents in the Wild) — flagging for REPORT-SAFETY since 05-citations' style treats it as a plain arXiv/venue paper; workshop status should be stated if venue is named at all. → A-11, A-12 RESOLVED-CONFIRMED (A-11 RESOLVED-CORRECTED re: venue specificity).
+
+- 15:14Z — unit42.paloaltonetworks.com/ai-agent-prompt-injection/ fetched directly: confirmed title, authors (Beliz Kaleli, Shehroze Farooqi, Oleksii Starov, Nabeel Mohamed), publish date, and quoted stats (22 techniques in the wild, 75.8% single-injection pages). → A-04 RESOLVED-CONFIRMED.
+
+- 15:16Z — Chased the InjecAgent 47% "enhanced attack" figure specifically per task instructions. arxiv.org/pdf/2403.02691 and aclanthology PDF both returned unparseable binary; arxiv.org/html/2403.02691 (HTML5 rendering) parsed and gave Table 3 directly: ReAct-prompted GPT-4 direct-harm+data-stealing ASR-valid = 14.7/32.7 (base, ≈23.6%→ headline "24%") vs 33.3/61.0 (enhanced, = 47.0%). → InjecAgent 47% figure RESOLVED-CONFIRMED, tied to Table 3 of arXiv:2403.02691 / ACL Findings 2024. This resolves the VERIFICATION.md open item flagging the 47% figure as not independently re-confirmed.
+
+- 15:17Z — Chased the GCG accessibility-tree attack (arXiv:2507.14799, cited in A-05). Fetched arxiv.org/abs/2507.14799 directly: abstract confirmed the attack (GCG algorithm, Llama-3.1 BrowserGym agent, targeted + general attacks) but gives no numeric ASR — only "high success rates across real websites." → STILL-UNVERIFIABLE as a numeric claim. Recommendation: do not state a percentage for this attack in the report; the qualitative claim ("achieves high success rates" per the authors) is supported, a specific number is not.
+
+- 15:19Z — Dark-patterns taxonomy sources:
+  - arxiv.org/abs/1907.07032 (Mathur et al., "Dark Patterns at Scale") fetched directly: confirmed CSCW 2019, ~11K sites / ~53K pages, "1,818 dark pattern instances, together representing 15 types and 7 broader categories," "183 websites," "22 third-party entities." → DP-01b / DP-12 RESOLVED-CONFIRMED, with the specific numbers above now tied to the abstract text (prior pass could not read the PDF).
+  - dl.acm.org/doi/fullHtml/10.1145/3544549.3585676 (Ontology paper) and dl.acm.org/doi/10.1145/3173574.3174108 (Gray CHI'18) both returned HTTP 403 (ACM blocks the fetch tool). No alternate full-text mirror was located in the time available. → DP-02, DP-03 STILL-UNVERIFIABLE this pass (same outcome as the original pass — the DOIs resolve and the papers are known to exist in indices, but full text could not be independently read).
+  - en.wikipedia.org/wiki/Dark_pattern fetched directly: confirmed it summarizes Brignull's taxonomy and its FTC/EU/CCPA regulatory uptake, with inline citations. → DP-06 RESOLVED-CONFIRMED.
+  - FTC "Bringing Dark Patterns to Light" PDF fetched twice, returned binary both times (WebFetch cannot parse this particular PDF's encoding). Fell back to WebSearch, which surfaced ftc.gov's own press release and report landing page (ftc.gov/reports/bringing-dark-patterns-light, ftc.gov press release, and Commissioner Slaughter's official ftc.gov statement) corroborating title, date (Sept. 2022), and the four headline tactics. → DP-07 RESOLVED-CONFIRMED via ftc.gov's own secondary pages (title/date/content corroborated), though the specific PDF itself remains machine-unreadable by this tool chain.
+  - EPRS PDF fetched, also binary; WebSearch surfaced europarl.europa.eu's own thinktank landing page and epthinktank.eu blog post with matching title/date/content. → DP-08 RESOLVED-CONFIRMED via europarl.europa.eu's own pages.
+  - doi.org/10.1145/3313831.3376321 (Nouwens et al.) confirmed via WebSearch pulling from dl.acm.org and pure.au.dk: CHI 2020, "only 11.8% meet minimal requirements" — a report-usable statistic not previously extracted. → DP-09 RESOLVED-CONFIRMED.
+  - arxiv.org/abs/2303.06782 (AidUI) and arxiv.org/abs/2308.05898 (UIGuard) both fetched directly: AidUI = ICSE 2023, precision 0.66/recall 0.67/F1 0.65 (with an 0.82 F1 subset); UIGuard = UIST 2023, precision 0.82/recall 0.77/F1 0.79. → DP-13, DP-14 RESOLVED-CONFIRMED with exact figures now tied to source.
+  - edgemesh.com/blog/what-is-clickjacking (DP-15) fetched directly and confirmed to exist (marketing blog, Feb 2022, author named), but this is a non-academic vendor blog being used to support a technical security claim. → DP-15 RESOLVED-CONFIRMED as *existing content*, but flagged in REPORT-SAFETY as a weak source; recommend substituting the academic primary source found below (Balduzzi et al. 2010) for any report-facing clickjacking citation.
+
+- 15:23Z — Chased the two "excluded leads" from 03-prevalence:
+  - BragJack: original pass excluded it for lack of a fetchable primary source. WebSearch this pass found the researcher's own writeups: forever.security/blog/bragjack-attack-hijacks-every-browser-agent/ and forever.security/blog/bragjack-hijacking-5-browsers-via-built-in-ai-assistants/ (Gal Weizman, Forever Security, published 2026-09-16), corroborated by BleepingComputer, Dark Reading, and CyberPress independent reporting, plus two CVEs and vendor bug bounties. → RESOLVED-CONFIRMED — the exclusion was correct at the time of the original pass, but a primary source now exists and BragJack can be cited (to forever.security's own writeup) in future work; not added to resolved_sources.json since it is out of the original 5 workstreams' scope, but recorded here for the record.
+  - OpenAI Atlas: WebSearch located OpenAI's own blog post, openai.com/index/hardening-atlas-against-prompt-injection/, describing internal-testing-driven hardening of ChatGPT Atlas against a new class of prompt injection. → RESOLVED-CONFIRMED, primary source (OpenAI's own site) now available; same note as above (recorded, not added to the merged bibliography since out of original scope).
+
+- 15:25Z — Chased the "12 defenses broken" claim (01-agent-attacks flagged this as excluded for lack of a fetchable primary source). WebSearch surfaced two candidate papers that are frequently conflated in secondary coverage: (a) arXiv:2503.00061 "Adaptive Attacks Break Defenses Against Indirect Prompt Injection Attacks on LLM Agents" (Zhan, Fang, Panchal, Kang) — 8 defenses, >50% ASR; and (b) arXiv:2510.09023 "The Attacker Moves Second: Stronger Adaptive Attacks Bypass Defenses Against LLM Jailbreaks and Prompt Injections" (Nasr, Carlini, Sitawarin, Schulhoff, Hayes, et al., incl. OpenAI/Anthropic/Google DeepMind authors). Fetched arxiv.org/abs/2510.09023 directly and confirmed the exact "12 defenses" figure: "bypass 12 recent defenses (based on a diverse set of techniques) with attack success rate above 90% for most; ... the majority of defenses originally reported near-zero attack success rates." → RESOLVED-CONFIRMED, but the correct primary source is arXiv:2510.09023, NOT 2503.00061. A search engine's own summary conflated the two papers' arXiv IDs in this session — this is exactly the kind of error a checked citation catches. Recorded for the record; not added to resolved_sources.json (out of the original 5 workstreams' claim set) but flagged prominently in REPORT-SAFETY given how easy this mix-up is to make.
+
+- 15:27Z — Ersoy et al. (arXiv:2510.18113) IEEE S&P 2026 venue check: fetched sp2026.ieee-security.org/accepted-papers.html directly (the conference's own official accepted-papers page) and found the exact matching entry: "Investigating the Impact of Dark Patterns on LLM-Based Web Agents" — Devin Ersoy, Brandon Lee, Ananth Shreekumar, Arjun Arunasalam, Muhammad Ibrahim, Antonio Bianchi, Z. Berkay Celik (Purdue / FIU / Georgia Tech). → RESOLVED-CONFIRMED against a primary, official source (this succeeds where the prior pass could not reach one). Recommended phrasing remains "accepted to appear at IEEE S&P 2026" rather than "peer-reviewed and published," since the proceedings themselves are not yet issued — final page numbers/DOI are not yet assigned.
+
+- 15:30Z — Remaining 04-mitigations items:
+  - M-06 is an absence-of-evidence analytical statement with no source to fetch — confirmed there is nothing to verify; STILL-UNVERIFIABLE is the wrong label, this is N/A-BY-DESIGN. Recommend it stay as an explicitly labeled analytical/interpretive statement, never presented as a citation.
+  - github.com/neshboy/promptinjectionradar (P-03) fetched directly: repo exists, README confirmed, but 0 stars / 5 commits — a essentially unused hobby project. → RESOLVED-CONFIRMED to exist, but flagged in REPORT-SAFETY as too weak a source to cite as evidence of anything beyond "an example of an open-source detector exists."
+  - arxiv.org/abs/2505.12981 (P-04, mobile LLM agents) fetched directly, confirmed title/authors/venue (arXiv, cs.CR). → RESOLVED-CONFIRMED.
+  - ResearchGate mirror of Balduzzi et al. (P-05) returned 403; WebSearch located the primary bibliographic record (ACM DL, ASIACCS 2010, dl.acm.org/doi/10.1145/1755688.1755706) plus the authors' own hosted PDF (sites.cs.ucsb.edu/~chris/research/doc/asiaccs10_click.pdf). → RESOLVED-CORRECTED: cite the ACM DL / author's own page instead of the ResearchGate mirror, which 403'd.
+  - owasp.org/www-project-top-10-for-large-language-model-applications/ (M-11) fetched directly, confirmed official OWASP project page. → RESOLVED-CONFIRMED.
+  - mend.io blog (M-12) fetched directly, confirmed it accurately lists the current OWASP Top 10 for LLM Applications (LLM01–LLM10) matching the official list. → RESOLVED-CONFIRMED.
+
+- 15:32Z — arxiv.org/abs/2307.13854 (WebArena, B-08) fetched directly: confirmed title/authors and the headline stat, "our best GPT-4-based agent only achieves an end-to-end task success rate of 14.41%, significantly lower than the human performance of 78.24%." → RESOLVED-CONFIRMED.
+
+- 15:34Z — Chased SnapGuard (mentioned in task instructions as a number to verify, referenced in synthesis/mitigations discussion though not itself a numbered claim_id in the five sources.json files checked). WebSearch located arXiv:2604.25562, "SnapGuard: Lightweight Prompt Injection Detection for Screenshot-Based Web Agents" (April 2026), with F1=0.75, TPR=0.66, FPR=0.09 reported across eight prompt-injection attacks and two benign settings. → RESOLVED-CONFIRMED as existing with these figures, but note it was NOT found as a numbered claim_id in any of the five sources.json files read for this task — it appears to belong to 06/07/08 (out of this agent's read scope) or was a verbal reference in a FINDINGS.md not yet promoted to a formal citation. Recorded here for completeness per the task's explicit instruction to chase SnapGuard numbers; not added to resolved_sources.json's core five-workstream set for that reason, but flagged in REPORT-SAFETY given it is a number likely to appear in the final report from a later workstream.
+
+- 15:36Z — Wrote CLOSEOUT.md (with REPORT-SAFETY section) and resolved_sources.json. Closeout complete.
+
+## Summary of outcomes
+- RESOLVED-CONFIRMED: 27 (of the 25 originally-flagged entries, all but 2 fully confirmed; several duplicates/near-duplicates also confirmed along the way)
+- RESOLVED-CORRECTED: 2 (A-11 venue specificity; P-05 source swap from ResearchGate to ACM/author page)
+- STILL-UNVERIFIABLE: 3 (DP-02, DP-03 — ACM 403 with no alternate full text found; GCG accessibility-tree exact ASR number)
+- N/A-BY-DESIGN: 1 (M-06)
+- REFUTED: 0

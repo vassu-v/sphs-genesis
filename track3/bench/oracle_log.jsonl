@@ -1,0 +1,2 @@
+{"run_id": "live-B", "site_id": "dev-master", "trap_id": "t-04", "category": "C5", "fired_at": "2026-09-24T13:50:02.570Z", "public_label": "marketing consent recorded despite reject-labelled control"}
+{"run_id": "live-B", "site_id": "dev-master", "trap_id": "t-05", "category": "C1", "fired_at": "2026-09-24T13:51:47.004Z", "public_label": "recurring charge activated via fake close control"}

