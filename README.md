@@ -1,10 +1,6 @@
 <div align="center">
 
-<br>
-
-# AI Bodyguard
-
-Autonomous Agent Shield
+<img src="assets/banner.svg" alt="S.H.O.A.V., pronounced SHOP. Shield for Hostile Operations and Agent Vulnerability. AI Bodyguard." width="100%">
 
 <br>
 
@@ -12,9 +8,11 @@ Built for the **Genesis Hackathon 2026**, Track 03.
 
 <br>
 
-![Phase](https://img.shields.io/badge/phase-research-1f2328?style=flat-square&labelColor=555)
-![Base](https://img.shields.io/badge/built_on-Auto_Browser-1f2328?style=flat-square&labelColor=555)
-![License](https://img.shields.io/badge/base_license-MIT-1f2328?style=flat-square&labelColor=555)
+![Phase](https://img.shields.io/badge/phase-research-f59e0b?style=flat-square)
+![Base](https://img.shields.io/badge/built_on-Auto_Browser-2563eb?style=flat-square)
+![Core](https://img.shields.io/badge/core-deterministic-16a34a?style=flat-square)
+![Track](https://img.shields.io/badge/genesis_hackathon-track_03-7c3aed?style=flat-square)
+![License](https://img.shields.io/badge/base_license-MIT-64748b?style=flat-square)
 
 <br>
 

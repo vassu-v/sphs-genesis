@@ -1,17 +1,23 @@
 <div align="center">
 
-# 📘 Project Context
+<img src="assets/banner.svg" alt="S.H.O.A.V., pronounced SHOP. Shield for Hostile Operations and Agent Vulnerability. AI Bodyguard." width="100%">
 
-![Updated](https://img.shields.io/badge/updated-2026--09--24-blue?style=flat-square)
-![Phase](https://img.shields.io/badge/phase-research_complete-2ea44f?style=flat-square)
-![Build](https://img.shields.io/badge/build-not_started-lightgrey?style=flat-square)
-![Prototype](https://img.shields.io/badge/track3%2F-superseded-red?style=flat-square)
+# Project Context
+
+![Updated](https://img.shields.io/badge/updated-2026--09--24-0ea5e9?style=flat-square)
+![Phase](https://img.shields.io/badge/phase-research-f59e0b?style=flat-square)
+![Build](https://img.shields.io/badge/guard_code-not_started-ef4444?style=flat-square)
+![Base](https://img.shields.io/badge/built_on-Auto_Browser-2563eb?style=flat-square)
+![Core](https://img.shields.io/badge/core-deterministic-16a34a?style=flat-square)
+![Archive](https://img.shields.io/badge/track3%2F-superseded-64748b?style=flat-square)
+![Push](https://img.shields.io/badge/push-manual_only-7c3aed?style=flat-square)
 
 </div>
 
-Single source of truth for **AI Bodyguard**. It consolidates earlier session decisions,
-what the codebase and research actually contain, and the last saved project memory.
-The problem statement is in [`README.md`](README.md).
+Single source of truth for **S.H.O.A.V.** (Shield for Hostile Operations & Agent
+Vulnerability, pronounced "shop", tagline "AI Bodyguard"). It consolidates earlier
+session decisions, what the codebase and research actually contain, and the last saved
+project memory. The problem statement is in [`README.md`](README.md).
 
 **Jump to:**
 [Snapshot](#-snapshot) ·
@@ -20,6 +26,7 @@ The problem statement is in [`README.md`](README.md).
 [Reset](#-why-the-first-attempt-was-reset) ·
 [Research](#-research-state) ·
 [Auto Browser](#-auto-browser-integration) ·
+[Codebase](#-codebase-understanding) ·
 [Benchmark](#-benchmark-trickyarena) ·
 [Open questions](#-open-questions) ·
 [Runtime](#-runtime-and-demo) ·
@@ -32,7 +39,7 @@ The problem statement is in [`README.md`](README.md).
 
 | | Item | State |
 |:-:|------|-------|
-| 🏆 | Event | Genesis Fest 2026, **Track 3** (AI Bodyguard) |
+| 🏆 | Event | Genesis Hackathon 2026, **Track 03** (AI Bodyguard, codename S.H.O.A.V.) |
 | ⏱️ | Format | 48-hour hackathon, kickoff Thu 2026-09-24 08:30 |
 | 📅 | Deadlines | Report + 3-min video **Fri 2026-09-25 23:30**, in-person rounds **Sat 2026-09-26** |
 | 🧭 | Phase | Research complete, build not started |
@@ -171,6 +178,54 @@ then `09-verification-closeout/CLOSEOUT.md`.
 | 🚫 | Do not duplicate approval gates, PII scrubbing, protection profiles or rate limits. |
 
 Clone path: `external/auto-browser` (git-ignored, pinned near `aa99c42`).
+
+---
+
+## 🧭 Codebase understanding
+
+What is actually in the repository, read from the code rather than from notes.
+
+### `external/auto-browser` (the base we extend)
+
+MIT-licensed, Python controller plus a Node `browser-node` service, Docker Compose to
+run. Its layout under `controller/app/`:
+
+| Area | Where | Why it matters to us |
+|------|-------|----------------------|
+| MCP entry point | `tool_gateway/gateway.py` (~850 lines), `registry.py`, `mcp_transport.py`, `mcp_stdio.py` | Every MCP call funnels through `McpToolGateway.call_tool()`. Best interception point. |
+| Click path | `browser/services/actions.py` | Raw mouse events at a bounding-rect coordinate, skips Playwright's actionability check. This is the gap we fill. |
+| In-page scripts | `browser_scripts.py` (`INTERACTABLES_SCRIPT`) | Template for our `hit_test` and `style_probe`. Its `isVisible()` filter drops invisible elements, which we specifically want to see. |
+| Evidence and audit | `witness.py`, `witness_anchor.py`, `audit.py` | `WitnessConcern` schema exists but nothing fills it from DOM checks. Ready-made reporting channel. |
+| Human consent | `approvals.py` | Keyed on the agent's self-declared risk. Orthogonal to us, keep it. |
+| Hygiene | `pii_scrub.py`, `rate_limits.py`, `session_isolation.py`, `compliance.py` | Do not duplicate. |
+| Other | `agent_jobs.py`, `providers/`, `mesh/`, `stealth/`, `cron_service.py` | Not on our path. `mesh/policy.py` was evaluated and rejected as an interception point. |
+
+Client surfaces: HTTP MCP at `:8000/mcp`, REST at `/mcp/tools` and `/mcp/tools/call`,
+stdio bridge via `uvx auto-browser-mcp`, plus `examples/` for Claude Desktop, Cursor,
+LangChain and CrewAI. Default tool profile is `curated` (`MCP_TOOL_PROFILE=full` for all).
+
+### `research/`
+
+Ten workstreams, all markdown plus `sources.json` citation registries and per-stream
+`LOG.md` files. Reading order: `08-synthesis/SYNTHESIS.md`, then
+`09-verification-closeout/CLOSEOUT.md` (which claims are safe to cite), then
+`06-autobrowser/INTEGRATION.md` for the engineering plan.
+
+### `track3/` (archived, do not build on it)
+
+The first attempt, kept only as reference. Layout: `guard/` (ingress, L1 structural, L2
+policy, L3 semantic, patterns), `harness/` (agents, oracle client, CLI), `adapters/`
+(MCP and Playwright shims), `service/` (app), `dashboard/`, `bench/` (oracle logs and
+telemetry), `sites/` (dev and sealed holdout). Its L1 structural layer contained the
+checks that did generalize. Its keyword layers are the circularity we are avoiding.
+Nothing from it is carried into the new build.
+
+### Repo hygiene
+
+- Line endings normalized to LF via `.gitattributes`. The `.editorconfig` was removed.
+- `.gitignore` covers npm and Python environments, `.env` files, caches and
+  `external/*`. Images are intentionally tracked.
+- Target remote is `github.com/vassu-v/sphs-genesis`. Push only when explicitly told.
 
 ---
 
