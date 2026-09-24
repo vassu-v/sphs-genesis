@@ -3,7 +3,6 @@
 <table align="center">
   <tr>
     <td align="left" valign="middle">
-      <sub>PRONOUNCED &ldquo;SHOP&rdquo;</sub>
       <h1>S.H.O.A.V.</h1>
       <b>S</b>hield for <b>H</b>ostile <b>O</b>perations &amp; <b>A</b>gent <b>V</b>ulnerability
     </td>
