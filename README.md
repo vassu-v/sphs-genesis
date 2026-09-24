@@ -1,36 +1,26 @@
 <div align="center">
 
-# 🛡️ AI Bodyguard
+<br>
 
-**A real-time shield that protects autonomous web agents from deceptive interfaces.**
+# AI Bodyguard
 
-![Track](https://img.shields.io/badge/Genesis_Fest_2026-Track_3-6f42c1?style=for-the-badge)
-![Phase](https://img.shields.io/badge/phase-research_complete-2ea44f?style=for-the-badge)
-![Core](https://img.shields.io/badge/core-deterministic-0969da?style=for-the-badge)
+Autonomous Agent Shield
 
-![Protocol](https://img.shields.io/badge/protocol-MCP_proxy-orange?style=flat-square)
-![Python](https://img.shields.io/badge/python-3.10-3776ab?style=flat-square&logo=python&logoColor=white)
-![Node](https://img.shields.io/badge/node-playwright-339933?style=flat-square&logo=nodedotjs&logoColor=white)
-![Status](https://img.shields.io/badge/standalone-project-lightgrey?style=flat-square)
+<br>
 
-[Problem](#-the-problem) ·
-[What we build](#-what-we-are-building) ·
-[Design](#-rough-design) ·
-[Repo map](#-repository) ·
-[Team](#-team)
+Built for the **Genesis Hackathon 2026**, Track 03.
+
+<br>
+
+![Phase](https://img.shields.io/badge/phase-research-1f2328?style=flat-square&labelColor=555)
+![Base](https://img.shields.io/badge/built_on-Auto_Browser-1f2328?style=flat-square&labelColor=555)
+![License](https://img.shields.io/badge/base_license-MIT-1f2328?style=flat-square&labelColor=555)
+
+<br>
 
 </div>
 
-> 📖 **Full working context lives in [`context.md`](context.md).**
-> This README is a thin dispatcher: read it in two minutes, then jump.
-
----
-
-## 🎯 The problem
-
-> **TRACK 03: AI Bodyguard, Autonomous Agent Shield**
-
-### 🧠 The situation
+## The problem
 
 Human users rely on spatial awareness and intuition to avoid sketchy pop-ups, fake
 download buttons, bait-and-switch checkboxes, and hidden subscription traps.
@@ -40,104 +30,122 @@ web mechanically, relying on raw DOM trees, accessibility trees, or screen coord
 Malicious sites exploit this blind spot using agent-targeted dark patterns and UI traps
 to hijack automated workflows.
 
-### 🚀 The mission
+## The mission
 
-Build a real-time defensive middleware, an **"AI Bodyguard"**, that intercepts,
-evaluates, and protects autonomous web agents from deceptive interfaces and adversarial
-web design.
+Build a real-time defensive middleware, an "AI Bodyguard", that intercepts, evaluates,
+and protects autonomous web agents from deceptive interfaces and adversarial web
+design.
 
-### 📋 Technical scope
+## Technical scope
 
-| | Area | Requirement |
-|:-:|------|-------------|
-| 🔌 | **Interception layer** | Sits between the web-browsing agent and the browser session to audit incoming DOM elements, visual layouts, and interaction targets before execution. |
-| 🔍 | **Trap detection** | Spot deceptive UI in real time: phony close/cancel targets that trigger downloads or navigation, invisible or overlapping click-jacking layers, deceptive consent flows and pre-checked recurring billing traps, and hidden prompt-injection vectors designed to hijack the agent goal. |
-| 🧯 | **Actionable neutralization** | Strip the malicious payload from the page, reroute the agent action, or alert the agent planner with structured safety telemetry. |
+**Interception layer.** Sits between the web-browsing agent and the browser session to
+audit incoming DOM elements, visual layouts, and interaction targets before execution.
 
----
+**Trap detection.** Spot deceptive UI patterns in real time, including phony
+close/cancel targets that trigger downloads or navigation, invisible or overlapping
+click-jacking layers, deceptive consent flows and pre-checked recurring billing traps,
+and hidden prompt-injection vectors designed to hijack the agent goal.
 
-## 🧩 What we are building
+**Actionable neutralization.** Either strip the malicious payload from the page,
+reroute the agent action, or alert the agent planner with structured safety telemetry.
 
-A guard that any third party can bolt onto their own agent, shipped as a
-**proxy MCP server**.
+<br>
 
-```mermaid
-flowchart LR
-    A["🤖 Agent<br/>(one config line)"] --> G
-    subgraph G["🛡️ AI Bodyguard (proxy MCP)"]
-        direction TB
-        E["Egress guard<br/>allow / rewrite / block"]
-        I["Ingress guard<br/>sanitize page content"]
-    end
-    G <--> B["🌐 Browser MCP<br/>+ hostile page"]
-    G -. "structured telemetry" .-> A
-```
+## What we are making
 
-It re-exposes a browser MCP server's own tools, audits every action before forwarding
-it, and sanitizes page content on the way back. **No code changes on the agent side.**
+A guard layered on top of an existing browser MCP server, so that any agent able to
+run a command in a terminal can drive a real browser through it, with the guard
+watching every step.
 
----
+We are not writing a browser controller from scratch. We extend
+[Auto Browser](https://github.com/LvcidPsyche/auto-browser) and add the defensive layer
+inside it.
 
-## 🏗️ Rough design
+Reach is the point. Agents that already ship with their own built-in browser will not
+pick this up automatically. But anything that can call a CLI can trigger it by hand,
+which covers most of the agents people actually use.
 
-| | Principle | In practice |
-|:-:|-----------|-------------|
-| 🧱 | **Deterministic core** | Detection rests on structure that page text cannot argue with: hit-test geometry, computed-style visibility, form state, origin checks. |
-| 🪢 | **LLM on a leash** | An optional advisory layer that can **escalate** suspicion but can **never clear** it. Injecting the guard yields a false positive at worst, never a bypass. |
-| ↔️ | **Two-sided** | **Ingress** strips hostile content before the agent reads it. **Egress** vets every proposed action before it runs. |
-| 📡 | **Structured telemetry** | Every verdict is a machine-readable record for the agent planner. |
-| 🔋 | **Quota-proof** | If the free-tier LLM quota dies, the defense still works. |
+## Rough design
 
-### 🎯 Detection targets
+The core is deterministic. Detection relies on structure that page text cannot argue
+with: what is really under a click target, what is actually visible, what a form is
+about to submit.
 
-| Priority | Target | Signal |
-|:-:|--------|--------|
-| 🟢 **Tier 1** | Hidden or invisible instructions | Computed style, off-screen, zero-size, zero-width Unicode |
-| 🟢 **Tier 1** | Overlay and clickjacking | `elementFromPoint` versus the intended target |
-| 🟢 **Tier 1** | Pre-checked billing and opt-ins | Checked defaults, recurring flags |
-| 🟡 **Tier 2** | Drip pricing, obstructed cancellation | Late DOM cost injection, step-count asymmetry |
-| ⚪ **Tier 3** | Confirmshaming, fake urgency | Out of scope for now |
+A language model may sit alongside as an advisor. It can raise suspicion, and it can
+never lower it. Fooling the advisor costs us a false alarm, not a breach.
 
----
+<br>
 
-## 📁 Repository
+## Where we are
 
-| Path | Contents |
-|------|----------|
-| 📘 [`context.md`](context.md) | Single source of truth: state, decisions, research summary |
-| 🔬 [`research/`](research) | Literature-grounded research, workstreams 00 to 09 |
-| 🗄️ [`track3/`](track3) | First prototype. Superseded, kept for reference |
-| 🔗 [`external/`](external) | Third-party clones (git-ignored) |
-| 🖼️ [`assets/`](assets) | Images and diagrams |
+Not much built yet. We are in the research phase of a fresh start, and so far we have
+the research notes and a local clone of the base project. Nothing here is a working
+product yet.
 
-<details>
-<summary><b>⚙️ Setup</b></summary>
+## Setup
+
+Get the base MCP (Auto Browser), which is the project we build on:
+[github.com/LvcidPsyche/auto-browser](https://github.com/LvcidPsyche/auto-browser)
 
 ```bash
 git clone https://github.com/LvcidPsyche/auto-browser.git external/auto-browser
+cd external/auto-browser
+docker compose up --build
 ```
 
-Python 3.10 for anything under `track3/`. Node for browser tooling.
+It then serves on `127.0.0.1`:
 
-</details>
+| Endpoint | URL |
+|----------|-----|
+| MCP (HTTP) | `http://127.0.0.1:8000/mcp` |
+| Tool list | `http://127.0.0.1:8000/mcp/tools` |
+| Tool call | `http://127.0.0.1:8000/mcp/tools/call` |
+| Dashboard | `http://127.0.0.1:8000/dashboard` |
 
----
+### Using it
 
-## 👥 Team
+From an MCP client, point it at the HTTP endpoint above, or run the stdio bridge:
 
-<table>
-  <tr>
-    <td align="center">
-      <a href="https://github.com/Vassu-V">
-        <img src="https://github.com/Vassu-V.png?size=100" width="80" alt="Vassu-V"><br>
-        <sub><b>Vassu-V</b></sub>
-      </a>
-    </td>
-    <td align="center">
-      <a href="https://github.com/str-VaibhavThakkar">
-        <img src="https://github.com/str-VaibhavThakkar.png?size=100" width="80" alt="str-VaibhavThakkar"><br>
-        <sub><b>str-VaibhavThakkar</b></sub>
-      </a>
-    </td>
-  </tr>
-</table>
+```bash
+uvx auto-browser-mcp
+```
+
+From a plain terminal, no MCP support needed. This is the route any CLI agent uses:
+
+```bash
+curl -s http://127.0.0.1:8000/mcp/tools/call \
+  -X POST -H 'content-type: application/json' \
+  -d '{"name":"browser.create_session",
+       "arguments":{"name":"demo","start_url":"https://example.com"}}'
+```
+
+Requires Docker. Python 3.10 for our own code.
+
+<br>
+
+## Repository
+
+```
+context.md     working context and decisions
+research/      literature-grounded research, workstreams 00 to 09
+track3/        first attempt, superseded, kept for reference
+external/      third-party clones (git-ignored)
+assets/        images
+```
+
+<br>
+
+<div align="center">
+
+**[Vassu-V](https://github.com/Vassu-V)**
+&nbsp;&nbsp;·&nbsp;&nbsp;
+**[str-VaibhavThakkar](https://github.com/str-VaibhavThakkar)**
+
+<br>
+
+<sub>No agents were tricked into a free trial during the making of this project.<br>
+Several were tempted.</sub>
+
+<br>
+
+</div>

@@ -19,7 +19,6 @@ The problem statement is in [`README.md`](README.md).
 [Architecture](#-architecture) ·
 [Reset](#-why-the-first-attempt-was-reset) ·
 [Research](#-research-state) ·
-[Targets](#-detection-targets) ·
 [Auto Browser](#-auto-browser-integration) ·
 [Benchmark](#-benchmark-trickyarena) ·
 [Open questions](#-open-questions) ·
@@ -37,9 +36,10 @@ The problem statement is in [`README.md`](README.md).
 | ⏱️ | Format | 48-hour hackathon, kickoff Thu 2026-09-24 08:30 |
 | 📅 | Deadlines | Report + 3-min video **Fri 2026-09-25 23:30**, in-person rounds **Sat 2026-09-26** |
 | 🧭 | Phase | Research complete, build not started |
-| 🔀 | Direction | Clean restart, research-first, proxy MCP |
+| 🔀 | Direction | Clean restart, research-first, extend Auto Browser |
 | 🗄️ | Prototype | `track3/` is superseded. Do not build on it |
-| 🌿 | Repo | Git on `main`, no remote configured |
+| 🌿 | Repo | Git on `main`. Target remote `github.com/vassu-v/sphs-genesis` (nothing pushed; push only on explicit instruction) |
+| 🧱 | Built so far | Research notes and a local clone of Auto Browser. No guard code yet |
 
 ### 🏅 Scoring rubric
 
@@ -71,25 +71,33 @@ The literature backs this: guardrail LLMs were bypassed at up to 100% evasion
 
 ## 🏗️ Architecture
 
+We are **not** building a standalone proxy MCP. We build on
+[Auto Browser](https://github.com/LvcidPsyche/auto-browser), an existing MCP-native
+browser control plane, and add the guard inside or in front of it.
+
 ```mermaid
 flowchart TB
-    P["🌐 Hostile page"] --> I
+    P["🌐 Page"] --> I
     I["🛡️ INGRESS<br/>audit + strip page content"] --> A
-    A["🤖 Agent<br/>LLM picks next action"] --> E
+    A["🤖 Any CLI-capable agent"] --> E
     E["🛡️ EGRESS<br/>allow / rewrite / block"] --> X
     X["🖱️ click · type · submit · navigate"]
 ```
 
-A **proxy MCP server** in front of a browser MCP server:
+**Reach model:** any agent that can run a CLI command (or speak MCP over HTTP or the
+`uvx auto-browser-mcp` stdio bridge) can use the browser and get the guard for free.
+Agents with their own built-in browser will not pick it up automatically, but can
+trigger it manually from the CLI. Maximum compatibility is the goal.
 
-1. Re-expose the browser MCP tool surface unchanged.
-2. **Egress:** audit each action before forwarding.
-3. **Ingress:** sanitize page content and results on the way back.
-4. Emit structured safety telemetry for the agent planner.
+Guard outline:
 
-> ⚠️ **Load-bearing requirement:** the browser MCP must expose a **JS-evaluate**
-> capability. Without it we cannot run the snapshot extractor for computed styles,
-> bounding boxes and hit-testing, and the deterministic core goes blind.
+1. **Egress:** audit each action before it runs.
+2. **Ingress:** sanitize page content and results on the way back.
+3. Emit structured safety telemetry for the agent planner.
+
+> ⚠️ **Load-bearing requirement:** the browser layer must expose a **JS-evaluate**
+> capability, needed for computed styles, bounding boxes and hit-testing.
+> Auto Browser has one, but it is approval-gated (see the integration section).
 
 ---
 
@@ -147,24 +155,6 @@ then `09-verification-closeout/CLOSEOUT.md`.
   other sources corroborate.
 
 </details>
-
----
-
-## 🎯 Detection targets
-
-Ranked in `research/08-synthesis/DETECTION_TARGETS.md`.
-
-| Tier | Target | Signal |
-|:-:|--------|--------|
-| 🟢 1 | Hidden or invisible instruction content | Computed style, off-screen, zero size, contrast, zero-width Unicode, vs what the agent consumed |
-| 🟢 1 | Overlay and hit-target mismatch | `elementFromPoint` at target center and corners vs intended element |
-| 🟢 1 | Pre-checked form state | Checked defaults on opt-ins, recurring billing flags |
-| 🟡 2 | Late-appearing costs (drip pricing) | DOM-injected price changes across steps |
-| 🟡 2 | Obstructed cancellation | Step-count asymmetry, sign-up vs cancel |
-| ⚪ 3 | Confirmshaming, visual misdirection, fake urgency | Out of scope this weekend |
-
-> 💬 False positives are real for hidden content (screen-reader text, accordions, lazy
-> loading). The rule must be **"hidden AND instructional"**, never "hidden" alone.
 
 ---
 
@@ -268,7 +258,8 @@ holdout site, and gets **one** use for the headline result after the guard is fr
 As of 2026-09-24:
 
 - ♻️ Clean restart called, `track3/` prototype superseded.
-- 🔌 Proxy MCP architecture, `agy` as demo runner, JS-evaluate tool is the key filter.
+- 🔌 Build on Auto Browser for any CLI-capable agent (not a from-scratch proxy MCP), `agy` as demo runner, JS-evaluate is the key filter.
+- 🎯 Detection targets in the research are unconfirmed and research-only. Do not carry over anything from the old `track3/` archive.
 - 🧹 Old Track 4 off-limits note was stale and is corrected.
 - 🔒 Blind-holdout kept as a method, never executed.
 - 🔑 Commit identity `vassu-v`. Never push without explicit instruction, no Claude co-author lines.
