@@ -1,6 +1,17 @@
 <div align="center">
 
-<img src="assets/banner.svg" alt="S.H.O.A.V., pronounced SHOP. Shield for Hostile Operations and Agent Vulnerability. AI Bodyguard." width="100%">
+<table align="center">
+  <tr>
+    <td align="left" valign="middle">
+      <sub>PRONOUNCED &ldquo;SHOP&rdquo;</sub>
+      <h1>S.H.O.A.V.</h1>
+      <b>S</b>hield for <b>H</b>ostile <b>O</b>perations &amp; <b>A</b>gent <b>V</b>ulnerability
+    </td>
+    <td align="center" valign="middle">
+      <h2>AI<br>BODYGUARD</h2>
+    </td>
+  </tr>
+</table>
 
 <br>
 
