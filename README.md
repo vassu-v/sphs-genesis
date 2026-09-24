@@ -22,7 +22,6 @@ Built for the **Genesis Hackathon 2026**, Track 03.
 ![Base](https://img.shields.io/badge/built_on-Auto_Browser-2563eb?style=flat-square)
 ![Core](https://img.shields.io/badge/core-deterministic-16a34a?style=flat-square)
 ![Track](https://img.shields.io/badge/genesis_hackathon-track_03-7c3aed?style=flat-square)
-![License](https://img.shields.io/badge/base_license-MIT-64748b?style=flat-square)
 
 <br>
 
