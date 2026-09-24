@@ -1,0 +1,15 @@
+{
+  "name": "cuaverifier-stage1",
+  "status": "tracked-not-scored",
+  "competitive_score_allowed": false,
+  "notes": [
+    "This lane tracks regression verification for computer-use/browser-agent tasks.",
+    "The verifier suite must be pinned to a reviewed upstream revision before CI enforcement."
+  ],
+  "required_before_scoring": [
+    "pin microsoft/fara CUAVerifierBench revision",
+    "map Auto Browser traces into verifier inputs",
+    "store verifier evidence with each harness run",
+    "fail CI only after the pinned subset is deterministic locally and in Linux CI"
+  ]
+}
