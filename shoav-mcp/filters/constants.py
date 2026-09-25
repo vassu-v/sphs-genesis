@@ -91,6 +91,7 @@ INGRESS_MUTATION_RATE_THRESHOLD = 50.0  # mutations/sec
 # --- Egress: overlay / hit-target mismatch (Target 2) ---
 EGRESS_OVERLAY_OPACITY_THRESHOLD = 0.1
 EGRESS_OVERLAY_ZINDEX_THRESHOLD = 9000
+EGRESS_ABSURD_ZINDEX_THRESHOLD = 50000
 
 # --- Egress: cart / checkout sneaking (Target 5) ---
 # No threshold needed — this is exact-set arithmetic, not a heuristic.
