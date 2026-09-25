@@ -30,6 +30,16 @@ class BrowserRuntimeService:
                 logger.info("CDP attach succeeded")
                 return manager.browser
 
+            # Standalone local run without Docker: launch Chromium directly via Playwright
+            ws_file = Path(manager.settings.browser_ws_endpoint_file)
+            if not manager.settings.browser_ws_endpoint and not ws_file.exists():
+                logger.info("launching local Chromium via Playwright (standalone native headed mode)")
+                manager.browser = await manager.playwright.chromium.launch(
+                    headless=False,
+                    args=["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"],
+                )
+                return manager.browser
+
             manager.browser = await self.connect_browser(
                 self.resolve_browser_ws_endpoint,
                 failure_context=(
