@@ -230,6 +230,8 @@
     const disclosureRegex = /(more[_\s-]?options|customize|manage[_\s-]?(preferences|cookies|settings)|review[_\s-]?settings)/i;
 
     const seenIds = new Set();
+    const rawAnchors = [];
+
     clickables.forEach(el => {
       const rect = el.getBoundingClientRect();
       if (rect.width <= 0 || rect.height <= 0) return;
@@ -249,7 +251,8 @@
 
       if (anchorType) {
         seenIds.add(uniqueKey);
-        telemetry.modals.dismissAnchors.push({
+        rawAnchors.push({
+          element: el,
           id: el.id || null,
           tagName: el.tagName.toLowerCase(),
           anchorType,
@@ -259,6 +262,14 @@
         });
       }
     });
+
+    // Deduplicate nested matches: keep only the innermost matched element
+    telemetry.modals.dismissAnchors = rawAnchors
+      .filter(a1 => !rawAnchors.some(a2 => a1 !== a2 && a1.element && a2.element && a1.element.contains(a2.element)))
+      .map(a => {
+        const { element, ...serializable } = a;
+        return serializable;
+      });
   }
 
   /* ==========================================================================

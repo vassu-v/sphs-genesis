@@ -230,8 +230,13 @@
       }
     });
 
+    // Deduplicate nested matches: keep only the innermost matched element
+    const innermostAnchors = dismissAnchors.filter(a1 => 
+      !dismissAnchors.some(a2 => a1 !== a2 && a1.element && a2.element && a1.element.contains(a2.element))
+    );
+
     // Sort by confidence descending
-    return dismissAnchors.sort((a, b) => b.confidence - a.confidence);
+    return innermostAnchors.sort((a, b) => b.confidence - a.confidence);
   }
 
   /**

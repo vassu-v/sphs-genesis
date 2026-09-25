@@ -10,9 +10,13 @@
   Autonomous web-browsing agents rely on raw DOM trees and coordinate grids rather than human visual intuition, making them exceptionally vulnerable to deceptive interfaces and dark patterns. Empirical research shows agents are ~2.3× more susceptible to dark patterns than humans (>70% vs. 31% compromise rate, Stanford DECEPTICON), with vulnerability paradoxically worsening in reasoning models that actively rationalize manipulative choices. Furthermore, ~70% of validated prompt injections sit in non-rendered HTML (metadata, comments, zero-size CSS) invisible to humans but consumed by agents. Existing defenses either fail against simple evasion or collapse legitimate task completion by 50%, leaving real-world agentic workflows unprotected.
 
 * **Target Audience:**  
-  * **Agent Developers:** Teams building browser agents with Playwright, Puppeteer, or MCP.  
-  * **Enterprises:** Organizations automating procurement, form submissions, and SaaS management.  
-  * **End-Users:** Individuals delegating sensitive tasks (e-commerce checkout, privacy settings) to AI agents.
+  Organizations and developers operating autonomous browser agents or large-scale web crawlers, including:
+  * **Enterprise Automation & RPA Teams:** Deploying autonomous browser agents for business workflows and repetitive web operations.
+  * **Agent Developers:** Building autonomous web agents needing a deterministic safety boundary between their model and untrusted web pages.
+  * **Data Extraction & Web Research Teams:** Operating agents for large-scale data collection, market research, and competitive web intelligence.
+  * **QA & Software Testing Teams:** Running Playwright, Puppeteer, or Selenium for autonomous end-to-end testing.
+  * **Search Engines & Crawling Platforms:** Requiring real-time safety telemetry to identify and classify deceptive or hostile websites at scale.
+  * **Cybersecurity & AppSec Teams:** Auditing and hardening autonomous browser workflows against agent-targeted web exploits.
 
 ---
 

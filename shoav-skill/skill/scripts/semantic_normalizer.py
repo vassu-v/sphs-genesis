@@ -31,7 +31,7 @@ class SemanticNormalizer:
 
         # Reverse-polarity affirmation traps: the AFFIRMATIVE button is the actual trap
         (r"(yes[,\s]+charge\s+me\s+(full\s+price|the\s+full\s+amount))", "ACCEPT_FULL_PRICE_TRAP"),
-        (r"(yes[,\s]+i('?d|\s+would)\s+rather\s+pay\s+more)", "ACCEPT_FULL_PRICE_TRAP"),
+        (r"(yes[,\s]+)?i('?d|\s+would)\s+rather\s+pay\s+(more|full\s+price)", "ACCEPT_FULL_PRICE_TRAP"),
 
         # Free-trial / recurring entrapment framing
         (r"(start\s+(my|your)\s+(free\s+)?\d*[-\s]?day?\s*trial)", "ENROLL_PAID_RECURRING_PLAN"),
@@ -44,7 +44,7 @@ class SemanticNormalizer:
         (r"((your\s+)?preferences\s+(have\s+been\s+)?(saved|updated)\s+to\s+(receive|include))", "VERIFY_PASSIVE_OPT_IN"),
 
         # Affirmative Upsells & Traps
-        (r"(yes[,\s]+add\s+(the\s+)?(protection|warranty|care|insurance|coverage)(\s+plan)?)", "ACCEPT_UPSELL_TRAP"),
+        (r"(yes[,\s]+(please\s+)?add\s+(the\s+)?(protection|warranty|care|insurance|coverage)(\s+plan)?)", "ACCEPT_UPSELL_TRAP"),
         (r"(yes[,\s]+i\s+want\s+it|get\s+started|upgrade\s+now|claim\s+my\s+deal|unlock\s+vip)", "ACCEPT_UPGRADE"),
     )
 

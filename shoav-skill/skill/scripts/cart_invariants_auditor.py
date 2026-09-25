@@ -48,17 +48,26 @@ class CartInvariantAuditor:
         "accidental damage", "extended coverage", "carbon offset"
     ]
 
-    def __init__(self, requested_items: List[Dict[str, Any]], max_budget: Optional[float] = None, allow_shipping_tax: bool = True):
+    def __init__(
+        self,
+        requested_items: List[Dict[str, Any]],
+        max_budget: Optional[float] = None,
+        allow_shipping_tax: bool = False,
+        max_shipping_tax: Optional[float] = None
+    ):
         """
         requested_items: List of dicts, e.g.:
           [
             {"title": "Sonic Toothbrush", "max_unit_price": 25.00, "quantity": 1},
             {"title": "Replacement Heads 4-pack", "max_unit_price": 12.00, "quantity": 1}
           ]
+        allow_shipping_tax: If False (default), displayed_total must match computed subtotal.
+        max_shipping_tax: Optional maximum permissible cap on shipping and tax delta.
         """
         self.requested_items = requested_items
         self.max_budget = max_budget
         self.allow_shipping_tax = allow_shipping_tax
+        self.max_shipping_tax = max_shipping_tax
 
     def audit(self, cart_line_items: List[Dict[str, Any]], displayed_total: Optional[float] = None) -> Dict[str, Any]:
         """
@@ -127,10 +136,15 @@ class CartInvariantAuditor:
                 violations.append(
                     f"Displayed total ${displayed_total:.2f} is unexpectedly less than computed subtotal ${computed_sum:.2f} (delta ${total_delta:.2f})"
                 )
-            elif total_delta > 0 and not self.allow_shipping_tax:
-                violations.append(
-                    f"Displayed total ${displayed_total:.2f} does not match computed subtotal ${computed_sum:.2f} (delta ${total_delta:.2f})"
-                )
+            elif total_delta > 0:
+                if not self.allow_shipping_tax:
+                    violations.append(
+                        f"Displayed total ${displayed_total:.2f} does not match computed subtotal ${computed_sum:.2f} (delta ${total_delta:.2f})"
+                    )
+                elif self.max_shipping_tax is not None and total_delta > self.max_shipping_tax:
+                    violations.append(
+                        f"Displayed total delta ${total_delta:.2f} exceeds allowed tax and shipping ceiling ${self.max_shipping_tax:.2f}"
+                    )
 
         # Budget ceiling verification
         if self.max_budget is not None:
@@ -143,6 +157,11 @@ class CartInvariantAuditor:
         # Invariant validity: True ONLY if 0 unauthorized items and 0 violations
         is_valid = len(unauthorized_items) == 0 and len(violations) == 0
 
+        allowed_delta = 0.0
+        if displayed_total is not None and total_delta is not None and total_delta > 0:
+            if self.allow_shipping_tax and (self.max_shipping_tax is None or total_delta <= self.max_shipping_tax):
+                allowed_delta = total_delta
+
         return {
             "is_valid": is_valid,
             "can_proceed_to_checkout": is_valid,
@@ -152,6 +171,8 @@ class CartInvariantAuditor:
             "computed_subtotal": computed_sum,
             "displayed_total": displayed_total,
             "total_delta": total_delta,
+            "allowed_delta": allowed_delta,
+            "requires_user_confirmation": bool(displayed_total is not None and total_delta is not None and total_delta > 0 and self.allow_shipping_tax),
             "violations": violations,
             "remediation_actions": remediation_actions,
             "stealth_items": stealth_items
@@ -165,3 +186,70 @@ class CartInvariantAuditor:
         cleaned = text.replace(",", "")
         match = re.search(r"[-+]?\d*\.\d+|\d+", cleaned)
         return float(match.group(0)) if match else None
+
+
+if __name__ == "__main__":
+    # Test 1: CodeRabbit scenario - computed 21.99, displayed 34.99, max_budget=None
+    # Must report violation by default
+    auditor1 = CartInvariantAuditor(
+        requested_items=[{"title": "Sonic Toothbrush", "max_unit_price": 25.00, "quantity": 1}],
+        max_budget=None
+    )
+    res1 = auditor1.audit(
+        cart_line_items=[{"title": "Sonic Toothbrush", "price": 21.99, "quantity": 1}],
+        displayed_total=34.99
+    )
+    assert not res1["is_valid"], f"Expected invalid for drip pricing delta, got {res1}"
+    assert len(res1["violations"]) == 1, f"Expected 1 violation, got {res1['violations']}"
+    assert "34.99" in res1["violations"][0] and "21.99" in res1["violations"][0]
+
+    # Test 2: When allow_shipping_tax is explicitly True, allowed_delta is returned and requires_user_confirmation is True
+    auditor2 = CartInvariantAuditor(
+        requested_items=[{"title": "Sonic Toothbrush", "max_unit_price": 25.00, "quantity": 1}],
+        max_budget=None,
+        allow_shipping_tax=True
+    )
+    res2 = auditor2.audit(
+        cart_line_items=[{"title": "Sonic Toothbrush", "price": 21.99, "quantity": 1}],
+        displayed_total=34.99
+    )
+    assert res2["is_valid"], f"Expected valid when shipping/tax allowed, got {res2}"
+    assert res2["allowed_delta"] == 13.00
+    assert res2["requires_user_confirmation"] is True
+
+    # Test 3: When max_shipping_tax is capped at $5.00, delta of $13.00 is a violation
+    auditor3 = CartInvariantAuditor(
+        requested_items=[{"title": "Sonic Toothbrush", "max_unit_price": 25.00, "quantity": 1}],
+        allow_shipping_tax=True,
+        max_shipping_tax=5.00
+    )
+    res3 = auditor3.audit(
+        cart_line_items=[{"title": "Sonic Toothbrush", "price": 21.99, "quantity": 1}],
+        displayed_total=34.99
+    )
+    assert not res3["is_valid"], f"Expected violation for exceeding tax cap, got {res3}"
+    assert any("exceeds allowed tax" in v for v in res3["violations"])
+
+    # Test 4: Negative delta (displayed less than subtotal)
+    auditor4 = CartInvariantAuditor(
+        requested_items=[{"title": "Sonic Toothbrush", "max_unit_price": 25.00, "quantity": 1}]
+    )
+    res4 = auditor4.audit(
+        cart_line_items=[{"title": "Sonic Toothbrush", "price": 21.99, "quantity": 1}],
+        displayed_total=18.00
+    )
+    assert not res4["is_valid"]
+    assert any("less than computed subtotal" in v for v in res4["violations"])
+
+    # Test 5: Exact match passes with 0 violations
+    auditor5 = CartInvariantAuditor(
+        requested_items=[{"title": "Sonic Toothbrush", "max_unit_price": 25.00, "quantity": 1}]
+    )
+    res5 = auditor5.audit(
+        cart_line_items=[{"title": "Sonic Toothbrush", "price": 21.99, "quantity": 1}],
+        displayed_total=21.99
+    )
+    assert res5["is_valid"]
+    assert len(res5["violations"]) == 0
+
+    print("All CartInvariantAuditor tests passed successfully!")
