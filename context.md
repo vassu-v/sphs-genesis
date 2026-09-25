@@ -171,6 +171,9 @@ Detailed in [`research/10-agent-manipulation-and-mitigations/FINDINGS.md`](resea
    * Non-rendered text (~70% of real-world injections) targets text agents; typographic pixel injection targets Vision-Language Models.
 5. **Interactive Traps & Delayed TOCTOU**:
    * Clickjacking transparent overlays; delayed injections triggered after initial security scan via `setTimeout` or scroll events.
+6. **Agent Gaslighting / Synthetic Fault Injection & Tool Misattribution**:
+   * *Mechanism*: Hostile pages induce simulated errors (fake "MCP Tool Error" or "Session Expired" DOM banners) or steal input focus during typing to deflect keystrokes into hidden sniffer fields.
+   * *Impact*: Exploits the agent's ReAct self-correction loop. The agent misattributes the malfunction to its own tool or code, assumes responsibility, and follows hostile on-page remediation procedures (leaking credentials or granting elevated permissions).
 
 ---
 
@@ -270,8 +273,10 @@ agy --dangerously-skip-permissions --print "Navigate to https://agenttrickydps.v
 * **2026-09-25 11:36**: Created universal agent documentation [`AGENTS.md`](file:///d:/work/genesishackathon/AGENTS.md), [`external/auto-browser/AGENTS.md`](file:///d:/work/genesishackathon/external/auto-browser/AGENTS.md), and `GEMINI.md`.
 * **2026-09-25 (repo cleanup)**: Untracked and git-ignored `track3/`, `CLAUDE.md`, `GEMINI.md`. Only `external/.gitkeep` is tracked from `external/`, so the clones are never pushed. README now credits Auto Browser (modified locally) and LiteAgent (benchmark only, no license). Project `CLAUDE.md` rules (Python 3.10 default) override the 3.12 in the handoff notes. Docs get refreshed daily.
 * **2026-09-25 (vendored Auto Browser)**: `external/auto-browser/` is now tracked (MIT, LICENSE kept, our local changes in their own commits; runtime data and `.env` excluded). `external/liteagent/` stays untracked: no license, so we do not redistribute it. LiteAgent's own runner needs its agents plus OpenAI keys, so instead we drive its hosted TrickyArena prompts with `agy` through Auto Browser (no Docker). Headless `agy` run on `shop?dp=w` was blocked by an unanswered `command` permission; needs an allow rule in agy settings or a permission decision.
-* **Commit history note**: commits from 2026-09-25 morning were made after the fact. Their dates come from the files' real modification times (Auto Browser clone 2026-09-24 20:27, edits 2026-09-25 10:58 to 11:44), because we forgot to commit as we worked.
-* **Next Immediate Engineering Step**: Scaffold the Hardened S.H.O.A.V. Security Interception (Ingress Filter for context overloading / hidden DOM stripping + Egress Filter for `elementFromPoint` clickjacking hit-testing).
+* **2026-09-25 15:26**: Created `shoav-mcp/DETERMINISTIC_TARGETS.md` specifying purely computational dark pattern targets (opacity, clickjacking hit-test mismatch, pre-checked toggles, context bloat) separated from skill-based psychological patterns.
+* **2026-09-25 15:30**: Created `shoav-mcp/filters/PLAN_AND_ROUGH_SKETCH.md` detailing the Ingress (ALLOW/BLOCK/REWRITE with telemetry) and Egress (ALLOW/BLOCK with elementFromPoint hit-testing) pipeline, JevEmbed local acceleration, and evaluating internal Auto-Browser modification vs. external proxy.
+* **2026-09-25 17:25**: Analyzed and integrated **Agent Gaslighting & Tool Misattribution** into the S.H.O.A.V. architecture. Updated `shoav-mcp/filters/PLAN_AND_ROUGH_SKETCH.md` and `shoav-mcp/filters/context.md` with deterministic defenses: Ingress synthetic error quarantine and Egress post-action input/focus integrity verification.
+* **Next Immediate Engineering Step**: Implement the deterministic filter modules in `shoav-mcp/filters/` and hook them into `external/auto-browser` controller pipeline for live dashboard telemetry.
 
 ---
 
