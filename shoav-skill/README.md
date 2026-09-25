@@ -61,7 +61,7 @@ npx shoav-skill --target cursor
 Or copy the `skill/` folder manually into:
 - **Antigravity CLI / IDE**: `~/.gemini/config/skills/SHOAV_SKILLforAGENTS/`
 - **Claude Code**: `.claude/skills/SHOAV_SKILLforAGENTS/`
-- **Cursor / Windsurf**: `.cursor/skills/` or `.skills/`
+- **Cursor / Windsurf**: `.cursor/skills/SHOAV_SKILLforAGENTS/`
 
 <br>
 
@@ -74,9 +74,12 @@ agy "Use the browser to shop for headphones, keeping SHOAV_SKILLforAGENTS active
 ```
 
 **Claude Code, Cursor, & Windsurf**  
-Reference the skill in your project's `CLAUDE.md`, `.cursorrules`, or system instructions:
+Reference the installed skill path in your project's `CLAUDE.md`, `.cursorrules`, or system instructions:
 ```markdown
-Follow the defense protocols and 5-point verification checklist in `skill/SKILL.md`.
+Follow the defense protocols and 5-point verification checklist in:
+- Claude Code: `.claude/skills/SHOAV_SKILLforAGENTS/SKILL.md`
+- Cursor / Windsurf: `.cursor/skills/SHOAV_SKILLforAGENTS/SKILL.md`
+(or `skill/SKILL.md` if copied directly into project root).
 ```
 
 **Custom browser agents (Playwright, Puppeteer, Browser-Use)**  

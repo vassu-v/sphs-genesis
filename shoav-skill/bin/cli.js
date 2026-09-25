@@ -79,9 +79,15 @@ function run() {
     }
   }
 
+  if (!customDir && !TARGET_PRESETS[targetPreset]) {
+    console.error(`\x1b[31m✖ Unknown target preset: "${targetPreset}".\x1b[0m`);
+    console.error(`Supported presets: ${Object.keys(TARGET_PRESETS).join(', ')}`);
+    process.exit(1);
+  }
+
   let destDir = customDir
     ? path.resolve(cwd, customDir)
-    : TARGET_PRESETS[targetPreset] || TARGET_PRESETS.antigravity;
+    : TARGET_PRESETS[targetPreset];
 
   console.log(`\n\x1b[34m[S.H.O.A.V.]\x1b[0m Installing agent skill...`);
   console.log(`  Source:      ${sourceSkillDir}`);

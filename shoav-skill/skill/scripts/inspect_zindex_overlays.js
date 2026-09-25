@@ -153,9 +153,16 @@
    * Search for legitimate dismiss anchors within a modal or the entire page
    */
   function findDismissAnchors(container = document) {
-    const interactive = Array.from(
+    const INTERACTIVE_SEL = 'button, a, [role="button"], input, select';
+    const rawInteractive = Array.from(
       container.querySelectorAll('button, a, [role="button"], span, div, i, svg')
     ).filter(el => isElementVisible(el));
+
+    // Exclude container wrappers that contain interactive descendants
+    const interactive = rawInteractive.filter(el => {
+      if (el.matches(INTERACTIVE_SEL)) return true;
+      return !el.querySelector(INTERACTIVE_SEL);
+    });
 
     const dismissAnchors = [];
 

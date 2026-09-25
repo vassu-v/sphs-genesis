@@ -19,11 +19,11 @@ class SemanticNormalizer:
     Normalizes deceptive UI copy and solves polarity inversions.
     """
 
-    CONFIRMSHAMING_PATTERNS = [
+    CONFIRMSHAMING_PATTERNS = (
         # Guilt & Shame Rejection Patterns
         (r"(i\s+(don'?t|do\s+not)\s+want\s+(a\s+)?(faster|better|cheaper|secure|free|discount|benefits))", "DECLINE_UPGRADE"),
         (r"(no\s+thanks[,\s]+i\s+(hate|dislike)\s+(saving|discounts|money|benefits|deals))", "DECLINE_DISCOUNT"),
-        (r"(i('?ll|\s+will)\s+pay\s+full\s+price|i\s+(like|prefer)\s+paying\s+more)", "DECLINE_DISCOUNT"),
+        (r"(i('?ll|\s+will)\s+pay\s+full\s+price|i\s+(like|prefer)\s+paying\s+(more|full\s+price))", "DECLINE_DISCOUNT"),
         (r"(i\s+(don'?t|do\s+not)\s+care\s+about\s+(privacy|security|savings|protection)|i('?ll|\s+will)\s+risk\s+it)", "DECLINE_PROTECTION"),
         (r"(remind\s+me\s+later|maybe\s+later|not\s+now|skip\s+for\s+now)", "DEFER_ACTION"),
         (r"(continue\s+without\s+(saving|benefits|discount|membership))", "DECLINE_UPGRADE"),
@@ -41,13 +41,14 @@ class SemanticNormalizer:
         # Passive-voice default statements (no interactive element, just a notice
         # implying an opt-in already occurred) — flagged for verification, not action
         (r"(you('?ve|\s+have)\s+been\s+(automatically\s+)?(subscribed|opted[_\s-]?in|enrolled))", "VERIFY_PASSIVE_OPT_IN"),
-        (r"(your\s+preferences\s+(have\s+been\s+)?(saved|updated)\s+to\s+(receive|include))", "VERIFY_PASSIVE_OPT_IN"),
+        (r"((your\s+)?preferences\s+(have\s+been\s+)?(saved|updated)\s+to\s+(receive|include))", "VERIFY_PASSIVE_OPT_IN"),
 
-        # Affirmative Upsells
+        # Affirmative Upsells & Traps
+        (r"(yes[,\s]+add\s+(the\s+)?(protection|warranty|care|insurance|coverage)(\s+plan)?)", "ACCEPT_UPSELL_TRAP"),
         (r"(yes[,\s]+i\s+want\s+it|get\s+started|upgrade\s+now|claim\s+my\s+deal|unlock\s+vip)", "ACCEPT_UPGRADE"),
-    ]
+    )
 
-    NEGATION_WORDS = {"not", "don't", "dont", "never", "without", "stop", "opt-out", "unsubscribe", "disable", "prevent"}
+    NEGATION_WORDS = {"not", "don't", "dont", "never", "without", "stop", "opt-out", "unsubscribe", "disable", "prevent", "uncheck", "unchecked"}
     CONTACT_WORDS = {"contact", "email", "sms", "call", "updates", "offers", "newsletter", "promotions", "marketing"}
 
     @classmethod
@@ -74,7 +75,7 @@ class SemanticNormalizer:
                     }
 
                 is_negative = "DECLINE" in action_name or "DEFER" in action_name
-                is_trap = action_name in {"ENROLL_PAID_RECURRING_PLAN", "ACCEPT_FULL_PRICE_TRAP"}
+                is_trap = action_name in {"ENROLL_PAID_RECURRING_PLAN", "ACCEPT_FULL_PRICE_TRAP", "ACCEPT_UPSELL_TRAP"}
 
                 if is_negative:
                     polarity = "NEGATIVE"
@@ -126,8 +127,8 @@ class SemanticNormalizer:
 
         # Matches inverted premises: "Do not check", "Uncheck if", "Please leave this box unchecked to receive", etc.
         has_negation_in_premise = bool(re.search(
-            r"\b(do\s+not\s+check|uncheck\s+if|leave\s+(this\s+)?(box\s+)?(un)?checked\s+if|"
-            r"leave\s+blank\s+if|don'?t\s+check|please\s+leave\s+unchecked)\b",
+            r"\b(do\s+not\s+check|uncheck\s+if|leave\s+(this\s+)?(box\s+)?(unchecked|blank|empty)|"
+            r"leave\s+blank\s+if|don'?t\s+check|please\s+leave\s+(this\s+)?(box\s+)?unchecked)\b",
             cleaned
         ))
         mentions_communication = any(w in cleaned for w in cls.CONTACT_WORDS)
@@ -165,12 +166,45 @@ class SemanticNormalizer:
             "must_click": must_click,
             "action": ("CLICK_TO_TOGGLE" if must_click else "NO_ACTION_REQUIRED"),
             "explanation": explanation,
-            # NEW: low-confidence flag when negation words exist but don't match a
-            # known canonical pattern — signals the agent to escalate to LLM-level
-            # natural language reasoning rather than trust the regex blindly.
             "requires_llm_verification": (
                 any(w in cleaned for w in cls.NEGATION_WORDS) and
                 not (has_negation_in_premise or has_negative_clause)
             )
         }
         return result
+
+
+if __name__ == "__main__":
+    # Test SKILL.md documented table rows
+    r1 = SemanticNormalizer.de_emotify("I DON'T WANT FASTER WEB")
+    assert r1["polarity"] == "NEGATIVE", f"Expected NEGATIVE, got {r1}"
+
+    r2 = SemanticNormalizer.de_emotify("No thanks, I hate saving money")
+    assert r2["polarity"] == "NEGATIVE", f"Expected NEGATIVE, got {r2}"
+
+    r3 = SemanticNormalizer.de_emotify("I prefer paying full price")
+    assert r3["polarity"] == "NEGATIVE", f"Expected NEGATIVE, got {r3}"
+
+    r4 = SemanticNormalizer.de_emotify("Remind me later")
+    assert r4["polarity"] == "NEGATIVE", f"Expected NEGATIVE, got {r4}"
+
+    r5 = SemanticNormalizer.de_emotify("Start Your Free 30-Day Trial")
+    assert r5["polarity"] == "TRAP_AFFIRMATIVE", f"Expected TRAP_AFFIRMATIVE, got {r5}"
+
+    r6 = SemanticNormalizer.de_emotify("Yes, charge me full price")
+    assert r6["polarity"] == "TRAP_AFFIRMATIVE", f"Expected TRAP_AFFIRMATIVE, got {r6}"
+
+    r7 = SemanticNormalizer.de_emotify("Yes, add protection plan")
+    assert r7["polarity"] == "TRAP_AFFIRMATIVE", f"Expected TRAP_AFFIRMATIVE, got {r7}"
+
+    r8 = SemanticNormalizer.de_emotify("Preferences saved to receive offers")
+    assert r8["polarity"] == "NEEDS_VERIFICATION", f"Expected NEEDS_VERIFICATION, got {r8}"
+
+    # Test checkbox premise polarity
+    cb1 = SemanticNormalizer.solve_checkbox_polarity("Leave this box checked if you wish to receive offers", user_wants_communication=False)
+    assert cb1["target_checked_state"] is False, f"Expected False, got {cb1}"
+
+    cb2 = SemanticNormalizer.solve_checkbox_polarity("Please leave this box unchecked to receive offers", user_wants_communication=False)
+    assert cb2["target_checked_state"] is True, f"Expected True (checked to opt out), got {cb2}"
+
+    print("All SemanticNormalizer tests passed successfully!")

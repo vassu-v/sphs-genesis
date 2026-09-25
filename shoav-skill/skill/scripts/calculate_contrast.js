@@ -145,7 +145,7 @@
       const minRequiredContrast = isLargeText ? 3.0 : 4.5;
 
       const isLowContrast = contrastRatio < minRequiredContrast;
-      const isSevereCamouflage = contrastRatio < 2.0; // E.g., #DDD on #FFF has ratio ~1.37
+      const isSevereCamouflage = contrastRatio < 2.5; // E.g., #DDD on #FFF has ratio ~1.37
       const isMicroscopic = fontSize < 11 || opacity < 0.45;
       const isTextless = combinedLabel.length === 0 && (el.tagName === 'BUTTON' || el.getAttribute('role') === 'button' || el.tagName === 'A');
 

@@ -119,6 +119,18 @@ class CartInvariantAuditor:
                 })
 
         computed_sum = round(computed_sum, 2)
+        total_delta = None
+
+        if displayed_total is not None:
+            total_delta = round(displayed_total - computed_sum, 2)
+            if total_delta < 0:
+                violations.append(
+                    f"Displayed total ${displayed_total:.2f} is unexpectedly less than computed subtotal ${computed_sum:.2f} (delta ${total_delta:.2f})"
+                )
+            elif total_delta > 0 and not self.allow_shipping_tax:
+                violations.append(
+                    f"Displayed total ${displayed_total:.2f} does not match computed subtotal ${computed_sum:.2f} (delta ${total_delta:.2f})"
+                )
 
         # Budget ceiling verification
         if self.max_budget is not None:
@@ -139,6 +151,7 @@ class CartInvariantAuditor:
             "stealth_count": len(stealth_items),
             "computed_subtotal": computed_sum,
             "displayed_total": displayed_total,
+            "total_delta": total_delta,
             "violations": violations,
             "remediation_actions": remediation_actions,
             "stealth_items": stealth_items

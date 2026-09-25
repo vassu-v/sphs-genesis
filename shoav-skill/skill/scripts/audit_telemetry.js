@@ -216,9 +216,14 @@
 
     // Hunt for dismiss anchors in modal or DOM
     const targetRoot = potentialModals[0];
-    const clickables = Array.from(targetRoot.querySelectorAll('button, a, [role="button"], span, svg, div')).concat(
+    const INTERACTIVE_SEL = 'button, a, [role="button"], input, select';
+    const rawClickables = Array.from(targetRoot.querySelectorAll('button, a, [role="button"], span, svg, div')).concat(
       Array.from(document.querySelectorAll('button, a, [role="button"]'))
     );
+    const clickables = rawClickables.filter(el => {
+      if (el.matches(INTERACTIVE_SEL)) return true;
+      return !el.querySelector(INTERACTIVE_SEL);
+    });
 
     const closeGlyphRegex = /^[×✕✖xX⨉\u00d7\u2715\u2716]$/;
     const closeAttrRegex = /(close|dismiss|cancel|decline|reject|opt-out|skip|no[_-]?thanks|not\s+now|later)/i;
@@ -289,7 +294,7 @@
     }
 
     // Check microscopic disclaimer / opt-out
-    if ((fontSize < 10 || opacity < 0.45) && label.length > 0) {
+    if ((fontSize < 11 || opacity < 0.45) && label.length > 0) {
       telemetry.visualCamouflage.microElements.push({
         id: el.id || null,
         tagName: el.tagName.toLowerCase(),
@@ -333,7 +338,7 @@
   /* ==========================================================================
      4. ZERO-DEFAULT POLICY ENFORCEMENT
      ========================================================================== */
-  const inputs = Array.from(document.querySelectorAll('input[type="checkbox"], input[type="radio"], [role="switch"], [role="checkbox"]'));
+  const inputs = Array.from(document.querySelectorAll('input[type="checkbox"], [role="switch"], [role="checkbox"]'));
   const trackingKeywords = ['marketing', 'analytics', 'partner', 'newsletter', 'warranty', 'subscribe', 'updates', 'tracking', 'data', 'share', 'offers'];
 
   inputs.forEach(input => {
@@ -350,24 +355,28 @@
         role: input.getAttribute('role') || input.type || input.tagName.toLowerCase(),
         labelText: labelText.slice(0, 100),
         isTrackingOrUpsell,
-        actionRequired: 'CLICK_TO_INVERT_OFF'
+        actionRequired: isTrackingOrUpsell ? 'CLICK_TO_INVERT_OFF' : 'REVIEW'
       });
 
-      telemetry.zeroDefaultAudit.remediationsRequired.push({
-        targetId: input.id || null,
-        instruction: `Invert preselected option '${labelText.slice(0, 40)}' to OFF before submission.`
-      });
+      if (isTrackingOrUpsell) {
+        telemetry.zeroDefaultAudit.remediationsRequired.push({
+          targetId: input.id || null,
+          instruction: `Invert preselected option '${labelText.slice(0, 40)}' to OFF before submission.`
+        });
 
-      if (telemetry.threatLevel !== 'CRITICAL') telemetry.threatLevel = 'HIGH';
+        if (telemetry.threatLevel !== 'CRITICAL') telemetry.threatLevel = 'HIGH';
+      }
     }
   });
 
   // After the ZERO-DEFAULT block:
   if (telemetry.zeroDefaultAudit.hasPreselectedInputs) {
     const trackingCount = telemetry.zeroDefaultAudit.preselectedInputs.filter(i => i.isTrackingOrUpsell).length;
-    telemetry.executiveSummary.push(
-      `HIGH: ${telemetry.zeroDefaultAudit.preselectedInputs.length} pre-checked input(s) require inversion before submission (${trackingCount} tracking/marketing-related).`
-    );
+    if (trackingCount > 0) {
+      telemetry.executiveSummary.push(
+        `HIGH: ${trackingCount} pre-checked tracking/upsell input(s) require inversion before submission.`
+      );
+    }
   }
 
   /* ==========================================================================
@@ -399,8 +408,13 @@
      ========================================================================== */
   const cartContainers = document.querySelectorAll('[class*="cart" i], [id*="cart" i], table, [class*="order-summary" i]');
   if (cartContainers.length > 0) {
-    const stealthKeywords = ['warranty', 'protection', 'care', 'insurance', 'membership', 'donation', 'tip', 'priority fee', 'handling fee'];
-    const itemRows = document.querySelectorAll('tr, [class*="cart-item" i], [class*="line-item" i], [class*="product-row" i]');
+    const stealthRegex = /\b(warranty|protection plan|care plan|insurance|membership|donation|tip|priority fee|handling fee)\b/i;
+    let itemRows = [];
+    cartContainers.forEach(container => {
+      const rows = container.querySelectorAll('tr, [class*="cart-item" i], [class*="line-item" i], [class*="product-row" i]');
+      rows.forEach(r => itemRows.push(r));
+    });
+    itemRows = Array.from(new Set(itemRows));
 
     itemRows.forEach(row => {
       const text = (row.innerText || row.textContent || '').trim();
@@ -408,8 +422,10 @@
       const price = priceMatch ? parseFloat(priceMatch[1]) : 0;
 
       if (text.length > 5 && priceMatch) {
-        const isStealth = stealthKeywords.some(kw => text.toLowerCase().includes(kw));
-        const removeBtn = row.querySelector('button, a, [class*="remove" i], [aria-label*="remove" i]');
+        const isStealth = stealthRegex.test(text);
+        const removeBtn = row.querySelector('[aria-label*="remove" i], [aria-label*="delete" i], [title*="remove" i], [class*="remove" i], [data-action*="remove" i]')
+          || Array.from(row.querySelectorAll('button, a, [role="button"]'))
+            .find(b => /\b(remove|delete)\b/i.test((b.innerText || b.textContent || '').trim()));
 
         const itemData = {
           rawText: text.replace(/\s+/g, ' ').slice(0, 100),

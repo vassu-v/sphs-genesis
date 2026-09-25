@@ -92,7 +92,7 @@ Websites suppress opt-out and decline actions by stripping visual weight: low-co
   where $C_s = C/255 \le 0.04045 ? C/12.92 : ((C/255 + 0.055)/1.055)^{2.4}$
 * **Contrast Ratio ($\text{CR}$):**
   $$\text{CR} = \frac{\max(L_1, L_2) + 0.05}{\min(L_1, L_2) + 0.05}$$
-  Any interactive refusal control with $\text{CR} < 3.0:1$ is classified as **Camouflaged**.
+  Any interactive refusal control with $\text{CR} < 2.5:1$ is classified as **Camouflaged**.
 
 ```mermaid
 flowchart TD
