@@ -18,7 +18,7 @@ Built for the **Genesis Hackathon 2026**, Track 03.
 
 <br>
 
-![Phase](https://img.shields.io/badge/phase-research-f59e0b?style=flat-square)
+![Phase](https://img.shields.io/badge/phase-building-f59e0b?style=flat-square)
 ![Base](https://img.shields.io/badge/built_on-Auto_Browser-2563eb?style=flat-square)
 ![Core](https://img.shields.io/badge/core-deterministic-16a34a?style=flat-square)
 ![Track](https://img.shields.io/badge/genesis_hackathon-track_03-7c3aed?style=flat-square)
@@ -85,48 +85,38 @@ never lower it. Fooling the advisor costs us a false alarm, not a breach.
 
 ## Where we are
 
-Not much built yet. We are in the research phase of a fresh start, and so far we have
-the research notes and a local clone of the base project. Nothing here is a working
-product yet.
+Research is done and the base is running. We now have Auto Browser running natively
+(no Docker), a visible browser, a live per-session dashboard, and `agy` driving it on a
+benchmark task. The guard itself (hidden-content stripping on what the agent reads, and a
+hit-test on what it clicks) is the next thing we build. See `context.md` for daily status.
+
+## Built on
+
+Two open-source projects. We changed the first and only drive the second from outside.
+
+| Project | How we use it |
+|---------|---------------|
+| [Auto Browser](https://github.com/LvcidPsyche/auto-browser) (MIT) | Base browser MCP, included in this repo at `external/auto-browser/` with its MIT license. Our changes: no Docker, visible browser, live per-session dashboard. Guard goes inside it. |
+| [LiteAgent / TrickyArena](https://github.com/purseclab/liteagent) | Dark-pattern benchmark. Repo has no license, so we do not include its code. Clone it yourself if needed. We only test against the hosted site. |
 
 ## Setup
 
-Get the base MCP (Auto Browser), which is the project we build on:
-[github.com/LvcidPsyche/auto-browser](https://github.com/LvcidPsyche/auto-browser)
+Get the base MCP and run it directly (Python 3.11+ needed by Auto Browser):
 
 ```bash
 git clone https://github.com/LvcidPsyche/auto-browser.git external/auto-browser
-cd external/auto-browser
-docker compose up --build
+cd external/auto-browser/controller
+python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
 ```
-
-It then serves on `127.0.0.1`:
 
 | Endpoint | URL |
 |----------|-----|
 | MCP (HTTP) | `http://127.0.0.1:8000/mcp` |
-| Tool list | `http://127.0.0.1:8000/mcp/tools` |
-| Tool call | `http://127.0.0.1:8000/mcp/tools/call` |
-| Dashboard | `http://127.0.0.1:8000/dashboard` |
+| Admin dashboard | `http://127.0.0.1:8000/dashboard` |
+| Live session view | `http://127.0.0.1:8000/live/<session_id>` |
 
-### Using it
-
-From an MCP client, point it at the HTTP endpoint above, or run the stdio bridge:
-
-```bash
-uvx auto-browser-mcp
-```
-
-From a plain terminal, no MCP support needed. This is the route any CLI agent uses:
-
-```bash
-curl -s http://127.0.0.1:8000/mcp/tools/call \
-  -X POST -H 'content-type: application/json' \
-  -d '{"name":"browser.create_session",
-       "arguments":{"name":"demo","start_url":"https://example.com"}}'
-```
-
-Requires Docker. Python 3.10 for our own code.
+Register it with an agent, for example `agy mcp add --type http auto-browser http://127.0.0.1:8000/mcp`.
+More in [`AGENTS.md`](AGENTS.md).
 
 <br>
 
@@ -135,7 +125,8 @@ Requires Docker. Python 3.10 for our own code.
 ```
 context.md     working context and decisions
 research/      literature-grounded research, workstreams 00 to 09
-track3/        first attempt, superseded, kept for reference
+shoav-mcp/     the guard: detection targets, implementation next
+AGENTS.md      how any agent connects to the MCP
 external/      third-party clones (git-ignored)
 assets/        images
 ```
