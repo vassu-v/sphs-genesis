@@ -11,14 +11,17 @@ from __future__ import annotations
 
 from ..constants import (
     INGRESS_BENIGN_HIDDEN_MARKERS,
+    INGRESS_CHARS_PER_TOKEN_ESTIMATE,
     INGRESS_CONSENT_KEYWORDS,
     INGRESS_FLAGGABLE_TOGGLE_TYPES,
     INGRESS_INJECTION_KEYWORDS,
     INGRESS_MIN_FONT_SIZE_PX,
+    INGRESS_MUTATION_RATE_THRESHOLD,
     INGRESS_NODE_BUDGET_TARGET,
     INGRESS_NODE_PRIORITY,
     INGRESS_OFFSCREEN_LEFT_PX,
     INGRESS_OPACITY_THRESHOLD,
+    INGRESS_TOKEN_BUDGET_TRIGGER,
     ZERO_WIDTH_CHARS,
 )
 
@@ -128,6 +131,48 @@ def compact_node_budget(
     ordered = sorted(enumerate(nodes), key=lambda pair: (priority(pair[1]), pair[0]))
     kept_indices = sorted(idx for idx, _ in ordered[:max_nodes])
     return [nodes[i] for i in kept_indices], True
+
+
+def estimate_tokens(text: str) -> int:
+    """Rough token estimate for the token half of Target 4's budget trigger.
+
+    Deliberately crude (chars / 4) — good enough to decide "is this page's
+    text volume worth compacting", not meant to match any real tokenizer.
+    """
+    return len(text) // INGRESS_CHARS_PER_TOKEN_ESTIMATE
+
+
+def truncate_text_excerpt(text: str, token_trigger: int = INGRESS_TOKEN_BUDGET_TRIGGER) -> tuple[str, bool]:
+    """Target 4 (token half): cap text_excerpt when it blows the token budget.
+
+    This was a genuine gap in the first pass — INGRESS_TOKEN_BUDGET_TRIGGER
+    was defined but nothing ever read it. compact_node_budget only bounds
+    the *interactables* list; text_excerpt is a separate bloat source (a
+    flooding page can pad plain text without adding interactive nodes at
+    all) and needed its own check.
+    """
+    max_chars = token_trigger * INGRESS_CHARS_PER_TOKEN_ESTIMATE
+    if len(text) <= max_chars:
+        return text, False
+    return text[:max_chars] + " …[truncated by S.H.O.A.V. token budget]", True
+
+
+def evaluate_mutation_rate(
+    mutations_per_second: float,
+    threshold: float = INGRESS_MUTATION_RATE_THRESHOLD,
+) -> tuple[bool, str]:
+    """Target 4 (mutation-rate half): rapid dummy-DOM-diff flooding.
+
+    This cannot be decided from a single snapshot — it needs a live
+    MutationObserver count from the connector layer, sampled over a window
+    (see scripts.py for why no JS snippet for this exists yet: a per-second
+    rate isn't a single page.evaluate() call, it's a subscription). This
+    function is the decision half only; the observation half is still an
+    open connector-layer task, documented as such.
+    """
+    if mutations_per_second > threshold:
+        return True, f"{mutations_per_second}/sec exceeds the {threshold}/sec flood threshold"
+    return False, "mutation rate within normal range"
 
 
 def flag_prechecked_toggles(form_controls: list[dict]) -> list[dict]:

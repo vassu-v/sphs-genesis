@@ -46,6 +46,22 @@ class TestIngressRules(unittest.TestCase):
         self.assertTrue(was_compacted)
         self.assertEqual(len(compacted), 50)
 
+    def test_estimate_tokens_and_truncate_text_excerpt(self):
+        short_text = "Wireless Mouse. $19.99."
+        _, was_truncated = ingress_rules.truncate_text_excerpt(short_text, token_trigger=4000)
+        self.assertFalse(was_truncated)
+
+        huge_text = "x" * 20000  # ~5000 tokens at the 4 chars/token estimate
+        truncated, was_truncated = ingress_rules.truncate_text_excerpt(huge_text, token_trigger=4000)
+        self.assertTrue(was_truncated)
+        self.assertLess(len(truncated), len(huge_text))
+
+    def test_evaluate_mutation_rate(self):
+        flooding, _ = ingress_rules.evaluate_mutation_rate(120.0, threshold=50.0)
+        self.assertTrue(flooding)
+        flooding, _ = ingress_rules.evaluate_mutation_rate(5.0, threshold=50.0)
+        self.assertFalse(flooding)
+
     def test_flag_prechecked_toggles_flags_consent_like_only(self):
         controls = [
             {"ref": "c1", "type": "checkbox", "checked": True, "label": "Remember me on this device"},
@@ -103,6 +119,17 @@ class TestIngressEngine(unittest.TestCase):
         result = self.engine.process(payload)
         self.assertEqual(result["verdict"], Verdict.BLOCK)
         self.assertIsNone(result["payload"])
+
+    def test_mutation_rate_flood_blocks(self):
+        result = self.engine.process(fx.clean_observation_payload(), mutation_rate=200.0)
+        self.assertEqual(result["verdict"], Verdict.BLOCK)
+
+    def test_token_budget_truncates_text_excerpt(self):
+        payload = fx.clean_observation_payload()
+        payload["text_excerpt"] = "product detail " * 2000  # well past the token trigger
+        result = self.engine.process(payload)
+        self.assertEqual(result["verdict"], Verdict.REWRITE)
+        self.assertLess(len(result["payload"]["text_excerpt"]), len(payload["text_excerpt"]))
 
     def test_session_state_suppresses_touched_refs(self):
         payload = fx.injected_observation_payload()

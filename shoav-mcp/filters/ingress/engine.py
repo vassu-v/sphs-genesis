@@ -1,10 +1,12 @@
 """IngressFilter: orchestrates the pure rules into ALLOW/REWRITE/BLOCK.
 
 Designed to degrade gracefully: it always runs the checks that work from
-Auto Browser's *existing* payload fields (text injections, node budget,
-pre-checked toggles from accessibility_outline), and additionally runs the
-computed-style hidden-node check only when style_facts (from
-scripts.STYLE_PROBE_SCRIPT, not yet wired into Auto Browser) is supplied.
+Auto Browser's *existing* payload fields (text injections, node/token
+budget, pre-checked toggles from accessibility_outline), and additionally
+runs the computed-style hidden-node check only when style_facts (from
+scripts.STYLE_PROBE_SCRIPT, not yet wired into Auto Browser) is supplied,
+and the mutation-flood check only when a live mutation_rate is supplied
+(also not yet wired in — needs a connector-side MutationObserver).
 """
 
 from __future__ import annotations
@@ -22,6 +24,7 @@ class IngressFilter:
         *,
         style_facts: list[dict] | None = None,
         session_state: SessionState | None = None,
+        mutation_rate: float | None = None,
     ) -> dict:
         """payload: an Auto Browser observation-shaped dict, at minimum
         {"interactables": [...], "text_excerpt": "...",
@@ -33,6 +36,7 @@ class IngressFilter:
         ax_nodes = (payload.get("accessibility_outline") or {}).get("nodes", [])
 
         text_findings = rules.find_text_injections(text_excerpt)
+        truncated_text, text_was_compacted = rules.truncate_text_excerpt(text_excerpt)
 
         style_result = {"stripped": [], "skipped_benign": []}
         if style_facts is not None:
@@ -44,7 +48,8 @@ class IngressFilter:
             ]
 
         node_count_before_budget = len(interactables)
-        compacted_interactables, was_compacted = rules.compact_node_budget(interactables)
+        compacted_interactables, node_was_compacted = rules.compact_node_budget(interactables)
+        was_compacted = node_was_compacted or text_was_compacted
 
         form_controls = [
             {
@@ -65,30 +70,39 @@ class IngressFilter:
             if session_state.initial_form_snapshot is None:
                 session_state.initial_form_snapshot = form_controls
 
-        flooding = (
-            node_count_before_budget > INGRESS_NODE_BUDGET_TRIGGER * 4
-        )  # gross flood, well past ordinary compaction — see BLOCK step in
+        # gross node flood, well past ordinary compaction — see BLOCK step in
         # PLAN_AND_ROUGH_SKETCH.md 3.1 step 4. 4x the trigger is a deliberately
         # conservative floor: compaction alone handles ordinary large pages.
+        node_flood = node_count_before_budget > INGRESS_NODE_BUDGET_TRIGGER * 4
+        mutation_flood, mutation_reason = (
+            rules.evaluate_mutation_rate(mutation_rate) if mutation_rate is not None
+            else (False, None)
+        )
+        flooding = node_flood or mutation_flood
 
         stripped_count = len(style_result["stripped"])
         finding_count = len(text_findings) + len(prechecked)
 
         telemetry_lines = ["[S.H.O.A.V. INGRESS SHIELD]"]
+        findings = {
+            "text_injections": text_findings,
+            "hidden_nodes": style_result,
+            "prechecked_toggles": prechecked,
+        }
+
         if flooding:
-            telemetry_lines.append(
-                f"status: blocked (node flood — {node_count_before_budget} nodes, "
-                f"budget is {INGRESS_NODE_BUDGET_TRIGGER})"
-            )
+            if node_flood:
+                telemetry_lines.append(
+                    f"status: blocked (node flood — {node_count_before_budget} nodes, "
+                    f"budget is {INGRESS_NODE_BUDGET_TRIGGER})"
+                )
+            if mutation_flood:
+                telemetry_lines.append(f"status: blocked (mutation flood — {mutation_reason})")
             return {
                 "verdict": Verdict.BLOCK,
                 "telemetry": "\n".join(telemetry_lines),
                 "payload": None,
-                "findings": {
-                    "text_injections": text_findings,
-                    "hidden_nodes": style_result,
-                    "prechecked_toggles": prechecked,
-                },
+                "findings": findings,
             }
 
         if stripped_count == 0 and finding_count == 0 and not was_compacted:
@@ -96,12 +110,12 @@ class IngressFilter:
             return {
                 "verdict": Verdict.ALLOW,
                 "telemetry": "\n".join(telemetry_lines),
-                "payload": {**payload, "interactables": compacted_interactables},
-                "findings": {
-                    "text_injections": [],
-                    "hidden_nodes": style_result,
-                    "prechecked_toggles": [],
+                "payload": {
+                    **payload,
+                    "interactables": compacted_interactables,
+                    "text_excerpt": truncated_text,
                 },
+                "findings": {**findings, "text_injections": [], "prechecked_toggles": []},
             }
 
         telemetry_lines.append("status: rewritten")
@@ -111,16 +125,20 @@ class IngressFilter:
         telemetry_lines.append(
             f"- context compaction: {node_count_before_budget} -> "
             f"{len(compacted_interactables)} nodes"
-            if was_compacted else "- context compaction: not needed"
+            if node_was_compacted else "- context compaction: not needed"
+        )
+        telemetry_lines.append(
+            "- text excerpt truncated: token budget exceeded"
+            if text_was_compacted else "- text excerpt: within token budget"
         )
 
         return {
             "verdict": Verdict.REWRITE,
             "telemetry": "\n".join(telemetry_lines),
-            "payload": {**payload, "interactables": compacted_interactables},
-            "findings": {
-                "text_injections": text_findings,
-                "hidden_nodes": style_result,
-                "prechecked_toggles": prechecked,
+            "payload": {
+                **payload,
+                "interactables": compacted_interactables,
+                "text_excerpt": truncated_text,
             },
+            "findings": findings,
         }
