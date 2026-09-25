@@ -8,6 +8,7 @@ from uuid import uuid4
 
 from playwright.async_api import Error as PlaywrightError
 
+from ... import events as _events
 from ...browser_scripts import apply_stealth
 from ...models import SessionRecord, SessionStatus
 from ...network_inspector import NetworkInspector
@@ -208,6 +209,7 @@ class BrowserSessionService:
                     "totp_enabled": bool(totp_secret),
                 },
             )
+            _events.emit_session(session.id, "active")
             return summary
         except Exception:
             await self.cleanup_failed(
@@ -341,6 +343,7 @@ class BrowserSessionService:
                 if session.runtime is not None:
                     await self.manager.runtime_provisioner.release(session.runtime)
             self.manager.sessions.pop(session_id, None)
+            _events.emit_session(session_id, "closed")
             if self.manager._session_closed_hook is not None:
                 try:
                     await self.manager._session_closed_hook(session_id)
@@ -535,6 +538,7 @@ class BrowserSessionService:
             "auth_state": self.manager.auth_profiles.session_auth_state_info(session),
             "downloads": session.downloads[-20:],
             "last_action": session.last_action,
+            "dashboard_url": f"/live/{session.id}",
             "trace_path": str(session.trace_path),
             "proxy_persona": session.proxy_persona,
             "protection_mode": session.protection_mode,
