@@ -56,6 +56,7 @@ export function SessionView({ sessionId }: { sessionId: string }) {
 
   const counts = useMemo(() => countPhases(state.rows), [state.rows]);
   const captures = useMemo(() => countCaptures(state.rows), [state.rows]);
+  const guard = useMemo(() => countGuard(state.rows), [state.rows]);
   const latest = useMemo(() => {
     for (let i = state.rows.length - 1; i >= 0; i--) if (state.rows[i].screenshot_url) return state.rows[i];
     return null;
