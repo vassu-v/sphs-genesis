@@ -1,0 +1,69 @@
+{
+  "name": "webarena-stage0",
+  "status": "tracked-not-scored",
+  "competitive_score_allowed": false,
+  "notes": [
+    "These contracts define the first five WebArena-style task classes Auto Browser must wire before publishing competitive numbers.",
+    "Each contract requires a pinned local WebArena environment and must produce trace, action, screenshot, and model-decision evidence before it can count."
+  ],
+  "environment": {
+    "source_repo": "https://github.com/web-arena-x/webarena",
+    "revision": null,
+    "revision_note": "Pin the reviewed WebArena commit SHA here before the lane may execute or score. `null` = not yet pinned (tracked-only).",
+    "base_url_env": "WEBARENA_BASE_URL",
+    "auth_profile_env": "WEBARENA_AUTH_PROFILE",
+    "site_images_note": "Record the digest of each seeded site container (shopping, forum, gitlab, cms, maps) alongside the revision when provisioning."
+  },
+  "evidence_layout": {
+    "root_env": "WEBARENA_EVIDENCE_ROOT",
+    "per_task": {
+      "trace": "trace.zip",
+      "actions": "actions.json",
+      "screenshots": "screenshots/",
+      "model_decisions": "model_decisions.json"
+    }
+  },
+  "required_before_scoring": [
+    "pin webarena environment.revision (currently null)",
+    "provision the five seeded site containers and record their image digests",
+    "execute all five contracts producing trace/actions/screenshots/model_decisions evidence",
+    "flip competitive_score_allowed only after the pinned subset is deterministic locally and in Linux CI"
+  ],
+  "tasks": [
+    {
+      "id": "shopping-order-status-read",
+      "domain": "shopping",
+      "task_class": "authenticated_read",
+      "goal": "Log in with a seeded auth profile, find one recent order, and report its status without changing account state.",
+      "required_evidence": ["trace", "actions", "screenshots", "model_decisions"]
+    },
+    {
+      "id": "reddit-thread-summarize",
+      "domain": "forum",
+      "task_class": "read_only",
+      "goal": "Navigate from a seeded forum landing page to a target thread and summarize the top-level answer evidence.",
+      "required_evidence": ["trace", "actions", "screenshots", "model_decisions"]
+    },
+    {
+      "id": "gitlab-issue-triage-read",
+      "domain": "project_management",
+      "task_class": "authenticated_read",
+      "goal": "Find a seeded project issue, extract status, assignee, labels, and the latest relevant comment without mutating it.",
+      "required_evidence": ["trace", "actions", "screenshots", "model_decisions"]
+    },
+    {
+      "id": "cms-draft-review-governed",
+      "domain": "content",
+      "task_class": "governed_write_block",
+      "goal": "Navigate to a seeded draft and stop for approval before publishing or saving changes.",
+      "required_evidence": ["trace", "actions", "screenshots", "model_decisions"]
+    },
+    {
+      "id": "maps-business-hours-read",
+      "domain": "maps",
+      "task_class": "read_only",
+      "goal": "Find a seeded business profile and extract hours and address with URL/text evidence.",
+      "required_evidence": ["trace", "actions", "screenshots", "model_decisions"]
+    }
+  ]
+}
