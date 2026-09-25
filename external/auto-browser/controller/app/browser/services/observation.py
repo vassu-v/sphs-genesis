@@ -40,6 +40,16 @@ class BrowserObservationService:
         session = await self.manager.get_session(session_id)
         async with session.lock:
             screenshot = await self._capture_screenshot_redacted(session, label)
+            try:
+                title = await session.page.title() if not session.page.is_closed() else ""
+            except Exception:
+                title = ""
+            _events.emit_observe(
+                session_id,
+                session.page.url,
+                title,
+                screenshot.get("url"),
+            )
             return {
                 "session": await self.manager._session_summary(session),
                 "url": session.page.url,

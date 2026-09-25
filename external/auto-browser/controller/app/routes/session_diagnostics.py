@@ -20,6 +20,16 @@ logger = logging.getLogger(__name__)
 def create_session_diagnostics_router(*, manager: Any, settings: Any) -> APIRouter:
     router = APIRouter()
 
+    @router.get("/sessions/{session_id}/dashboard", response_class=HTMLResponse)
+    @router.get("/live/{session_id}", response_class=HTMLResponse)
+    async def session_live_dashboard(session_id: str) -> HTMLResponse:
+        safe_session_id = require_safe_segment(session_id, field="session_id")
+        html_path = Path(__file__).resolve().parents[1] / "ui" / "session_dashboard.html"
+        if not html_path.exists():
+            raise HTTPException(status_code=404, detail="Dashboard UI template not found")
+        content = html_path.read_text(encoding="utf-8")
+        return HTMLResponse(content=content)
+
     @router.get("/sessions/{session_id}/events")
     async def session_events(session_id: str, request: Request):
         await manager.get_session(session_id)
