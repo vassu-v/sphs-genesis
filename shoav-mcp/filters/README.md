@@ -60,11 +60,11 @@ anything from `external/`.
 
 | # | Target | Status | Where |
 |---|---|---|---|
-| 1 | Hidden/Invisible Text | **Done** — both halves: style-based (`find_hidden_textful_nodes`, needs the not-yet-wired `STYLE_PROBE_SCRIPT`) and text-based (`find_text_injections` — zero-width Unicode + comment/keyword scan, works from data Auto Browser already returns) | `ingress/rules.py` |
-| 2 | Clickjacking & Overlays | **Done** — `evaluate_hit_test`, with one deliberate refinement over the original sketch (see §5) | `egress/rules.py` |
+| 1 | Hidden/Invisible Text | **Done, and now actually sanitizing** (`sanitize_text` removes hidden-node text, zero-width chars, and whole sentences containing injection keywords from `text_excerpt`, replacing them with a removal marker, before truncation). Both halves: style-based (`find_hidden_textful_nodes`, needs the not-yet-wired `STYLE_PROBE_SCRIPT`, which now walks every element with its own text and resolves hidden state through ancestors) and text-based (`find_text_injections` — zero-width Unicode + comment/keyword scan, works from data Auto Browser already returns) | `ingress/rules.py` |
+| 2 | Clickjacking & Overlays | **Done** (hit-test script takes `expected_ref` and reports `inside_target`, so a click landing on a child of the target is ALLOWed) — `evaluate_hit_test`, with one deliberate refinement over the original sketch (see §5) | `egress/rules.py` |
 | 3 | Pre-Checked States | **Done** — `flag_prechecked_toggles` (ingress, at observation time) + `audit_form_state` (egress, at submission time). Works **today** from Auto Browser's existing `accessibility_outline` payload, whose AX nodes already carry a `checked` field — no new capability needed for this one | `ingress/rules.py`, `egress/rules.py` |
 | 4 | Context Overloading & Dummy Diffs | **Done, three sub-checks**: node-count budget (`compact_node_budget`), text/token budget (`truncate_text_excerpt` — this was missing in the first pass, added after review, see §6), and a mutation-rate flood decision (`evaluate_mutation_rate`). The *decision* logic for all three is implemented; the mutation-rate *observation* (a live MutationObserver feed) is connector-layer work, not yet built | `ingress/rules.py`, `ingress/engine.py` |
-| 5 | Cart Sneaking | **Done** — `diff_cart_state`, using the per-session state cache to hold the T0 cart snapshot | `egress/rules.py`, `session_state.py` |
+| 5 | Cart Sneaking | **Intentionally out of scope for now** (logic exists, untouched, not being extended) — `diff_cart_state`, using the per-session state cache to hold the T0 cart snapshot | `egress/rules.py`, `session_state.py` |
 
 All 5 targets from the spec have real logic and real test coverage. Nothing
 was silently skipped. What's *not* covered is everything the research
@@ -182,7 +182,7 @@ scope and design limitations worth knowing before demoing it:
    (`evaluate_mutation_rate`) but no observation mechanism.** A per-second
    rate isn't a single `page.evaluate()` call, it's a subscription over
    time — that's connector-layer work, explicitly not started.
-3. **Pre-checked-toggle refs are a real correlation weakness.** Playwright's
+3. **Pre-checked-toggle refs are a real correlation weakness, partly mitigated.** Ingress now prefers a node's `ref` or `element_id` when present, and `SessionState.mark_touched` / `SessionStateStore.mark_touched` record agent interactions. Remaining weakness: Playwright's
    native `accessibility.snapshot()` nodes (what Auto Browser's
    `accessibility_outline` actually returns, per `FINDINGS.md` §1a) have no
    stable element id — this package uses the accessible **name/label
@@ -193,7 +193,7 @@ scope and design limitations worth knowing before demoing it:
    against the separate `interactables` list by bounding-box proximity, or
    getting Auto Browser's AX-tree output extended with a stable ref — an
    open integration question, not something fixable in this pure layer.
-4. **Focus-integrity value comparison is exact-string.** A legitimate
+4. **Focus-integrity value comparison is exact-string** (skipped for `type == "password"`, where only the ref must match). A legitimate
    autocomplete/autofill that alters the typed value slightly could produce
    a false BLOCK. A fuzzy/prefix match would reduce this but adds its own
    tuning surface — left as exact-match deliberately rather than guessing
@@ -213,6 +213,13 @@ scope and design limitations worth knowing before demoing it:
    approval gate) for `eval_js`, the tool that would run `scripts.py`'s
    JS today. Not blocking for this layer, since nothing here calls it yet
    — but it's the first thing to resolve when writing the proxy connector.
+
+Update since first pass: ingress previously only reported findings and left
+`text_excerpt` untouched; it now rewrites it. Remaining limits of that
+rewrite: sentence-level removal is keyword-based (paraphrases survive), hidden
+text is matched by exact string (the style probe keeps only 200 chars per
+node, so longer hidden text is removed only in that prefix), and Target 5
+(cart sneaking) is intentionally out of scope for now.
 
 ## 7. Next version — connectors
 
