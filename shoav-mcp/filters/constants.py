@@ -83,6 +83,11 @@ INGRESS_CONSENT_KEYWORDS = (
     "promo",
 )
 
+# Rapid background mutation flooding ("dummy DOM diffs"), the second half of
+# Target 4 — distinct from the static node/token budget above. Needs a live
+# MutationObserver count from the connector layer; this is just the cutoff.
+INGRESS_MUTATION_RATE_THRESHOLD = 50.0  # mutations/sec
+
 # --- Egress: overlay / hit-target mismatch (Target 2) ---
 EGRESS_OVERLAY_OPACITY_THRESHOLD = 0.1
 EGRESS_OVERLAY_ZINDEX_THRESHOLD = 9000
