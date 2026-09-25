@@ -89,12 +89,12 @@ The parts are built and we are in the final stitching step, one step from the ou
 
 | Part | State |
 |------|-------|
-| Detection core (`shoav-mcp/filters/`) | Done. Deterministic ingress and egress filters with session state, tested, JS probes verified in real Chromium. |
-| Base MCP (`external/automcp/auto-browser/`) | Working. Native, no Docker, visible browser, live per-session dashboard, `agy` driving it. |
+| Detection core ([`shoav-mcp/filters/`](https://github.com/vassu-v/sphs-genesis/tree/modules-parted-mcp-patch/shoav-mcp/filters)) | Done. Deterministic ingress and egress filters with session state, tested, JS probes verified in real Chromium. |
+| Base MCP ([`external/automcp/auto-browser/`](https://github.com/vassu-v/sphs-genesis/tree/modules-parted-mcp-patch/external/automcp/auto-browser)) | Working. Native, no Docker, visible browser, live per-session dashboard, `agy` driving it. |
 | Skill (`shoav-skill/`) | Done. Portable defense manual, companion audit scripts and an `npx` installer. |
-| Guard wiring (`shoav-mcp/MCP/plan.md`) | In progress. Hooking the filters into the Auto Browser controller. |
+| Guard wiring ([`shoav-mcp/MCP/plan.md`](https://github.com/vassu-v/sphs-genesis/tree/modules-parted-mcp-patch/shoav-mcp/MCP/plan.md)) | In progress. Hooking the filters into the Auto Browser controller. |
 
-See `context.md` for daily status.
+The filter core and the reworked Auto Browser live on the [`modules-parted-mcp-patch`](https://github.com/vassu-v/sphs-genesis/tree/modules-parted-mcp-patch) branch and merge into `main` once wiring lands. See `context.md` for daily status.
 
 ## Built on
 
@@ -102,12 +102,12 @@ Two open-source projects. We changed the first and only drive the second from ou
 
 | Project | How we use it |
 |---------|---------------|
-| [Auto Browser](https://github.com/LvcidPsyche/auto-browser) (MIT) | Base browser MCP, reworked and included in this repo at `external/automcp/auto-browser/` with its MIT license. Our changes: no Docker, visible browser, live per-session dashboard, guard wiring. |
+| [Auto Browser](https://github.com/LvcidPsyche/auto-browser) (MIT) | Base browser MCP, reworked copy lives on the `modules-parted-mcp-patch` branch at `external/automcp/auto-browser/` with its MIT license (`main` still carries the earlier `external/auto-browser/`). Our changes: no Docker, visible browser, live per-session dashboard, guard wiring. |
 | [LiteAgent / TrickyArena](https://github.com/purseclab/liteagent) | Dark-pattern benchmark. Repo has no license, so we do not include its code. Clone it yourself if needed. We only test against the hosted site. |
 
 ## Setup
 
-The base MCP is already in this repo under `external/automcp/auto-browser/`. Run it directly (Python 3.11+ needed by Auto Browser):
+The reworked base MCP is on the `modules-parted-mcp-patch` branch under `external/automcp/auto-browser/` (check that branch out first). Run it directly (Python 3.11+ needed by Auto Browser):
 
 ```bash
 cd external/automcp/auto-browser/controller
@@ -130,10 +130,10 @@ More in [`AGENTS.md`](AGENTS.md).
 ```
 context.md     working context and decisions
 research/      literature-grounded research, workstreams 00 to 09
-shoav-mcp/     the guard: filters (done), MCP wiring plan
+shoav-mcp/     the guard: detection targets on main; filters and wiring plan on the branch
 shoav-skill/   agent skill, audit scripts and npx installer
 AGENTS.md      how any agent connects to the MCP
-external/      automcp (our reworked Auto Browser, tracked); other clones git-ignored
+external/      Auto Browser (reworked copy is `automcp/` on the branch); other clones git-ignored
 assets/        images
 ```
 
