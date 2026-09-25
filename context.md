@@ -268,6 +268,9 @@ agy --dangerously-skip-permissions --print "Navigate to https://agenttrickydps.v
 * **2026-09-25 11:04**: Successfully executed E2E smoke test (`google.com` -> `amazon.com`) and live TrickyArena benchmark task (`https://agenttrickydps.vercel.app/shopping?dp=w` -> Dell Inspiron 15 rating lookup) with full action logging and screenshots.
 * **2026-09-25 11:35**: Implemented independent **Live Per-Session Ephemeral Dashboard** (`/live/{session_id}` and `/sessions/{session_id}/dashboard`) with real-time SSE event bus streaming agent actions, responses, and S.H.O.A.V. security checks. Verified live connection and transition to archived state on session close.
 * **2026-09-25 11:36**: Created universal agent documentation [`AGENTS.md`](file:///d:/work/genesishackathon/AGENTS.md), [`external/auto-browser/AGENTS.md`](file:///d:/work/genesishackathon/external/auto-browser/AGENTS.md), and `GEMINI.md`.
+* **2026-09-25 (repo cleanup)**: Untracked and git-ignored `track3/`, `CLAUDE.md`, `GEMINI.md`. Only `external/.gitkeep` is tracked from `external/`, so the clones are never pushed. README now credits Auto Browser (modified locally) and LiteAgent (benchmark only, no license). Project `CLAUDE.md` rules (Python 3.10 default) override the 3.12 in the handoff notes. Docs get refreshed daily.
+* **2026-09-25 (vendored Auto Browser)**: `external/auto-browser/` is now tracked (MIT, LICENSE kept, our local changes in their own commits; runtime data and `.env` excluded). `external/liteagent/` stays untracked: no license, so we do not redistribute it. LiteAgent's own runner needs its agents plus OpenAI keys, so instead we drive its hosted TrickyArena prompts with `agy` through Auto Browser (no Docker). Headless `agy` run on `shop?dp=w` was blocked by an unanswered `command` permission; needs an allow rule in agy settings or a permission decision.
+* **Commit history note**: commits from 2026-09-25 morning were made after the fact. Their dates come from the files' real modification times (Auto Browser clone 2026-09-24 20:27, edits 2026-09-25 10:58 to 11:44), because we forgot to commit as we worked.
 * **Next Immediate Engineering Step**: Scaffold the Hardened S.H.O.A.V. Security Interception (Ingress Filter for context overloading / hidden DOM stripping + Egress Filter for `elementFromPoint` clickjacking hit-testing).
 
 ---
@@ -289,10 +292,10 @@ agy --dangerously-skip-permissions --print "Navigate to https://agenttrickydps.v
 | `CLAUDE.md` | Development rules, git conventions, commit author standards |
 | `external/context.auto-browser.md` | Deep technical context and modification log for the Auto-Browser MCP |
 | `external/AGENT_HANDOFF_CONTEXT.md` | Portable agent handoff context brief (copy-pasteable for any LLM/agent) |
-| `external/auto-browser/` | Decoupled standalone Playwright MCP server with Per-Session Live Dashboard |
+| `external/auto-browser/` | Tracked. Decoupled standalone Playwright MCP server with Per-Session Live Dashboard |
 | `external/liteagent/` | TrickyArena benchmark suite and evaluation checks |
 | `research/10-agent-manipulation-and-mitigations/` | Workstream 10: Expanded attack landscape, context overloading, and MCP mitigations |
 | `research/08-synthesis/` | Master synthesis, prioritized detection targets, open questions |
 | `research/09-verification-closeout/` | Report safety rules, resolved claims, paper disambiguation |
-| `track3/` | Archived prototype (superseded, do not modify or reference for code) |
+| `track3/` | Old prototype. Local only, git-ignored and no longer tracked. Do not use |
 | `assets/` | Tracked project images and architecture diagrams |
