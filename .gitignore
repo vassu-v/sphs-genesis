@@ -62,3 +62,8 @@ external/auto-browser/controller/.env
 !*.gif
 !*.svg
 !*.webp
+
+# --- Archived prototype and local agent instruction files ---
+track3/
+CLAUDE.md
+GEMINI.md
