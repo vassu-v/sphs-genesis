@@ -210,6 +210,8 @@ class BrowserSessionService:
                 },
             )
             _events.emit_session(session.id, "active")
+            summary["dashboard_url"] = f"http://127.0.0.1:8000/live/{session.id}"
+            print(f"[SHOAV] session {session.id} live view: {summary['dashboard_url']}", flush=True)
             return summary
         except Exception:
             await self.cleanup_failed(
