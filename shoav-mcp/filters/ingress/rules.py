@@ -9,6 +9,8 @@ the new STYLE_PROBE_SCRIPT capability from scripts.py wired in later.
 
 from __future__ import annotations
 
+import re
+
 from ..constants import (
     INGRESS_BENIGN_HIDDEN_MARKERS,
     INGRESS_CHARS_PER_TOKEN_ESTIMATE,
@@ -24,6 +26,7 @@ from ..constants import (
     INGRESS_TOKEN_BUDGET_TRIGGER,
     ZERO_WIDTH_CHARS,
 )
+from ..types import Verdict
 
 
 def _is_offscreen(rect: dict, viewport: dict) -> bool:
@@ -68,6 +71,7 @@ def find_hidden_textful_nodes(style_facts: list[dict]) -> dict:
             "ref": node.get("ref"),
             "tag": node.get("tag"),
             "snippet": (node.get("text_snippet") or "")[:50],
+            "text": node.get("text_snippet") or "",
             "reason": "computed_style_hidden",
         }
         if _is_benign_hidden(node):
@@ -76,6 +80,55 @@ def find_hidden_textful_nodes(style_facts: list[dict]) -> dict:
             stripped.append(entry)
 
     return {"stripped": stripped, "skipped_benign": skipped_benign}
+
+
+REMOVED_MARKER = "[removed by S.H.O.A.V.: suspected injected instruction]"
+
+NL = chr(10)
+_SENTENCE_SPLIT = re.compile(r"(?<=[.!?])\s+")
+
+
+def sanitize_text(text: str, hidden_texts: list[str] | None = None) -> tuple[str, int]:
+    """Actually remove dangerous content from a text blob.
+
+    Order: delete zero-width chars, delete every occurrence of hidden-node
+    text, then replace each sentence/line containing an injection keyword
+    with REMOVED_MARKER. Returns (clean_text, removed_count), where
+    removed_count counts zero-width chars, hidden-text occurrences and
+    replaced sentences.
+    """
+    removed = 0
+    for ch in ZERO_WIDTH_CHARS:
+        n = text.count(ch)
+        if n:
+            removed += n
+            text = text.replace(ch, "")
+
+    for hidden in sorted({h for h in (hidden_texts or []) if h}, key=len, reverse=True):
+        variants = []
+        for cand in (hidden, hidden.strip()):
+            cand = "".join(c for c in cand if c not in ZERO_WIDTH_CHARS)
+            if cand and cand not in variants:
+                variants.append(cand)
+        for cand in variants:
+            n = text.count(cand)
+            if n:
+                removed += n
+                text = text.replace(cand, "")
+
+    out_lines = []
+    for line in text.split(NL):
+        parts = _SENTENCE_SPLIT.split(line)
+        new_parts = []
+        for part in parts:
+            lowered = part.lower()
+            if any(kw in lowered for kw in INGRESS_INJECTION_KEYWORDS):
+                removed += 1
+                new_parts.append(REMOVED_MARKER)
+            else:
+                new_parts.append(part)
+        out_lines.append(" ".join(new_parts))
+    return NL.join(out_lines), removed
 
 
 def find_text_injections(text_blob: str) -> list[dict]:
@@ -173,6 +226,26 @@ def evaluate_mutation_rate(
     if mutations_per_second > threshold:
         return True, f"{mutations_per_second}/sec exceeds the {threshold}/sec flood threshold"
     return False, "mutation rate within normal range"
+
+
+def evaluate_mutation_rate_verdict(
+    count: int,
+    seconds: float,
+    threshold: float = INGRESS_MUTATION_RATE_THRESHOLD,
+) -> Verdict:
+    """Verdict form of the mutation-rate decision for observer read output.
+
+    count and seconds come from MUTATION_OBSERVER_READ_SCRIPT. Returns
+    Verdict.BLOCK when count / seconds exceeds threshold (default 50/sec),
+    else Verdict.ALLOW. Zero or negative windows return ALLOW (no rate can
+    be computed, so there is no evidence of flooding). Pure function.
+    """
+    if seconds <= 0:
+        return Verdict.ALLOW
+    rate = count / seconds
+    if rate > threshold:
+        return Verdict.BLOCK
+    return Verdict.ALLOW
 
 
 def flag_prechecked_toggles(form_controls: list[dict]) -> list[dict]:

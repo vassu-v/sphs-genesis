@@ -25,19 +25,23 @@ class IngressFilter:
         style_facts: list[dict] | None = None,
         session_state: SessionState | None = None,
         mutation_rate: float | None = None,
+        form_controls: list[dict] | None = None,
     ) -> dict:
         """payload: an Auto Browser observation-shaped dict, at minimum
         {"interactables": [...], "text_excerpt": "...",
          "accessibility_outline": {"nodes": [...]}}. Missing keys are
         treated as empty, so a partial payload degrades rather than errors.
+
+        form_controls: when supplied, a list of control dicts straight from
+        FORM_STATE_SCRIPT output ({element_id/ref, tag, type, checked,
+        label, name}). Correlation prefers ref, then element_id, then name.
+        When None (default), falls back to the accessibility_outline path.
         """
         interactables = list(payload.get("interactables", []))
         text_excerpt = payload.get("text_excerpt", "") or ""
         ax_nodes = (payload.get("accessibility_outline") or {}).get("nodes", [])
 
         text_findings = rules.find_text_injections(text_excerpt)
-        truncated_text, text_was_compacted = rules.truncate_text_excerpt(text_excerpt)
-
         style_result = {"stripped": [], "skipped_benign": []}
         if style_facts is not None:
             style_result = rules.find_hidden_textful_nodes(style_facts)
@@ -47,20 +51,38 @@ class IngressFilter:
                 if node.get("element_id") not in stripped_refs
             ]
 
+        hidden_texts = [entry.get("text") or entry.get("snippet") or "" for entry in style_result["stripped"]]
+        clean_text, removed_count = rules.sanitize_text(text_excerpt, hidden_texts)
+        truncated_text, text_was_compacted = rules.truncate_text_excerpt(clean_text)
+
         node_count_before_budget = len(interactables)
         compacted_interactables, node_was_compacted = rules.compact_node_budget(interactables)
         was_compacted = node_was_compacted or text_was_compacted
 
-        form_controls = [
-            {
-                "ref": node.get("name") or node.get("role"),
-                "type": "checkbox" if node.get("role") in ("checkbox", "switch") else node.get("role"),
-                "checked": bool(node.get("checked")),
-                "label": node.get("name") or node.get("description"),
-            }
-            for node in ax_nodes
-            if node.get("role") in ("checkbox", "switch")
-        ]
+        if form_controls is not None:
+            normalized_controls = [
+                {
+                    "ref": control.get("ref")
+                    or control.get("element_id")
+                    or control.get("name"),
+                    "type": control.get("type"),
+                    "checked": bool(control.get("checked")),
+                    "label": control.get("label") or control.get("name"),
+                }
+                for control in form_controls
+            ]
+        else:
+            normalized_controls = [
+                {
+                    "ref": node.get("ref") or node.get("element_id") or node.get("name") or node.get("role"),
+                    "type": "checkbox" if node.get("role") in ("checkbox", "switch") else node.get("role"),
+                    "checked": bool(node.get("checked")),
+                    "label": node.get("name") or node.get("description"),
+                }
+                for node in ax_nodes
+                if node.get("role") in ("checkbox", "switch")
+            ]
+        form_controls = normalized_controls
         prechecked = rules.flag_prechecked_toggles(form_controls)
         if session_state is not None:
             prechecked = [
@@ -81,7 +103,7 @@ class IngressFilter:
         flooding = node_flood or mutation_flood
 
         stripped_count = len(style_result["stripped"])
-        finding_count = len(text_findings) + len(prechecked)
+        finding_count = len(text_findings) + len(prechecked) + removed_count
 
         telemetry_lines = ["[S.H.O.A.V. INGRESS SHIELD]"]
         findings = {
@@ -121,6 +143,7 @@ class IngressFilter:
         telemetry_lines.append("status: rewritten")
         telemetry_lines.append(f"- hidden nodes stripped: {stripped_count}")
         telemetry_lines.append(f"- text/comment injection findings: {len(text_findings)}")
+        telemetry_lines.append(f"- text removals from excerpt (hidden text, zero-width chars, injected sentences): {removed_count}")
         telemetry_lines.append(f"- pre-checked consent-like toggles flagged: {len(prechecked)}")
         telemetry_lines.append(
             f"- context compaction: {node_count_before_budget} -> "
