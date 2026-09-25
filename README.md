@@ -18,7 +18,7 @@ Built for the **Genesis Hackathon 2026**, Track 03.
 
 <br>
 
-![Phase](https://img.shields.io/badge/phase-building-f59e0b?style=flat-square)
+![Phase](https://img.shields.io/badge/phase-integration-f59e0b?style=flat-square)
 ![Base](https://img.shields.io/badge/built_on-Auto_Browser-2563eb?style=flat-square)
 ![Core](https://img.shields.io/badge/core-deterministic-16a34a?style=flat-square)
 ![Track](https://img.shields.io/badge/genesis_hackathon-track_03-7c3aed?style=flat-square)
@@ -85,10 +85,16 @@ never lower it. Fooling the advisor costs us a false alarm, not a breach.
 
 ## Where we are
 
-Research is done and the base is running. We now have Auto Browser running natively
-(no Docker), a visible browser, a live per-session dashboard, and `agy` driving it on a
-benchmark task. The guard itself (hidden-content stripping on what the agent reads, and a
-hit-test on what it clicks) is the next thing we build. See `context.md` for daily status.
+The parts are built and we are in the final stitching step, one step from the output.
+
+| Part | State |
+|------|-------|
+| Detection core (`shoav-mcp/filters/`) | Done. Deterministic ingress and egress filters with session state, tested, JS probes verified in real Chromium. |
+| Base MCP (`external/automcp/auto-browser/`) | Working. Native, no Docker, visible browser, live per-session dashboard, `agy` driving it. |
+| Skill (`shoav-skill/`) | Done. Portable defense manual, companion audit scripts and an `npx` installer. |
+| Guard wiring (`shoav-mcp/MCP/plan.md`) | In progress. Hooking the filters into the Auto Browser controller. |
+
+See `context.md` for daily status.
 
 ## Built on
 
@@ -96,16 +102,15 @@ Two open-source projects. We changed the first and only drive the second from ou
 
 | Project | How we use it |
 |---------|---------------|
-| [Auto Browser](https://github.com/LvcidPsyche/auto-browser) (MIT) | Base browser MCP, included in this repo at `external/auto-browser/` with its MIT license. Our changes: no Docker, visible browser, live per-session dashboard. Guard goes inside it. |
+| [Auto Browser](https://github.com/LvcidPsyche/auto-browser) (MIT) | Base browser MCP, reworked and included in this repo at `external/automcp/auto-browser/` with its MIT license. Our changes: no Docker, visible browser, live per-session dashboard, guard wiring. |
 | [LiteAgent / TrickyArena](https://github.com/purseclab/liteagent) | Dark-pattern benchmark. Repo has no license, so we do not include its code. Clone it yourself if needed. We only test against the hosted site. |
 
 ## Setup
 
-Get the base MCP and run it directly (Python 3.11+ needed by Auto Browser):
+The base MCP is already in this repo under `external/automcp/auto-browser/`. Run it directly (Python 3.11+ needed by Auto Browser):
 
 ```bash
-git clone https://github.com/LvcidPsyche/auto-browser.git external/auto-browser
-cd external/auto-browser/controller
+cd external/automcp/auto-browser/controller
 python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
 ```
 
@@ -125,9 +130,10 @@ More in [`AGENTS.md`](AGENTS.md).
 ```
 context.md     working context and decisions
 research/      literature-grounded research, workstreams 00 to 09
-shoav-mcp/     the guard: detection targets, implementation next
+shoav-mcp/     the guard: filters (done), MCP wiring plan
+shoav-skill/   agent skill, audit scripts and npx installer
 AGENTS.md      how any agent connects to the MCP
-external/      third-party clones (git-ignored)
+external/      automcp (our reworked Auto Browser, tracked); other clones git-ignored
 assets/        images
 ```
 
