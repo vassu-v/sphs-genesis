@@ -1,9 +1,0 @@
-{
-  "name": "auto-browser-browser-node",
-  "version": "1.7.0",
-  "private": true,
-  "type": "module",
-  "dependencies": {
-    "playwright": "1.62.0"
-  }
-}
