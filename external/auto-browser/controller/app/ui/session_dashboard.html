@@ -424,6 +424,44 @@
   .btn-outline:hover {
     border-color: var(--accent);
   }
+
+  /* Domain chip + overview charts */
+  .domain-chip {
+    display: flex; align-items: center; gap: 6px;
+    background: rgba(59,130,246,0.12); border: 1px solid rgba(59,130,246,0.35);
+    color: var(--accent); padding: 4px 10px; border-radius: 20px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    white-space: nowrap;
+  }
+  .domain-tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    color: var(--text-muted); background: var(--bg);
+    border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px;
+  }
+  .overview {
+    display: grid; grid-template-columns: 150px 1fr; gap: 14px;
+    padding: 14px 16px; border-bottom: 1px solid var(--border);
+    background: var(--surface-1); flex-shrink: 0;
+  }
+  .chart-card {
+    background: var(--surface-2); border: 1px solid var(--border);
+    border-radius: 8px; padding: 10px 12px;
+  }
+  .chart-title {
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--text-subtle); font-weight: 600; margin-bottom: 8px;
+  }
+  .donut-wrap { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .donut-center { font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 700; fill: var(--text); }
+  .donut-sub { font-size: 8px; fill: var(--text-subtle); text-transform: uppercase; }
+  .legend { display: flex; flex-wrap: wrap; gap: 4px 8px; font-size: 10px; color: var(--text-muted); justify-content: center; }
+  .legend i { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 4px; }
+  .right-stack { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+  .domain-row { display: flex; align-items: center; gap: 8px; font-size: 11px; margin-bottom: 5px; }
+  .domain-row .dn { font-family: 'JetBrains Mono', monospace; width: 46%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .domain-row .bar { flex: 1; height: 6px; background: var(--bg); border-radius: 3px; overflow: hidden; }
+  .domain-row .bar > span { display: block; height: 100%; background: linear-gradient(90deg, #1d4ed8, #3b82f6); border-radius: 3px; }
+  .domain-row .ct { font-family: 'JetBrains Mono', monospace; color: var(--text-muted); width: 20px; text-align: right; }
 </style>
 </head>
 <body>
@@ -449,6 +487,7 @@
   <section class="viewport-column">
     <div class="url-bar-container">
       <span class="nav-ssl">🔒</span>
+      <div class="domain-chip" id="domain-chip">—</div>
       <div class="url-input" id="current-url">about:blank</div>
       <div class="page-title" id="page-title">Initializing...</div>
     </div>
@@ -474,6 +513,24 @@
   <section class="telemetry-column">
     <div class="tabs-bar">
       <button class="tab-btn active">🛡️ Live Security & Action Trace</button>
+    </div>
+
+    <div class="overview">
+      <div class="chart-card donut-wrap">
+        <div class="chart-title">Action mix</div>
+        <svg id="donut" width="110" height="110" viewBox="0 0 110 110"></svg>
+        <div class="legend" id="donut-legend"></div>
+      </div>
+      <div class="right-stack">
+        <div class="chart-card">
+          <div class="chart-title">Activity timeline (last 24 events)</div>
+          <svg id="timeline" width="100%" height="56" viewBox="0 0 240 56" preserveAspectRatio="none"></svg>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">Domains visited</div>
+          <div id="domain-list"><span style="color:var(--text-subtle);font-size:11px;">No traffic yet</span></div>
+        </div>
+      </div>
     </div>
 
     <div class="action-feed" id="action-feed">
@@ -581,7 +638,65 @@
     }
   }
 
+  // ---- Overview charts (inline SVG, no external deps) ----
+  const TYPE_COLORS = { navigate:'#3b82f6', click:'#10b981', type:'#f59e0b', type_text:'#f59e0b', observe:'#6366f1', screenshot:'#06b6d4', blocked:'#f43f5e', other:'#64748b' };
+  const typeCounts = {};
+  const domainCounts = {};
+  const timeline = [];   // {type, blocked}
+  let currentDomain = '';
+
+  function domainOf(url) {
+    try { return new URL(url).hostname.replace(/^www\./, ''); } catch { return ''; }
+  }
+
+  function colorFor(t) { return TYPE_COLORS[t] || TYPE_COLORS.other; }
+
+  function renderCharts() {
+    // donut
+    const entries = Object.entries(typeCounts);
+    const total = entries.reduce((s, [, n]) => s + n, 0);
+    const donut = document.getElementById('donut');
+    let svg = '<circle cx="55" cy="55" r="40" fill="none" stroke="#1f293d" stroke-width="14"/>';
+    if (total) {
+      const C = 2 * Math.PI * 40; let off = 0;
+      for (const [t, n] of entries) {
+        const len = C * n / total;
+        svg += `<circle cx="55" cy="55" r="40" fill="none" stroke="${colorFor(t)}" stroke-width="14" stroke-dasharray="${len} ${C - len}" stroke-dashoffset="${-off}" transform="rotate(-90 55 55)"/>`;
+        off += len;
+      }
+    }
+    svg += `<text x="55" y="56" text-anchor="middle" class="donut-center">${total}</text><text x="55" y="70" text-anchor="middle" class="donut-sub">events</text>`;
+    donut.innerHTML = svg;
+    document.getElementById('donut-legend').innerHTML =
+      entries.map(([t, n]) => `<span><i style="background:${colorFor(t)}"></i>${t} ${n}</span>`).join('');
+
+    // timeline bars
+    const tl = document.getElementById('timeline');
+    const last = timeline.slice(-24); const w = 240 / 24;
+    tl.innerHTML = last.map((e, i) => {
+      const h = e.blocked ? 50 : (e.type === 'observe' || e.type === 'screenshot' ? 22 : 36);
+      return `<rect x="${i * w + 1}" y="${56 - h}" width="${w - 2}" height="${h}" rx="2" fill="${e.blocked ? TYPE_COLORS.blocked : colorFor(e.type)}"/>`;
+    }).join('');
+
+    // domains
+    const dEntries = Object.entries(domainCounts).sort((a, b) => b[1] - a[1]).slice(0, 5);
+    const max = dEntries.length ? dEntries[0][1] : 1;
+    if (dEntries.length) {
+      document.getElementById('domain-list').innerHTML = dEntries.map(([d, n]) =>
+        `<div class="domain-row"><span class="dn">${d}</span><span class="bar"><span style="width:${Math.round(100 * n / max)}%"></span></span><span class="ct">${n}</span></div>`).join('');
+    }
+  }
+
+  function recordEvent(type, status) {
+    const t = type.replace(/[^a-zA-Z0-9]/g, '_');
+    typeCounts[t] = (typeCounts[t] || 0) + 1;
+    timeline.push({ type: t, blocked: status === 'blocked' });
+    if (currentDomain) domainCounts[currentDomain] = (domainCounts[currentDomain] || 0) + 1;
+    renderCharts();
+  }
+
   function addActionItem(type, content, timestamp, status = 'ok') {
+    recordEvent(type, status);
     const feed = document.getElementById('action-feed');
     const item = document.createElement('div');
     item.className = 'feed-item';
@@ -598,6 +713,12 @@
     timeBadge.textContent = timestamp ? new Date(timestamp).toLocaleTimeString() : new Date().toLocaleTimeString();
 
     header.appendChild(typeBadge);
+    if (currentDomain) {
+      const dt = document.createElement('span');
+      dt.className = 'domain-tag';
+      dt.textContent = currentDomain;
+      header.appendChild(dt);
+    }
     header.appendChild(timeBadge);
     item.appendChild(header);
 
@@ -622,7 +743,11 @@
   }
 
   function updateLocation(url, title) {
-    if (url) document.getElementById('current-url').textContent = url;
+    if (url) {
+      document.getElementById('current-url').textContent = url;
+      const d = domainOf(url);
+      if (d) { currentDomain = d; document.getElementById('domain-chip').textContent = d; }
+    }
     if (title) document.getElementById('page-title').textContent = title;
   }
 
@@ -690,6 +815,8 @@
         updateScreenshot(match[1]);
       }
     });
+
+  renderCharts();
 
   // Polling fallback to keep UI fresh even without SSE triggers
   setInterval(checkSessionStatus, 4000);
