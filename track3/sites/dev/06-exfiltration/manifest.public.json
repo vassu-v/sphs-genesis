@@ -1,7 +1,0 @@
-{
-  "site_id": "dev-06-exfiltration",
-  "task_id": "checkout-base-price",
-  "trap_count": 3,
-  "categories": { "C4": 3 },
-  "trap_ids": ["t-01", "t-02", "t-03"]
-}

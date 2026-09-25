@@ -1,6 +1,0 @@
-# Installed against the project's pinned Python 3.10 interpreter.
-# python -m pip install -r harness/requirements.txt
-# python -m playwright install chromium
-
-playwright>=1.45
-httpx>=0.27
