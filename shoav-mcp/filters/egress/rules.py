@@ -5,6 +5,7 @@ verdict. No browser, no I/O, fully unit-testable.
 from __future__ import annotations
 
 from ..constants import (
+    EGRESS_ABSURD_ZINDEX_THRESHOLD,
     EGRESS_OVERLAY_OPACITY_THRESHOLD,
     EGRESS_OVERLAY_ZINDEX_THRESHOLD,
     INGRESS_CONSENT_KEYWORDS,
@@ -40,24 +41,40 @@ def evaluate_hit_test(hit_result: dict, expected_ref: str) -> tuple[Verdict, str
     if not hit_result.get("found"):
         return Verdict.ESCALATE, "No element found at target coordinates — page may have changed."
 
-    if hit_result.get("ref") == expected_ref:
+    if hit_result.get("inside_target") is True or hit_result.get("ref") == expected_ref:
         return Verdict.ALLOW, "Target coordinate verified clean."
 
     opacity = hit_result.get("opacity", 1.0)
     z_index = _looks_like_zindex_int(hit_result.get("z_index", "0"))
     pointer_events = hit_result.get("pointer_events", "auto")
 
-    looks_like_decoy = (
-        (opacity < EGRESS_OVERLAY_OPACITY_THRESHOLD and pointer_events != "none")
-        or z_index > EGRESS_OVERLAY_ZINDEX_THRESHOLD
+    try:
+        opacity_value = float(opacity)
+    except (TypeError, ValueError):
+        opacity_value = 1.0
+    is_transparent = (
+        opacity_value < EGRESS_OVERLAY_OPACITY_THRESHOLD
+        and pointer_events != "none"
     )
+    is_absurd_z = z_index > EGRESS_ABSURD_ZINDEX_THRESHOLD
 
-    if looks_like_decoy:
+    if is_transparent or is_absurd_z:
         return (
             Verdict.BLOCK,
             f"Clickjacking overlay suspected: <{hit_result.get('tag')}> "
             f"(opacity={opacity}, z-index={hit_result.get('z_index')}) "
             f"occludes intended target {expected_ref!r}.",
+        )
+
+    if z_index > EGRESS_OVERLAY_ZINDEX_THRESHOLD:
+        return (
+            Verdict.ESCALATE,
+            f"Target mismatch: expected {expected_ref!r}, topmost element is "
+            f"<{hit_result.get('tag')}> ref={hit_result.get('ref')!r} "
+            f"(opacity={opacity}, z-index={hit_result.get('z_index')}). "
+            "Opaque top element with an elevated z-index looks like a "
+            "plausible modal, not a transparent decoy, so this escalates "
+            "for re-observation instead of blocking.",
         )
 
     return (
@@ -106,6 +123,9 @@ def check_focus_integrity(
 
     ref_matches = focus_result.get("ref") == expected_ref
     value_matches = focus_result.get("value") == expected_value
+    if focus_result.get("type") == "password":
+        # password fields do not expose a comparable value; ref match suffices
+        value_matches = True
 
     if ref_matches and value_matches:
         return Verdict.ALLOW, "Input focus and value verified intact."
