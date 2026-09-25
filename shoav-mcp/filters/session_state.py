@@ -31,6 +31,9 @@ class SessionState:
     # pre-checked field the agent itself unchecked isn't re-flagged.
     touched_refs: set[str] = field(default_factory=set)
 
+    def mark_touched(self, ref: str) -> None:
+        self.touched_refs.add(ref)
+
 
 class SessionStateStore:
     """A plain dict-backed cache, one SessionState per session_id."""
@@ -42,6 +45,9 @@ class SessionStateStore:
         if session_id not in self._sessions:
             self._sessions[session_id] = SessionState()
         return self._sessions[session_id]
+
+    def mark_touched(self, session_id: str, ref: str) -> None:
+        self.get_or_create(session_id).mark_touched(ref)
 
     def reset(self, session_id: str) -> None:
         self._sessions.pop(session_id, None)
