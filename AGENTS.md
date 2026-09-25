@@ -9,10 +9,10 @@ This workspace connects autonomous AI agents (Antigravity CLI `agy`, Gemini CLI,
 - **MCP Endpoint**: `http://127.0.0.1:8000/mcp`
 - **Global Admin Dashboard**: `http://127.0.0.1:8000/dashboard`
 - **Per-Session Live Dashboard**: `http://127.0.0.1:8000/live/{session_id}`
-- **Subdirectory Reference**: See [`external/auto-browser/AGENTS.md`](file:///d:/work/genesishackathon/external/auto-browser/AGENTS.md) for full MCP tool definitions.
+- **Subdirectory Reference**: See [`external/automcp/auto-browser/AGENTS.md`](file:///d:/work/genesishackathon/external/automcp/auto-browser/AGENTS.md) for full MCP tool definitions.
 
 ### Quick Commands
-- Start MCP Controller: `cd external/auto-browser/controller && py -3.12 -m uvicorn app.main:app --host 127.0.0.1 --port 8000`
+- Start MCP Controller: `cd external/automcp/auto-browser/controller && py -3.12 -m uvicorn app.main:app --host 127.0.0.1 --port 8000`
 - MCP Endpoint: `http://127.0.0.1:8000/mcp`
 - Live Per-Session Monitor: `http://127.0.0.1:8000/live/<session_id>`
 - Admin Dashboard: `http://127.0.0.1:8000/dashboard`
@@ -47,9 +47,9 @@ For every session created via `browser.create_session`:
 
 ## 3. Key Architecture & File Structure
 
-All MCP and browser modifications reside under `external/auto-browser/`:
-- `external/auto-browser/controller/app/browser/services/runtime.py` — Native headed Chromium execution (Playwright, no Docker).
-- `external/auto-browser/controller/app/ui/session_dashboard.html` — Live per-session monitor UI.
-- `external/auto-browser/controller/app/routes/session_diagnostics.py` — Live dashboard routes (`/live/{session_id}`, `/sessions/{session_id}/dashboard`).
-- `external/auto-browser/controller/app/browser/services/sessions.py` — Session lifecycle and SSE event dispatching.
-- `external/auto-browser/controller/app/browser/services/observation.py` — Real-time screenshot and observation dispatching.
+All MCP and browser modifications reside under `external/automcp/auto-browser/`:
+- `external/automcp/auto-browser/controller/app/browser/services/runtime.py` — Native headed Chromium execution (Playwright, no Docker).
+- `external/automcp/auto-browser/controller/app/ui/session_dashboard.html` — Live per-session monitor UI.
+- `external/automcp/auto-browser/controller/app/routes/session_diagnostics.py` — Live dashboard routes (`/live/{session_id}`, `/sessions/{session_id}/dashboard`).
+- `external/automcp/auto-browser/controller/app/browser/services/sessions.py` — Session lifecycle and SSE event dispatching.
+- `external/automcp/auto-browser/controller/app/browser/services/observation.py` — Real-time screenshot and observation dispatching.

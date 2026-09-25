@@ -16,7 +16,7 @@
 ### Project Context & Authority
 
 ![Updated](https://img.shields.io/badge/updated-2026--09--25-0ea5e9?style=flat-square)
-![Phase](https://img.shields.io/badge/phase-architecture_and_build-f59e0b?style=flat-square)
+![Phase](https://img.shields.io/badge/phase-final_stitching-f59e0b?style=flat-square)
 ![Pillar_1](https://img.shields.io/badge/pillar_1-Hardened_MCP_Tool-2563eb?style=flat-square)
 ![Pillar_2](https://img.shields.io/badge/pillar_2-Cognitive_Vigilance_Skill-8b5cf6?style=flat-square)
 ![Pillar_3](https://img.shields.io/badge/pillar_3-Sandboxed_Subagent-10b981?style=flat-square)
@@ -50,9 +50,9 @@
 | Event | Genesis Hackathon 2026, **Track 03** (AI Bodyguard, codename S.H.O.A.V.) |
 | Format | 48-hour hackathon, kickoff Thu 2026-09-24 08:30 |
 | Deadlines | 4-pillar technical report + 3-min video **Fri 2026-09-25 23:30**; in-person rounds **Sat 2026-09-26** |
-| Current Phase | Architecture and MCP filter implementation; Workstream 10 research complete |
+| Current Phase | Final stitching: filters and skill are built, wiring them into the MCP |
 | Prior Code | `track3/` prototype is permanently superseded (circular benchmark). Do not build on it |
-| Git Repository | Branch `main`, committed as `vassu-v` (`coderscode17@gmail.com`). Push only on explicit instruction |
+| Git Repository | Working branch `modules-parted-mcp-patch` (commits as `vassu-v`, `coderscode17@gmail.com`); `main` untouched. Push only on explicit instruction |
 | Scoring Rubric | **UI/UX: 30** · **Functionality: 30** · **Demo: 15** · **Round 2 Live Problem Solving Bonus: +30** |
 
 ---
@@ -65,14 +65,14 @@ We are building three tightly integrated components to deliver complete defense,
 +----------------------------------------------------------------------------------------+
 |                               S.H.O.A.V. ECOSYSTEM                                     |
 +----------------------------------------------------------------------------------------+
-| 1. THE TOOL: HARDENED MCP PROXY (Primary Build Target)                                 |
+| 1. THE TOOL: HARDENED MCP PROXY (Filters built, wiring in progress)                                 |
 |    - Sits between any agent (agy, Claude Desktop, Cursor) and the browser MCP runtime. |
 |    - Deterministic Ingress Filter: audits opacity, hidden CSS, context overloading,    |
 |      dummy DOM diffs, and non-rendered text. Verdicts: ALLOW, BLOCK, REWRITE/SANITIZE. |
 |    - Deterministic Egress Filter: performs physical hit-testing (elementFromPoint) at   |
 |      action coordinates before execution. Verdicts: ALLOW, BLOCK.                      |
 +----------------------------------------------------------------------------------------+
-| 2. THE SKILL: COGNITIVE VIGILANCE & DARK PATTERN ADVISOR (skills/shoav-guard/)         |
+| 2. THE SKILL: COGNITIVE VIGILANCE & DARK PATTERN ADVISOR (shoav-skill/, built)         |
 |    - Installable agent skill on dark patterns, human cognitive biases, and psychology. |
 |    - Teaches agents how malicious sites hack heuristics (loss aversion, default effect)|
 |      and how LLM reasoning paradoxically over-rationalizes deceptive UI.               |
@@ -276,7 +276,8 @@ agy --dangerously-skip-permissions --print "Navigate to https://agenttrickydps.v
 * **2026-09-25 15:26**: Created `shoav-mcp/DETERMINISTIC_TARGETS.md` specifying purely computational dark pattern targets (opacity, clickjacking hit-test mismatch, pre-checked toggles, context bloat) separated from skill-based psychological patterns.
 * **2026-09-25 15:30**: Created `shoav-mcp/filters/PLAN_AND_ROUGH_SKETCH.md` detailing the Ingress (ALLOW/BLOCK/REWRITE with telemetry) and Egress (ALLOW/BLOCK with elementFromPoint hit-testing) pipeline, JevEmbed local acceleration, and evaluating internal Auto-Browser modification vs. external proxy.
 * **2026-09-25 17:25**: Analyzed and integrated **Agent Gaslighting & Tool Misattribution** into the S.H.O.A.V. architecture. Updated `shoav-mcp/filters/PLAN_AND_ROUGH_SKETCH.md` and `shoav-mcp/filters/context.md` with deterministic defenses: Ingress synthetic error quarantine and Egress post-action input/focus integrity verification.
-* **Next Immediate Engineering Step**: Implement the deterministic filter modules in `shoav-mcp/filters/` and hook them into `external/auto-browser` controller pipeline for live dashboard telemetry.
+* **2026-09-25 (evening)**: Deterministic ingress/egress filter core implemented in `shoav-mcp/filters/` (90 tests, JS probes verified in Chromium). Teammate shipped `shoav-skill/` (defense manual, audit scripts, npx installer) and the project report. Tracking moved from `external/auto-browser/` to `external/automcp/` (our reworked copy). Work pushed to `modules-parted-mcp-patch` as a backdated, staged history.
+* **Next Immediate Engineering Step**: Finish wiring the filters into the `external/automcp/auto-browser` controller (`shoav-mcp/MCP/plan.md`), run the end-to-end pass.
 
 ---
 
@@ -297,7 +298,10 @@ agy --dangerously-skip-permissions --print "Navigate to https://agenttrickydps.v
 | `CLAUDE.md` | Development rules, git conventions, commit author standards |
 | `external/context.auto-browser.md` | Deep technical context and modification log for the Auto-Browser MCP |
 | `external/AGENT_HANDOFF_CONTEXT.md` | Portable agent handoff context brief (copy-pasteable for any LLM/agent) |
-| `external/auto-browser/` | Tracked. Decoupled standalone Playwright MCP server with Per-Session Live Dashboard |
+| `external/automcp/` | Tracked. Our reworked Auto Browser (`auto-browser/`), MCP test harness, agent docs. Replaces the old `external/auto-browser/` tracking |
+| `shoav-mcp/filters/` | Deterministic ingress/egress core, session state, tests, plan |
+| `shoav-mcp/MCP/plan.md` | Plan for wiring the filters into the controller |
+| `shoav-skill/` | Agent skill, audit scripts, npx installer (Pillar 2) |
 | `external/liteagent/` | TrickyArena benchmark suite and evaluation checks |
 | `research/10-agent-manipulation-and-mitigations/` | Workstream 10: Expanded attack landscape, context overloading, and MCP mitigations |
 | `research/08-synthesis/` | Master synthesis, prioritized detection targets, open questions |
