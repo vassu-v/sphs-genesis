@@ -17,32 +17,183 @@ the mutation decision (which needs the benign-hidden-marker allowlist,
 keyword heuristics, etc.) in testable Python instead of buried in a page.evaluate string.
 """
 
-# Walks elements carrying Auto Browser's existing data-operator-id stamp
-# (see INTEGRATION.md's note that INTERACTABLES_SCRIPT already stamps
-# elements it iterates) and reports raw style/geometry facts, no filtering.
+# Reports checkbox/switch/radio state with label text and a stable ref.
+# Each entry: {element_id, tag, type, checked, label, ref}.
+# element_id is data-operator-id when present, else the DOM id or null.
+# ref prefers data-operator-id, then a sticky per-element stamp
+# (dataset.shoavRef) allocated from the window.__shoavSeq counter so it is
+# stable across repeated evaluations within one page lifetime.
+# Label resolution order: aria-label, associated label[for=id], closest
+# wrapping <label>, aria-labelledby text, name attribute, value, else "".
+FORM_STATE_SCRIPT = """
+(() => {
+    window.__shoavSeq = window.__shoavSeq || 0;
+    const out = [];
+    const seen = new Set();
+    const labelFor = (el) => {
+        const aria = (el.getAttribute && el.getAttribute('aria-label')) || '';
+        if (aria.trim()) return aria.trim().slice(0, 200);
+        const id = el.id || '';
+        if (id) {
+            const lab = document.querySelector('label[for="' + id.replace(/"/g, '') + '"]');
+            if (lab && lab.innerText && lab.innerText.trim()) return lab.innerText.trim().slice(0, 200);
+        }
+        const wrap = el.closest ? el.closest('label') : null;
+        if (wrap && wrap.innerText && wrap.innerText.trim()) return wrap.innerText.trim().slice(0, 200);
+        const labelledBy = (el.getAttribute && el.getAttribute('aria-labelledby')) || '';
+        if (labelledBy.trim()) {
+            const parts = labelledBy.split(/\\s+/).map(ref => {
+                const n = document.getElementById(ref);
+                return n && n.innerText ? n.innerText.trim() : '';
+            }).filter(Boolean);
+            if (parts.length) return parts.join(' ').slice(0, 200);
+        }
+        const name = el.getAttribute ? (el.getAttribute('name') || '') : '';
+        if (name.trim()) return name.trim().slice(0, 200);
+        const val = (el.value !== undefined && el.value !== null) ? String(el.value) : '';
+        if (val.trim()) return val.trim().slice(0, 200);
+        if (el.innerText && el.innerText.trim()) return el.innerText.trim().slice(0, 200);
+        return '';
+    };
+    const stableRef = (el, elementId) => {
+        if (elementId) return elementId;
+        if (el.dataset && el.dataset.shoavRef) return el.dataset.shoavRef;
+        window.__shoavSeq += 1;
+        const ref = 'shoav-c' + window.__shoavSeq;
+        try { if (el.dataset) el.dataset.shoavRef = ref; } catch (e) {}
+        return ref;
+    };
+    const push = (el, type, checked) => {
+        if (seen.has(el)) return;
+        seen.add(el);
+        const elementId = (el.getAttribute && el.getAttribute('data-operator-id')) || el.id || null;
+        out.push({
+            element_id: elementId,
+            tag: el.tagName,
+            type: type,
+            checked: !!checked,
+            label: labelFor(el),
+            ref: stableRef(el, elementId),
+        });
+    };
+    const inputs = document.querySelectorAll('input[type="checkbox"], input[type="radio"]');
+    for (const el of inputs) {
+        push(el, (el.type || 'checkbox').toLowerCase(), !!el.checked);
+    }
+    const roles = document.querySelectorAll('[role="checkbox"], [role="switch"], [role="radio"]');
+    for (const el of roles) {
+        if (seen.has(el)) continue;
+        const role = (el.getAttribute('role') || 'checkbox').toLowerCase();
+        const ariaChecked = (el.getAttribute('aria-checked') || '').toLowerCase();
+        push(el, role, ariaChecked === 'true');
+    }
+    return out;
+})()
+"""
+# Walks ALL elements that own a direct non-empty text node (not only
+# data-operator-id ones) and reports raw style/geometry facts, no filtering.
+# textContent is used because display:none hides innerText. Hidden state is
+# computed through the ancestor chain: display none if any ancestor is none,
+# visibility hidden if any ancestor is hidden, opacity as the product up the
+# chain. ref is data-operator-id when present, else a generated
+# "path:body>div:nth-of-type(2)>span" selector path.
 STYLE_PROBE_SCRIPT = """
 (() => {
     const results = [];
     const viewport = { width: window.innerWidth, height: window.innerHeight };
-    const stamped = document.querySelectorAll('[data-operator-id]');
-    for (const el of stamped) {
-        const style = window.getComputedStyle(el);
-        const rect = el.getBoundingClientRect();
-        const text = (el.innerText || el.textContent || '').trim();
+    const SKIP = new Set(['SCRIPT', 'STYLE', 'NOSCRIPT', 'TEMPLATE']);
+    const MAX_RESULTS = 2000;
+
+    const pathFor = (el) => {
+        const parts = [];
+        let cur = el;
+        while (cur && cur.nodeType === 1 && cur !== document.documentElement) {
+            const tag = cur.tagName.toLowerCase();
+            if (cur === document.body) { parts.unshift(tag); break; }
+            let idx = 1;
+            let sib = cur.previousElementSibling;
+            while (sib) { if (sib.tagName === cur.tagName) idx++; sib = sib.previousElementSibling; }
+            parts.unshift(tag + ':nth-of-type(' + idx + ')');
+            cur = cur.parentElement;
+        }
+        return 'path:' + parts.join('>');
+    };
+
+    const effectiveStyle = (el) => {
+        const own = window.getComputedStyle(el);
+        let display = own.display;
+        let visibility = own.visibility;
+        let opacity = 1;
+        for (let cur = el; cur && cur.nodeType === 1; cur = cur.parentElement) {
+            const st = window.getComputedStyle(cur);
+            if (st.display === 'none') display = 'none';
+            if (st.visibility === 'hidden' || st.visibility === 'collapse') visibility = 'hidden';
+            const o = parseFloat(st.opacity);
+            if (!isNaN(o)) opacity *= o;
+        }
+        return { display, visibility, opacity, fontSize: parseFloat(own.fontSize) };
+    };
+
+    const all = document.querySelectorAll('*');
+    for (const el of all) {
+        if (results.length >= MAX_RESULTS) break;
+        if (SKIP.has(el.tagName)) continue;
+        let own = '';
+        for (const child of el.childNodes) {
+            if (child.nodeType === 3) own += child.nodeValue;
+        }
+        const text = own.trim();
         if (!text) continue;
+        const eff = effectiveStyle(el);
+        const rect = el.getBoundingClientRect();
         results.push({
-            ref: el.getAttribute('data-operator-id'),
+            ref: el.getAttribute('data-operator-id') || pathFor(el),
             tag: el.tagName,
-            class_name: el.className || '',
+            class_name: (typeof el.className === 'string' ? el.className : '') || '',
             text_snippet: text.slice(0, 200),
-            display: style.display,
-            visibility: style.visibility,
-            opacity: parseFloat(style.opacity),
-            font_size: parseFloat(style.fontSize),
+            display: eff.display,
+            visibility: eff.visibility,
+            opacity: eff.opacity,
+            font_size: eff.fontSize,
             rect: { left: rect.left, top: rect.top, right: rect.right, bottom: rect.bottom },
             viewport,
         });
     }
     return results;
+})()
+"""
+
+# Installs a page-lifetime MutationObserver that counts DOM mutations.
+# Idempotent: reinstalling disconnects the previous observer and restarts
+# the count and clock. Returns {installed: true, started_at: <ms epoch>}.
+# No filtering here; the Python rate helper decides flood vs normal.
+MUTATION_OBSERVER_INSTALL_SCRIPT = """
+(() => {
+    try {
+        if (window.__shoavMutObserver) { window.__shoavMutObserver.disconnect(); }
+    } catch (e) {}
+    window.__shoavMutCount = 0;
+    window.__shoavMutStart = Date.now();
+    const target = document.documentElement || document.body;
+    if (!target) return { installed: false };
+    window.__shoavMutObserver = new MutationObserver((mutations) => {
+        window.__shoavMutCount += mutations.length;
+    });
+    window.__shoavMutObserver.observe(target, {
+        childList: true, subtree: true, attributes: true, characterData: true,
+    });
+    return { installed: true, started_at: window.__shoavMutStart };
+})()
+"""
+
+# Reads the counter started by MUTATION_OBSERVER_INSTALL_SCRIPT.
+# Returns {count, seconds, rate} where rate is mutations per second.
+# If the observer was never installed, returns {count: 0, seconds: 0, rate: 0}.
+MUTATION_OBSERVER_READ_SCRIPT = """
+(() => {
+    const count = window.__shoavMutCount || 0;
+    const start = window.__shoavMutStart || Date.now();
+    const seconds = (Date.now() - start) / 1000;
+    return { count: count, seconds: seconds, rate: seconds > 0 ? count / seconds : 0 };
 })()
 """
