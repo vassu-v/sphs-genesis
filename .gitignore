@@ -48,10 +48,10 @@ Thumbs.db
 # --- Third-party clones (own git repos; see README "Setup") ---
 external/*
 !external/.gitkeep
-!external/auto-browser/
-external/auto-browser/.env
-external/auto-browser/controller/data/
-external/auto-browser/controller/.env
+!external/automcp/
+external/automcp/**/.env
+external/automcp/**/.local-data/
+external/automcp/**/controller/data/
 
 # --- Images are tracked on purpose (screenshots, diagrams, demo assets) ---
 # Nothing here ignores *.png / *.jpg / *.svg / *.gif; the negations guard against
