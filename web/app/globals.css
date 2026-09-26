@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* House styles — the hand-authored design system for the site content below.
+   Kept as one file (not translated into utility classes) so the existing
+   markup renders unchanged; Tailwind + shadcn/ui are available for any new
+   componentry going forward. */
+@import '../public/css/styles.css';
