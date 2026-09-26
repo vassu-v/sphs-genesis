@@ -49,7 +49,7 @@
 |------|-------|
 | Project | S.H.O.A.V. (AI Bodyguard), a browser MCP server with a deterministic guard, plus a portable skill |
 | Status | Alpha, active development. Filters, skill and MCP wiring are done and measured (enforce 27/27, observe 17/17, off 22/22) |
-| Repository | `main` on `vassu-v/sphs-genesis` (commits as `vassu-v`, `coderscode17@gmail.com`). Push only on explicit instruction |
+| Repository | `main` on `vassu-v/SHOAV` (commits as `vassu-v`, `coderscode17@gmail.com`). Push only on explicit instruction |
 | Working rules | See `CLAUDE.md`. Deterministic core, synthetic data only, `external/` is git-ignored and never committed |
 
 ---

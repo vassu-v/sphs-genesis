@@ -44,7 +44,7 @@ export const howItWorksHtml = `
       </nav>
 
       <div class="header-actions">
-        <a href="https://github.com/Vassu-V/sphs-genesis" target="_blank" rel="noopener" class="text-link">GitHub</a>
+        <a href="https://github.com/Vassu-V/SHOAV" target="_blank" rel="noopener" class="text-link">GitHub</a>
         <a href="/#quickstart" class="btn-primary">Get started</a>
       </div>
     </div>
@@ -334,7 +334,7 @@ export const howItWorksHtml = `
           <div class="footer-links">
             <a href="/#quickstart" class="footer-link">Connect an agent</a>
             <a href="/#observability" class="footer-link">Live per-session view</a>
-            <a href="https://github.com/Vassu-V/sphs-genesis" target="_blank" rel="noopener" class="footer-link">GitHub repository</a>
+            <a href="https://github.com/Vassu-V/SHOAV" target="_blank" rel="noopener" class="footer-link">GitHub repository</a>
           </div>
         </div>
 

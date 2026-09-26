@@ -44,7 +44,7 @@ export const homeHtml = `
       </nav>
 
       <div class="header-actions">
-        <a href="https://github.com/Vassu-V/sphs-genesis" target="_blank" rel="noopener" class="text-link">GitHub</a>
+        <a href="https://github.com/Vassu-V/SHOAV" target="_blank" rel="noopener" class="text-link">GitHub</a>
         <a href="#quickstart" class="btn-primary">Get started</a>
       </div>
     </div>
@@ -77,8 +77,8 @@ export const homeHtml = `
           </div>
 
           <div class="hero-command">
-            <code>git clone https://github.com/Vassu-V/sphs-genesis.git</code>
-            <button class="icon-btn" title="Copy command" data-copy-text="git clone https://github.com/Vassu-V/sphs-genesis.git">
+            <code>git clone https://github.com/Vassu-V/SHOAV.git</code>
+            <button class="icon-btn" title="Copy command" data-copy-text="git clone https://github.com/Vassu-V/SHOAV.git">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
             </button>
           </div>
@@ -391,8 +391,8 @@ export const homeHtml = `
           <h3 class="setup-path-title">Clone the framework</h3>
           <p class="setup-path-desc">The full guard: deterministic ingress/egress filters, the MCP gateway, and the live session view. Run it once, it protects every agent that connects.</p>
           <div class="setup-path-command">
-            <code>git clone https://github.com/Vassu-V/sphs-genesis.git</code>
-            <button class="icon-btn" title="Copy command" data-copy-text="git clone https://github.com/Vassu-V/sphs-genesis.git">
+            <code>git clone https://github.com/Vassu-V/SHOAV.git</code>
+            <button class="icon-btn" title="Copy command" data-copy-text="git clone https://github.com/Vassu-V/SHOAV.git">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
             </button>
           </div>
@@ -639,7 +639,7 @@ export const homeHtml = `
           <div class="footer-links">
             <a href="#quickstart" class="footer-link">Connect an agent</a>
             <a href="#observability" class="footer-link">Live per-session view</a>
-            <a href="https://github.com/Vassu-V/sphs-genesis" target="_blank" rel="noopener" class="footer-link">GitHub repository</a>
+            <a href="https://github.com/Vassu-V/SHOAV" target="_blank" rel="noopener" class="footer-link">GitHub repository</a>
           </div>
         </div>
 
