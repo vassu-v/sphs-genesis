@@ -2,7 +2,7 @@
 
 ## 1. Prerequisites
 
-- Python 3.10 (controller requirement; use `py -3.10` on Windows).
+- Python 3.11+ (the controller declares `requires-python >= 3.11`).
 - Controller deps: `auto-browser/controller/requirements.txt` plus `requirements-dev.txt` for tests.
 - Playwright Chromium: `python -m playwright install chromium`.
 - Node.js (only for the live UI): `cd auto-browser/live-ui; npm install`.
@@ -11,7 +11,7 @@
 ## 2. Start
 
 ```powershell
-cd D:\work\genesishackathon\shoav-mcp\MCP\auto-browser
+cd <repo>\shoav-mcp\MCP\auto-browser
 .\scripts\start-local.ps1 -Port 18500 -Guard enforce -Background
 .\scripts\start-local.ps1 -Port 18500 -Status
 ```
@@ -19,7 +19,7 @@ cd D:\work\genesishackathon\shoav-mcp\MCP\auto-browser
 Live UI (separate terminal):
 
 ```powershell
-cd D:\work\genesishackathon\shoav-mcp\MCP\auto-browser\live-ui
+cd <repo>\shoav-mcp\MCP\auto-browser\live-ui
 npm install
 npm run build
 npm start
@@ -43,7 +43,7 @@ Stop exactly the process tree you started. Data for the port lives in `auto-brow
 ## 5. Rebuild the UI after changes
 
 ```powershell
-cd D:\work\genesishackathon\shoav-mcp\MCP\auto-browser\live-ui
+cd <repo>\shoav-mcp\MCP\auto-browser\live-ui
 npm run build
 npm test
 ```
@@ -51,7 +51,7 @@ npm test
 Backend tests:
 
 ```powershell
-cd D:\work\genesishackathon\shoav-mcp\MCP\auto-browser\controller
+cd <repo>\shoav-mcp\MCP\auto-browser\controller
 python -m pytest -q
 ```
 
@@ -67,7 +67,7 @@ Guard contract rule: change `live-ui/CONTRACT.md` and both sides (emitter and re
 
 ## 8. Guard modes and the T-5 runner
 
-Start the controller once per mode, then run the matching runner line from `D:\work\genesishackathon`:
+Start the controller once per mode, then run the matching runner line from the repo root:
 
 ```powershell
 .\scripts\start-local.ps1 -Port 18500 -Guard off -Background

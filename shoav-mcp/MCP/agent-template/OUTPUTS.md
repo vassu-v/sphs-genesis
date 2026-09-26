@@ -41,7 +41,7 @@ Base: `http://127.0.0.1:3200/s/<session_id>` (same link the agent prints; read-o
 
 ## 4. T-5 runner map (off / observe / enforce)
 
-From `D:\work\genesishackathon`, controller on 18500, fixtures on 186xx:
+From the repo root, controller on 18500, fixtures on 186xx:
 
 ```powershell
 python shoav-mcp/t5_e2e/run_t5.py --controller http://127.0.0.1:18500 --fixture-port 18631 --mode off

@@ -5,7 +5,7 @@ Read this file first. It is the only entry point for an agent running the guarde
 ## 1. Go to the controller folder
 
 ```powershell
-cd D:\work\genesishackathon\shoav-mcp\MCP\auto-browser
+cd shoav-mcp\MCP\auto-browser
 ```
 
 All server commands run from there. Do not run them from `shoav-mcp/MCP/agent-template/`.

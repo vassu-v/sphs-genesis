@@ -105,7 +105,7 @@ Every result is one of four verdicts:
 
 ## Quick start
 
-You need Python 3.10+, Node.js (for the live view only) and Chromium (`python -m playwright install chromium`).
+You need Python 3.11+, Node.js (for the live view only) and Chromium (`python -m playwright install chromium`).
 
 ```powershell
 # 1. start the MCP. Guard mode is off, observe or enforce

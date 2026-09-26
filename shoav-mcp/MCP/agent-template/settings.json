@@ -1,6 +1,5 @@
 {
   "SHOAV_GUARD_MODE": "enforce",
-  "SHOAV_FILTERS_PATH": "D:\\work\\genesishackathon\\shoav-mcp\\filters",
   "SHOAV_GUARD_FAIL": "open",
   "MCP_TOOL_NAME_STYLE": "underscore"
 }
