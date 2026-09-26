@@ -26,6 +26,9 @@ class IngressFilter:
         session_state: SessionState | None = None,
         mutation_rate: float | None = None,
         form_controls: list[dict] | None = None,
+        raw_element_count: int | None = None,
+        raw_text_chars: int | None = None,
+        mutation: dict | None = None,
     ) -> dict:
         """payload: an Auto Browser observation-shaped dict, at minimum
         {"interactables": [...], "text_excerpt": "...",
@@ -36,6 +39,13 @@ class IngressFilter:
         FORM_STATE_SCRIPT output ({element_id/ref, tag, type, checked,
         label, name}). Correlation prefers ref, then element_id, then name.
         When None (default), falls back to the accessibility_outline path.
+
+        raw_element_count / raw_text_chars: FLOOD_PROBE_SCRIPT output
+        measured BEFORE caps; None skips that signal (fail-open).
+        mutation: MUTATION_OBSERVER_READ_SCRIPT output
+        ({count, seconds, rate}); when supplied it feeds the mutation-rate
+        flood check, with mutation_rate kept as a backwards-compatible
+        override (explicit mutation_rate wins when both are given).
         """
         interactables = list(payload.get("interactables", []))
         text_excerpt = payload.get("text_excerpt", "") or ""
@@ -96,11 +106,25 @@ class IngressFilter:
         # PLAN_AND_ROUGH_SKETCH.md 3.1 step 4. 4x the trigger is a deliberately
         # conservative floor: compaction alone handles ordinary large pages.
         node_flood = node_count_before_budget > INGRESS_NODE_BUDGET_TRIGGER * 4
-        mutation_flood, mutation_reason = (
-            rules.evaluate_mutation_rate(mutation_rate) if mutation_rate is not None
-            else (False, None)
+        effective_mutation_rate = mutation_rate
+        if effective_mutation_rate is None and isinstance(mutation, dict):
+            try:
+                rate = mutation.get("rate")
+                if rate is None:
+                    count = float(mutation.get("count", 0))
+                    seconds = float(mutation.get("seconds", 0))
+                    rate = (count / seconds) if seconds > 0 else 0.0
+                effective_mutation_rate = float(rate)
+            except (TypeError, ValueError):
+                effective_mutation_rate = None
+        raw_flood, raw_reason = rules.evaluate_flood_signal(
+            raw_element_count=raw_element_count,
+            raw_text_chars=raw_text_chars,
+            mutations_per_second=effective_mutation_rate,
         )
-        flooding = node_flood or mutation_flood
+        mutation_flood = raw_flood and raw_reason is not None and "sec exceeds" in raw_reason
+        mutation_reason = raw_reason if mutation_flood else None
+        flooding = node_flood or raw_flood
 
         stripped_count = len(style_result["stripped"])
         finding_count = len(text_findings) + len(prechecked) + removed_count
@@ -120,6 +144,8 @@ class IngressFilter:
                 )
             if mutation_flood:
                 telemetry_lines.append(f"status: blocked (mutation flood — {mutation_reason})")
+            if raw_flood and not mutation_flood:
+                telemetry_lines.append(f"status: blocked (raw flood — {raw_reason})")
             return {
                 "verdict": Verdict.BLOCK,
                 "telemetry": "\n".join(telemetry_lines),

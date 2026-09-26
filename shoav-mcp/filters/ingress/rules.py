@@ -23,6 +23,8 @@ from ..constants import (
     INGRESS_NODE_PRIORITY,
     INGRESS_OFFSCREEN_LEFT_PX,
     INGRESS_OPACITY_THRESHOLD,
+    INGRESS_RAW_ELEMENT_COUNT_THRESHOLD,
+    INGRESS_RAW_TEXT_CHARS_THRESHOLD,
     INGRESS_TOKEN_BUDGET_TRIGGER,
     ZERO_WIDTH_CHARS,
 )
@@ -50,11 +52,18 @@ def find_hidden_textful_nodes(style_facts: list[dict]) -> dict:
 
     Returns {"stripped": [...], "skipped_benign": [...]} — both lists are
     kept so telemetry can be honest about what was left alone and why.
+    Non-rendered head tags (TITLE, META, HEAD, LINK, BASE, STYLE, SCRIPT)
+    are never stripped: their text never reaches agent-visible snapshot
+    text, so flagging them would turn every benign page into REWRITE.
     """
+    _NON_RENDERED = {"HTML", "HEAD", "TITLE", "META", "LINK", "BASE", "STYLE", "SCRIPT", "NOSCRIPT", "TEMPLATE"}
     stripped: list[dict] = []
     skipped_benign: list[dict] = []
 
     for node in style_facts:
+        tag = str(node.get("tag") or "").upper()
+        if tag in _NON_RENDERED:
+            continue
         rect = node.get("rect", {})
         viewport = node.get("viewport", {})
         hidden = (
@@ -246,6 +255,38 @@ def evaluate_mutation_rate_verdict(
     if rate > threshold:
         return Verdict.BLOCK
     return Verdict.ALLOW
+
+
+def evaluate_flood_signal(
+    raw_element_count: int | None = None,
+    raw_text_chars: int | None = None,
+    mutations_per_second: float | None = None,
+    *,
+    element_threshold: int = INGRESS_RAW_ELEMENT_COUNT_THRESHOLD,
+    text_chars_threshold: int = INGRESS_RAW_TEXT_CHARS_THRESHOLD,
+    mutation_threshold: float = INGRESS_MUTATION_RATE_THRESHOLD,
+) -> tuple[bool, str | None]:
+    """Target 4 (F-E): raw pre-cap flood signal.
+
+    Inputs come from FLOOD_PROBE_SCRIPT output (element_count, text_chars,
+    both measured BEFORE compaction/truncation) plus the mutation-rate feed
+    from MUTATION_OBSERVER_READ_SCRIPT. Any single signal past its threshold
+    floods. None means that signal was not measured, so it is skipped
+    (fail-open per signal). Pure function.
+    """
+    if raw_element_count is not None and raw_element_count > element_threshold:
+        return True, (
+            f"raw element count {raw_element_count} exceeds {element_threshold}"
+        )
+    if raw_text_chars is not None and raw_text_chars > text_chars_threshold:
+        return True, (
+            f"raw text volume {raw_text_chars} chars exceeds {text_chars_threshold}"
+        )
+    if mutations_per_second is not None and mutations_per_second > mutation_threshold:
+        return True, (
+            f"{mutations_per_second}/sec exceeds the {mutation_threshold}/sec flood threshold"
+        )
+    return False, None
 
 
 def flag_prechecked_toggles(form_controls: list[dict]) -> list[dict]:

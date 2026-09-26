@@ -14,15 +14,15 @@ scoping choice, not an oversight — see "Why independent-first" below.
 Everything here traces back to prior work already in this repo, not new
 research done while coding:
 
-- **`research/04-mitigations/FINDINGS.md`** — establishes the core design
+- **`docs/research/04-mitigations/FINDINGS.md`** — establishes the core design
   thesis: deterministic/structural detection is well-precedented for
   hidden-text (PhantomLint), and an LLM must never be the sole/final gate,
   because LLM guards are themselves attackable through the content they
   inspect (up to 100% guardrail-evasion rates measured [M-03], JudgeDeceiver
   and Comparative Undermining Attack against LLM-as-judge [M-04][M-09]).
   That's why nothing in this package calls a model.
-- **`research/08-synthesis/DETECTION_TARGETS.md`** and
-  **`research/07-trickyarena/FINDINGS.md`** — the priority ranking (build
+- **`docs/research/08-synthesis/DETECTION_TARGETS.md`** and
+  **`docs/research/07-trickyarena/FINDINGS.md`** — the priority ranking (build
   the fully-structural targets first; explicitly skip confirmshaming,
   bait-and-switch, aesthetic manipulation — those need language
   understanding and are out of scope for this core by design, routed to
@@ -34,11 +34,11 @@ research done while coding:
   ALLOW/BLOCK/ESCALATE, the "unified adapter" pattern: pure core now,
   connectors later) and the original rough code sketches this package
   refines.
-- **`research/06-autobrowser/FINDINGS.md`** and **`INTEGRATION.md`** — the
+- **`docs/research/06-autobrowser/FINDINGS.md`** and **`INTEGRATION.md`** — the
   actual Auto Browser payload shapes (`interactables`, `accessibility_outline`)
   the fixtures in `tests/fixtures.py` mirror, and the recommended
   interception points for when connectors get written.
-- **`research/08-synthesis/OPEN_QUESTIONS.md`** — the honesty constraint
+- **`docs/research/08-synthesis/OPEN_QUESTIONS.md`** — the honesty constraint
   this whole package tries to respect: question 1 says structural detection
   against general deceptive UI is "plausible and partially precedented, not
   proven"; question 2 says no false-positive rate has been measured for
@@ -145,7 +145,7 @@ like Auto Browser's **real** payloads — `interactables` entries look like
 `INTERACTABLES_SCRIPT`'s output (`{element_id, tag, type, role, label,
 bbox}`), `accessibility_outline.nodes` entries look like Playwright's
 native `accessibility.snapshot()` nodes — per what
-`research/06-autobrowser/FINDINGS.md` documented from the actual source.
+`docs/research/06-autobrowser/FINDINGS.md` documented from the actual source.
 That's what testing "against the MCP's own internal data types" means with
 no live browser available: fixtures shaped like the real thing, not an
 invented format.
@@ -169,7 +169,7 @@ coverage in the first pass and was added after re-review (§6).
 ## 6. Known limitations — read this before trusting any of it
 
 Being direct about this, per the project's own "report-safety" norm
-(`research/09-verification-closeout/CLOSEOUT.md`) and because it was asked
+(`docs/research/09-verification-closeout/CLOSEOUT.md`) and because it was asked
 directly: **no**, this is not the complete wired thing yet, and yes, it has
 real, documented gaps — not bugs that crash it (all 37 tests pass), but
 scope and design limitations worth knowing before demoing it:

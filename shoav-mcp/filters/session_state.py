@@ -34,6 +34,17 @@ class SessionState:
     def mark_touched(self, ref: str) -> None:
         self.touched_refs.add(ref)
 
+    def reset_for_navigation(self) -> None:
+        """Drop navigation-scoped guard memory (F-D, F-J egress half).
+
+        Touched refs and the initial form snapshot belong to one page
+        lifetime: after a navigation the old refs are meaningless, so both
+        are cleared. Cart memory is deliberately left alone here; cart
+        diffing spans navigations and is out of scope (Target 5).
+        """
+        self.touched_refs.clear()
+        self.initial_form_snapshot = None
+
 
 class SessionStateStore:
     """A plain dict-backed cache, one SessionState per session_id."""

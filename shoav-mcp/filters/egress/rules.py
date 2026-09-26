@@ -37,6 +37,12 @@ def evaluate_hit_test(hit_result: dict, expected_ref: str) -> tuple[Verdict, str
     doesn't look like a decoy (an ordinary visible element — e.g. a cookie
     banner appeared) gets ESCALATE rather than a hard BLOCK, since it may
     just mean the page changed under the agent, not an attack.
+
+    F-I modal policy: an opaque top element with a merely elevated z-index
+    (above EGRESS_OVERLAY_ZINDEX_THRESHOLD but at or below
+    EGRESS_ABSURD_ZINDEX_THRESHOLD) is a plausible modal, dialog, or cookie
+    banner and ESCALATEs. Only near-zero-opacity top elements (with pointer
+    events enabled) or absurd-z top elements BLOCK.
     """
     if not hit_result.get("found"):
         return Verdict.ESCALATE, "No element found at target coordinates — page may have changed."
@@ -63,7 +69,11 @@ def evaluate_hit_test(hit_result: dict, expected_ref: str) -> tuple[Verdict, str
             Verdict.BLOCK,
             f"Clickjacking overlay suspected: <{hit_result.get('tag')}> "
             f"(opacity={opacity}, z-index={hit_result.get('z_index')}) "
-            f"occludes intended target {expected_ref!r}.",
+            f"occludes intended target {expected_ref!r}. "
+            "the click was aborted; call observe again, "
+            "do not retry the same click, or ask the user. "
+            "Blocked overlay click. Re-observe before retrying, "
+            "or request human takeover.",
         )
 
     if z_index > EGRESS_OVERLAY_ZINDEX_THRESHOLD:

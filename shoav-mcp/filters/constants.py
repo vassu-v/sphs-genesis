@@ -88,9 +88,31 @@ INGRESS_CONSENT_KEYWORDS = (
 # MutationObserver count from the connector layer; this is just the cutoff.
 INGRESS_MUTATION_RATE_THRESHOLD = 50.0  # mutations/sec
 
+# Raw DOM flood signals (Target 4, F-E): evaluated BEFORE any caps, from a
+# lightweight element-count plus text-length probe. These complement the
+# interactables-budget check in the engine: a page can flood with plain
+# non-interactive nodes or raw text without adding interactables.
+# Thresholds are heuristic floors chosen so synthetic fixtures separate
+# cleanly: fixtures/flood.html ships ~720 filler elements and must BLOCK,
+# while benign pages (wiki, login, cookie banner, ~tens of elements and a
+# few hundred chars) stay ALLOW. Tune from real data when available.
+INGRESS_RAW_ELEMENT_COUNT_THRESHOLD = 500
+INGRESS_RAW_TEXT_CHARS_THRESHOLD = INGRESS_TOKEN_BUDGET_TRIGGER * INGRESS_CHARS_PER_TOKEN_ESTIMATE
+
 # --- Egress: overlay / hit-target mismatch (Target 2) ---
 EGRESS_OVERLAY_OPACITY_THRESHOLD = 0.1
 EGRESS_OVERLAY_ZINDEX_THRESHOLD = 9000
+
+# Z-index above this is treated as absurd even for an opaque top element,
+# so it stays BLOCK rather than dropping to ESCALATE as a plausible modal.
+# Rationale: ordinary modal, dialog, and cookie-banner stacks live well
+# below this (typically tens to low thousands; the 9000 decoy threshold
+# above already covers aggressive ones). A top element past 100000 with a
+# mismatched ref looks engineered to sit above everything, not like page UI.
+# Opaque top elements at or below this ceiling with opacity >= 0.1 are
+# plausible modals and get ESCALATE, not BLOCK. Near-zero-opacity top
+# elements (opacity < 0.1 with pointer events enabled) are always BLOCK.
+EGRESS_ABSURD_ZINDEX_THRESHOLD = 100000
 
 # --- Egress: cart / checkout sneaking (Target 5) ---
 # No threshold needed — this is exact-set arithmetic, not a heuristic.

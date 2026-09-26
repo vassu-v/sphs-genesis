@@ -31,7 +31,7 @@ against tiny inline fixtures. This is the first time the JS has executed in a br
 5. Mutation rate has a decision function but no observation feed. Needs a MutationObserver in the connector.
 6. Iframes and Shadow DOM: `elementFromPoint` returns the host or iframe element. Not handled.
 7. Thresholds are guesses until there is attack and benign data from the test site.
-8. `IngressFilter` still reads `accessibility_outline`, which is always unavailable in automcp. The connector
+8. `IngressFilter` still reads `accessibility_outline`, which is always unavailable in MCP/auto-browser. The connector
    supplies `form_controls` from a form probe instead (see MCP plan, task C2). The engine should accept
    `form_controls` directly. Small change, listed as task F-1 below.
 

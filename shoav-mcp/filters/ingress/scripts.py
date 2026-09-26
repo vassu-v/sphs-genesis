@@ -20,9 +20,12 @@ keyword heuristics, etc.) in testable Python instead of buried in a page.evaluat
 # Reports checkbox/switch/radio state with label text and a stable ref.
 # Each entry: {element_id, tag, type, checked, label, ref}.
 # element_id is data-operator-id when present, else the DOM id or null.
-# ref prefers data-operator-id, then a sticky per-element stamp
-# (dataset.shoavRef) allocated from the window.__shoavSeq counter so it is
-# stable across repeated evaluations within one page lifetime.
+# ref uses the SAME window.__shoavSeq stamping as the interactables script
+# (op-s<N> in base36, stored on data-operator-id via dataset.operatorId),
+# so a form control ref equals the element_id the agent clicks. Elements
+# that already carry data-operator-id keep it; only unstamped elements
+# advance the shared counter. This sharing is what makes mark_touched
+# correlation work across observe and egress.
 # Label resolution order: aria-label, associated label[for=id], closest
 # wrapping <label>, aria-labelledby text, name attribute, value, else "".
 FORM_STATE_SCRIPT = """
@@ -57,10 +60,10 @@ FORM_STATE_SCRIPT = """
     };
     const stableRef = (el, elementId) => {
         if (elementId) return elementId;
-        if (el.dataset && el.dataset.shoavRef) return el.dataset.shoavRef;
-        window.__shoavSeq += 1;
-        const ref = 'shoav-c' + window.__shoavSeq;
-        try { if (el.dataset) el.dataset.shoavRef = ref; } catch (e) {}
+        if (el.dataset && el.dataset.operatorId) return el.dataset.operatorId;
+        window.__shoavSeq = (window.__shoavSeq || 0) + 1;
+        const ref = 'op-s' + window.__shoavSeq.toString(36);
+        try { if (el.dataset) el.dataset.operatorId = ref; } catch (e) {}
         return ref;
     };
     const push = (el, type, checked) => {
@@ -101,7 +104,7 @@ STYLE_PROBE_SCRIPT = """
 (() => {
     const results = [];
     const viewport = { width: window.innerWidth, height: window.innerHeight };
-    const SKIP = new Set(['SCRIPT', 'STYLE', 'NOSCRIPT', 'TEMPLATE']);
+    const SKIP = new Set(['SCRIPT', 'STYLE', 'NOSCRIPT', 'TEMPLATE', 'HEAD', 'TITLE', 'META', 'LINK', 'BASE']);
     const MAX_RESULTS = 2000;
 
     const pathFor = (el) => {
@@ -195,5 +198,20 @@ MUTATION_OBSERVER_READ_SCRIPT = """
     const start = window.__shoavMutStart || Date.now();
     const seconds = (Date.now() - start) / 1000;
     return { count: count, seconds: seconds, rate: seconds > 0 ? count / seconds : 0 };
+})()
+"""
+
+# Raw flood probe (Target 4, F-E): element count plus text volume BEFORE any
+# caps. No filtering, no truncation; the Python flood rule decides. Returns
+# {element_count, text_chars} where text_chars is the length of
+# document.body.innerText (0 when body is missing). Run before compaction so
+# a filler flood cannot hide behind the node budget.
+FLOOD_PROBE_SCRIPT = """
+(() => {
+    let elementCount = 0;
+    try { elementCount = document.querySelectorAll('*').length; } catch (e) { elementCount = 0; }
+    let textChars = 0;
+    try { textChars = (document.body && document.body.innerText ? document.body.innerText.length : 0); } catch (e) { textChars = 0; }
+    return { element_count: elementCount, text_chars: textChars };
 })()
 """
