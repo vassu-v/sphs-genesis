@@ -14,14 +14,9 @@
 
 <br>
 
-Built for the **Genesis Hackathon 2026**, Track 03.
-
-<br>
-
-![Phase](https://img.shields.io/badge/phase-submission-16a34a?style=flat-square)
+![Status](https://img.shields.io/badge/status-alpha,_active_development-f59e0b?style=flat-square)
 ![Core](https://img.shields.io/badge/core-deterministic-16a34a?style=flat-square)
 ![Works with](https://img.shields.io/badge/works_with-any_MCP_client-2563eb?style=flat-square)
-![Track](https://img.shields.io/badge/genesis_hackathon-track_03-7c3aed?style=flat-square)
 
 <br>
 
@@ -57,13 +52,21 @@ injected instructions before the agent acts on them. Think of it as a seatbelt f
 </table>
 
 Auto Browser is MIT licensed and is included here in reworked form with its licence and credit. LiteAgent has no licence,
-so none of its code is in this repo. OpenCode and agy are used as test clients.
+so none of its code is in this repo. agy is the reference test client. OpenCode is a further target.
 
 ## The problem
 
-People avoid sketchy pop-ups, fake download buttons and pre-ticked billing boxes by looking at the page. Web-browsing agents
-do not look. They read the DOM or the pixels, and hostile pages are built to exploit exactly that: hidden text that tells
-the agent what to do, invisible layers over the button it meant to press, boxes ticked before it arrives.
+Developers now give AI agents a browser: coding agents, research agents, and automation agents reached through MCP.
+Agents read the DOM or the pixels, not the way a person looks at a page, and hostile or deceptive pages exploit that.
+Hidden text instructs the agent, invisible layers sit over the real button, boxes are ticked before the agent arrives,
+and pages are stuffed to flood the agent's context.
+
+Existing defenses are either an LLM judging the content, which the page can talk out of its warning, or a plugin tied to
+one specific agent. There is no deterministic safety boundary between the model and untrusted web pages that works with
+whatever agent you run.
+
+S.H.O.A.V. is a browser MCP server with a deterministic guard in the path, plus a portable skill for agents that keep their
+own browser. Any MCP capable agent can use it, and a human can watch every session in a live view.
 
 ## Our approach: Tool-First Agent Diagnostic Design
 
@@ -76,7 +79,7 @@ Put the guard where every agent has to pass, at the browser. One MCP server owns
 
 - **A tool, not a plugin.** Most agents have no browser and cannot be extended, and the ones that can are each different.
   So the browser is the product. Claude, agy, OpenCode or any MCP client can use it, and it can be hosted once for everyone
-  on your network. We did not lock it to one carrier.
+  on your network. It is not locked to one agent.
 - **Deterministic core.** The checks look at structure that page text cannot argue with: what is under the click, what is
   visible, what a form will submit. A model may advise, and it can only raise suspicion, never lower it.
 - **Skill for the rest.** Agents that already have their own browser can use the S.H.O.A.V. skill. The skill is advice, the
@@ -203,7 +206,7 @@ Every session gets a link. Watch each tool call, what the agent read, what it cl
   <tr><td><b>State</b></td><td><img src="https://skillicons.dev/icons?i=sqlite" alt=""> <sub>audit, approvals, per-session timelines. All local.</sub></td></tr>
   <tr><td><b>Skill</b></td><td><img src="https://skillicons.dev/icons?i=nodejs,py" alt=""> <img src="https://img.shields.io/badge/Agent_Skill-7c3aed?style=for-the-badge&logo=markdown&logoColor=white" alt="Agent_Skill"> <sub>npx installer</sub></td></tr>
   <tr><td><b>Tests</b></td><td><img src="https://img.shields.io/badge/pytest-0A9EDC?style=for-the-badge&logo=pytest&logoColor=white" alt="pytest"> <img src="https://skillicons.dev/icons?i=vitest" alt=""> <img src="https://img.shields.io/badge/real_Chromium_probes-2EAD33?style=for-the-badge&logo=playwright&logoColor=white" alt="real_Chromium_probes"></td></tr>
-  <tr><td><b>Test clients</b></td><td><img src="https://img.shields.io/badge/agy-4285F4?style=for-the-badge&logo=google&logoColor=white" alt="agy"> <img src="https://img.shields.io/badge/OpenCode-111827?style=for-the-badge&logo=terminal&logoColor=white" alt="OpenCode"> <img src="https://img.shields.io/badge/Claude_Code-D97757?style=for-the-badge&logo=anthropic&logoColor=white" alt="Claude_Code"></td></tr>
+  <tr><td><b>Test clients</b></td><td><img src="https://img.shields.io/badge/agy-4285F4?style=for-the-badge&logo=google&logoColor=white" alt="agy"></td></tr>
 </table>
 
 <sub>Python 3.11+ for the server. The guard rules are pure functions over plain data, so each one is testable without a browser.</sub>
@@ -216,7 +219,20 @@ Every session gets a link. Watch each tool call, what the agent read, what it cl
 | Browser MCP `shoav-mcp/MCP/` | Working natively with a live view. |
 | Guard wiring | Done. Hooked into the gateway, 27 / 27 enforce checks, real `agy` run confirmed. |
 | Skill `shoav-skill/` | Done. Portable manual, audit scripts, `npx` installer. |
-| Known gaps | Live mutation-rate feed, Claude Code as a measured client, iframes and Shadow DOM, real-traffic tuning of the flood threshold. |
+| Status | Alpha, under active development. See the roadmap above. |
+
+## Roadmap
+
+What is next, in no fixed order:
+
+- Live DOM mutation-rate feed for the flood check
+- Iframe and Shadow DOM hit testing
+- Tune thresholds on real page traffic
+- ESCALATE instead of BLOCK for legitimate modals
+- Measure more agent clients (Claude Code, OpenCode)
+- Rename the server identity from `auto-browser` to `shoav`
+- Publish the skill package to npm
+- Evaluate against public agent benchmarks such as TrickyArena
 
 <details>
 <summary>Why a deterministic core instead of asking a model?</summary>

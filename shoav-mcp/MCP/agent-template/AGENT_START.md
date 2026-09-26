@@ -1,6 +1,6 @@
-# AGENT_START.md: start here (SHOAV guard demo, D-1 template)
+# AGENT_START.md: start here (SHOAV guarded browser, D-1 template)
 
-Read this file first. It is the only entry point for an agent running the guarded demo.
+Read this file first. It is the only entry point for an agent running the guarded browser.
 
 ## 1. Go to the controller folder
 
@@ -20,7 +20,7 @@ All server commands run from there. Do not run them from `shoav-mcp/MCP/agent-te
 Rules:
 
 - Never use port 8000, 18480, or 3100. They belong to the user or other services. If 18500 is taken, pick another free port and use it everywhere below.
-- `-Guard enforce` is the demo mode. `observe` logs guard verdicts without blocking. `off` disables the guard.
+- `-Guard enforce` is the recommended mode. `observe` logs guard verdicts without blocking. `off` disables the guard.
 - Until the `-Guard` flag lands in `start-local.ps1` (plan Wave 1, task C-1), set the same values by environment using `settings.json` in this folder: `SHOAV_GUARD_MODE=enforce`, `SHOAV_FILTERS_PATH=<path to shoav-mcp/filters>`, `SHOAV_GUARD_FAIL=open`, `MCP_TOOL_NAME_STYLE=underscore`.
 - Keep `MCP_TOOL_NAME_STYLE=underscore` always. `agy` rejects dotted tool names.
 

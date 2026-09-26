@@ -6,12 +6,12 @@ Everything here is grounded in a read-only research pass over `shoav-mcp/MCP/aut
 
 Ports: controller 18500, live UI 3200, fixture server 186xx. Never use 8000, 18480, or 3100.
 
-## 1. Goal and demo scope
+## 1. Goal and scope
 
 Build a guard inside the Auto Browser controller so that any MCP-capable agent gets protection with no client
 changes, and a human can watch it work.
 
-Demo scope is Targets 1 to 4 only:
+Current scope is Targets 1 to 4 only:
 1. Hidden text prompt injection (ingress): removed from what the agent reads.
 2. Clickjacking overlay (egress): the click is aborted with an explanation.
 3. Pre-checked consent toggle (ingress flag, egress escalate on submit).
@@ -119,7 +119,7 @@ Human sees, in the existing live UI at `http://127.0.0.1:3200/s/<session_id>`:
 - Header chip: `Guard: enforce, 2 blocked, 3 rewritten`.
 - A `guard` filter next to the existing timeline filters, with a count.
 - Cheapest fallback (no UI code): a BLOCK already renders as a red error row with the reason. REWRITE would be invisible,
-  so the UI work is needed for the demo.
+  so the UI work is needed.
 
 Event shape (type override of the `tool` default):
 ```
@@ -165,9 +165,9 @@ one per task. Rule for every wave: the author of a detector never writes its tes
   - C-5 post-hoc type check, submit check, touched tracking, navigation and close reset.
 - Category TEST-AUTHORS
   - T-5 end to end via `POST /mcp/tools/call` against tiny local fixture pages (hidden text, overlay, prechecked box).
-    These are unit fixtures. The malicious demo site stays with the teammate.
+    These are unit fixtures. The malicious test site stays with the teammate.
 
-### Wave 3: verify and demo (parallel)
+### Wave 3: verify (parallel)
 - Category REVIEW (independent, read only, each writes findings)
   - R-1 correctness and security of hooks and adapters. R-2 UI and contract. R-3 false positive review on benign pages
     (Wikipedia, Hacker News, a login form, a cookie banner) run in observe mode.
@@ -178,7 +178,7 @@ one per task. Rule for every wave: the author of a detector never writes its tes
   - D-1 update `AGENTS.md`, the skill, `context.md`, `progress.md`, README status. No em dashes.
 
 Suggested subagent count: 5 to 6 in wave 1 (FILTERS, ADAPTERS, CONTROLLER x2, UI x2, TEST-AUTHORS), 3 in wave 2,
-4 in wave 3. Estimated total: 5 to 7 hours to a demoable, verified guard.
+4 in wave 3. Estimated total: 5 to 7 hours to a verified guard.
 
 ## 8. Verification gates
 

@@ -1,6 +1,6 @@
 # SHOAV MCP
 
-Guarded copy of Auto Browser for the S.H.O.A.V. demo (Targets 1 to 4).
+Guarded copy of Auto Browser for S.H.O.A.V. (Targets 1 to 4).
 Controller on 18500, live UI on 3200, fixtures on 18600 to 18699.
 Never use 8000, 18480, or 3100. Upstream credit: Auto Browser by LvcidPsyche (see `auto-browser/README.md`, `auto-browser/CHANGELOG.md`, `auto-browser/LICENSE`).
 
@@ -26,7 +26,7 @@ Observe (guard notes only, never blocks):
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/start-local.ps1 -Port 18500 -Guard observe -Background
 ```
 
-Enforce (demo mode, blocks and rewrites):
+Enforce (blocks and rewrites):
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/start-local.ps1 -Port 18500 -Guard enforce -Background

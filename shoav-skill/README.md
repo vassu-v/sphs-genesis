@@ -14,13 +14,9 @@
 
 <br>
 
-Built for the **Genesis Hackathon 2026**, Track 03.
-
-<br>
-
 ![Type](https://img.shields.io/badge/type-agent_skill-2563eb?style=flat-square)
 ![Core](https://img.shields.io/badge/core-deterministic-16a34a?style=flat-square)
-![Track](https://img.shields.io/badge/genesis_hackathon-track_03-7c3aed?style=flat-square)
+![Status](https://img.shields.io/badge/status-alpha,_active_development-f59e0b?style=flat-square)
 
 <br>
 

@@ -136,7 +136,7 @@ The full report is `shoav-mcp/MCP/REPORT.md`.
 | Live view | Next.js 16, TypeScript, Tailwind CSS 4, shadcn/ui, SSE | A page per session at `/s/<id>`, live and archived. |
 | Skill | Markdown plus Node and Python audit scripts, `npx` installer | Portable to any agent that supports skills or instruction files. |
 | Tests | pytest, vitest, Playwright browser probes | Detector authors and test authors are different people. |
-| Test clients | agy, OpenCode, Claude Code | Verified that the MCP is client-agnostic. |
+| Test clients | agy (measured) | Other MCP clients, such as Claude Code and OpenCode, are on the roadmap. |
 
 ## 12. How it was built
 

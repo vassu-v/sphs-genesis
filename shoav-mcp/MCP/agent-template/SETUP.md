@@ -6,7 +6,7 @@
 - Controller deps: `auto-browser/controller/requirements.txt` plus `requirements-dev.txt` for tests.
 - Playwright Chromium: `python -m playwright install chromium`.
 - Node.js (only for the live UI): `cd auto-browser/live-ui; npm install`.
-- This template: `shoav-mcp/MCP/agent-template/` (`mcp_config.json`, `settings.json`, `AGENT_START.md`, `OUTPUTS.md`, `REVIEW_NPS.md`).
+- This template: `shoav-mcp/MCP/agent-template/` (`mcp_config.json`, `settings.json`, `AGENT_START.md`, `OUTPUTS.md`, `REVIEW.md`).
 
 ## 2. Start
 

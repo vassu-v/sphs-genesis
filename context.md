@@ -47,19 +47,16 @@
 
 | Item | State |
 |------|-------|
-| Event | Genesis Hackathon 2026, **Track 03** (AI Bodyguard, codename S.H.O.A.V.) |
-| Format | 48-hour hackathon, kickoff Thu 2026-09-24 08:30 |
-| Deadlines | 4-pillar technical report + 3-min video **Fri 2026-09-25 23:30**; in-person rounds **Sat 2026-09-26** |
-| Current Phase | Submission polish. Filters, skill and MCP wiring are done and measured (enforce 27/27, observe 17/17, off 22/22) |
-| Prior Code | `track3/` prototype is permanently superseded (circular benchmark). Do not build on it |
-| Git Repository | `main` on `vassu-v/sphs-genesis` (commits as `vassu-v`, `coderscode17@gmail.com`). Push only on explicit instruction |
-| Scoring Rubric | **UI/UX: 30** · **Functionality: 30** · **Demo: 15** · **Round 2 Live Problem Solving Bonus: +30** |
+| Project | S.H.O.A.V. (AI Bodyguard), a browser MCP server with a deterministic guard, plus a portable skill |
+| Status | Alpha, active development. Filters, skill and MCP wiring are done and measured (enforce 27/27, observe 17/17, off 22/22) |
+| Repository | `main` on `vassu-v/sphs-genesis` (commits as `vassu-v`, `coderscode17@gmail.com`). Push only on explicit instruction |
+| Working rules | See `CLAUDE.md`. Deterministic core, synthetic data only, `external/` is git-ignored and never committed |
 
 ---
 
 ## The Three-Pillar Product Vision
 
-We are building three tightly integrated components to deliver complete defense, user education, and secure execution:
+The product is three tightly integrated components that deliver complete defense, user education, and secure execution:
 
 ```
 +----------------------------------------------------------------------------------------+
@@ -252,7 +249,7 @@ agy mcp list
 # Configure Headless Driver (Benchmark / Automated runs)
 agy mcp add browser bun x @playwright/mcp@latest --headless --image-responses=allow --snapshot-boxes
 
-# Configure Visible Driver (Live Judges / Headed Mode)
+# Configure Visible Driver (Headed Mode)
 agy mcp add browser bun x @playwright/mcp@latest --image-responses=allow --snapshot-boxes
 
 # Run Non-Interactive Test Prompt
@@ -270,16 +267,16 @@ agy --dangerously-skip-permissions --print "Navigate to https://agenttrickydps.v
 * **2026-09-25 11:02**: Integrated `auto-browser` MCP with `agy` CLI (`http://127.0.0.1:8000/mcp`); verified built-in Operator Dashboard on `http://127.0.0.1:8000/dashboard` and artifact recording (`controller/data/artifacts/`).
 * **2026-09-25 11:04**: Successfully executed E2E smoke test (`google.com` -> `amazon.com`) and live TrickyArena benchmark task (`https://agenttrickydps.vercel.app/shopping?dp=w` -> Dell Inspiron 15 rating lookup) with full action logging and screenshots.
 * **2026-09-25 11:35**: Implemented independent **Live Per-Session Ephemeral Dashboard** (`/live/{session_id}` and `/sessions/{session_id}/dashboard`) with real-time SSE event bus streaming agent actions, responses, and S.H.O.A.V. security checks. Verified live connection and transition to archived state on session close.
-* **2026-09-25 11:36**: Created universal agent documentation [`AGENTS.md`](file:///d:/work/genesishackathon/AGENTS.md), [`external/auto-browser/AGENTS.md`](file:///d:/work/genesishackathon/external/auto-browser/AGENTS.md), and `GEMINI.md`.
-* **2026-09-25 (repo cleanup)**: Untracked and git-ignored `track3/`, `CLAUDE.md`, `GEMINI.md`. Only `external/.gitkeep` is tracked from `external/`, so the clones are never pushed. README now credits Auto Browser (modified locally) and LiteAgent (benchmark only, no license). Project `CLAUDE.md` rules (Python 3.10 default) override the 3.12 in the handoff notes. Docs get refreshed daily.
+* **2026-09-25 11:36**: Created universal agent documentation [`AGENTS.md`](AGENTS.md), `external/auto-browser/AGENTS.md` (local only), and `GEMINI.md`.
+* **2026-09-25 (repo cleanup)**: Untracked and git-ignored the old prototype directory, `CLAUDE.md`, `GEMINI.md`. Only `external/.gitkeep` is tracked from `external/`, so the clones are never pushed. README now credits Auto Browser (modified locally) and LiteAgent (benchmark only, no license). Project `CLAUDE.md` rules (Python 3.10 default) override the 3.12 in the handoff notes. Docs get refreshed daily.
 * **2026-09-25 (vendored Auto Browser)**: `external/auto-browser/` is now tracked (MIT, LICENSE kept, our local changes in their own commits; runtime data and `.env` excluded). `external/liteagent/` stays untracked: no license, so we do not redistribute it. LiteAgent's own runner needs its agents plus OpenAI keys, so instead we drive its hosted TrickyArena prompts with `agy` through Auto Browser (no Docker). Headless `agy` run on `shop?dp=w` was blocked by an unanswered `command` permission; needs an allow rule in agy settings or a permission decision.
 * **2026-09-25 15:26**: Created `shoav-mcp/DETERMINISTIC_TARGETS.md` specifying purely computational dark pattern targets (opacity, clickjacking hit-test mismatch, pre-checked toggles, context bloat) separated from skill-based psychological patterns.
 * **2026-09-25 15:30**: Created `shoav-mcp/filters/PLAN_AND_ROUGH_SKETCH.md` detailing the Ingress (ALLOW/BLOCK/REWRITE with telemetry) and Egress (ALLOW/BLOCK with elementFromPoint hit-testing) pipeline, JevEmbed local acceleration, and evaluating internal Auto-Browser modification vs. external proxy.
 * **2026-09-25 17:25**: Analyzed and integrated **Agent Gaslighting & Tool Misattribution** into the S.H.O.A.V. architecture. Updated `shoav-mcp/filters/PLAN_AND_ROUGH_SKETCH.md` and `shoav-mcp/filters/context.md` with deterministic defenses: Ingress synthetic error quarantine and Egress post-action input/focus integrity verification.
-* **2026-09-25 (evening)**: Deterministic ingress/egress filter core implemented in `shoav-mcp/filters/` (90 tests, JS probes verified in Chromium). Teammate shipped `shoav-skill/` (defense manual, audit scripts, npx installer) and the project report. Tracking moved from `external/auto-browser/` to `external/automcp/` (our reworked copy). Work pushed to `modules-parted-mcp-patch` as a backdated, staged history.
+* **2026-09-25 (evening)**: Deterministic ingress/egress filter core implemented in `shoav-mcp/filters/` (90 tests, JS probes verified in Chromium). Teammate shipped `shoav-skill/` (defense manual, audit scripts, npx installer) and the project overview (now `docs/OVERVIEW.md`). Tracking moved from `external/auto-browser/` to `external/automcp/` (our reworked copy). Work pushed to `modules-parted-mcp-patch` as a backdated, staged history.
 * **2026-09-26 (morning)**: Copied the reworked Auto Browser to `shoav-mcp/MCP/auto-browser/` and wired the guard into its gateway (`controller/app/guard/`, hooks in `tool_gateway/gateway.py`). Added `shoav-mcp/connectors/`, `shoav-mcp/fixtures/`, the `t5_e2e` runner, a CLI (`shoav-mcp/MCP/shoav/`) and agent templates. Fixed the live gaps (T1 rewrite marker, T2 actionable block, T3 submit escalation, egress counters). Measured: enforce 27/27, observe 17/17, off 22/22. Real `agy` runs confirmed hidden-text rewrite and overlay block. Report: `shoav-mcp/MCP/REPORT.md`.
 * **2026-09-26 (late morning)**: Closed the last real-agent gap: a submit with an untouched pre-checked box is now held even if the agent never called observe (the gateway probes the live form itself). Research moved to `docs/research/`. README, AGENTS.md and DESIGN.md brought in line with the measured state.
-* **Not done, on purpose**: full rename of the MCP server to SHOAV (server still reports as auto-browser), live mutation-rate feed, Claude Code as a measured client, iframe and Shadow DOM hit tests.
+* **Roadmap**: live DOM mutation-rate feed, iframe and Shadow DOM hit testing, tune thresholds on real page traffic, ESCALATE instead of BLOCK for legitimate modals, measure more agent clients (Claude Code, OpenCode), rename the server identity from auto-browser to shoav, publish the skill package to npm, evaluate against public agent benchmarks such as TrickyArena.
 
 ---
 
@@ -287,8 +284,8 @@ agy --dangerously-skip-permissions --print "Navigate to https://agenttrickydps.v
 
 ### Team Division
 * **GitHub Handles**: `Vassu-V` and `str-VaibhavThakkar`.
-* **Shoryavardhaan (`Vassu-V`)**: Security middleware proxy, deterministic detection engine, evaluation harness.
-* **Teammate (`str-VaibhavThakkar`)**: Malicious testbed website, UI/UX dashboard, frontend telemetry visualization (30% of rubric).
+* **Shoryavardhaan (`Vassu-V`)**: Guard integration, deterministic detection engine, evaluation harness, MCP server.
+* **Teammate (`str-VaibhavThakkar`)**: Malicious test website, UI/UX, live dashboard and telemetry visualization, project website.
 
 ### Repository Map
 
@@ -296,14 +293,15 @@ agy --dangerously-skip-permissions --print "Navigate to https://agenttrickydps.v
 |------|--------------------|
 | `context.md` | Single source of truth (this document) |
 | `AGENTS.md` / `GEMINI.md` | Universal agent guidance for connecting to the native MCP and live dashboard |
-| `README.md` | Problem statement and public project overview |
+| `README.md` | Public project overview |
+| `docs/OVERVIEW.md` | Project overview: problem, solution, architecture, roadmap |
 | `CLAUDE.md` | Development rules, git conventions, commit author standards |
 | `external/context.auto-browser.md` | Deep technical context and modification log for the Auto-Browser MCP |
 | `external/AGENT_HANDOFF_CONTEXT.md` | Portable agent handoff context brief (copy-pasteable for any LLM/agent) |
 | `shoav-mcp/MCP/` | The product: reworked Auto Browser (`auto-browser/`), live UI, CLI (`shoav/`), agent templates, plan, report |
 | `shoav-mcp/connectors/`, `fixtures/`, `t5_e2e/` | Payload adapters, synthetic pages, the off, observe, enforce runner |
 | `web/` | Project website (Next.js) |
-| `external/` | Local only, git-ignored. Holds the frozen original and third-party clones |
+| `external/` | Local only, git-ignored, not tracked. Holds third-party clones |
 | `shoav-mcp/filters/` | Deterministic ingress/egress core, session state, tests, plan |
 | `shoav-mcp/MCP/plan.md`, `REPORT.md` | The wiring plan and the measured integration report |
 | `shoav-skill/` | Agent skill, audit scripts, npx installer (Pillar 2) |
@@ -311,5 +309,4 @@ agy --dangerously-skip-permissions --print "Navigate to https://agenttrickydps.v
 | `docs/research/10-agent-manipulation-and-mitigations/` | Workstream 10: Expanded attack landscape, context overloading, and MCP mitigations |
 | `docs/research/08-synthesis/` | Master synthesis, prioritized detection targets, open questions |
 | `docs/research/09-verification-closeout/` | Report safety rules, resolved claims, paper disambiguation |
-| `track3/` | Old prototype. Local only, git-ignored and no longer tracked. Do not use |
 | `assets/` | Tracked project images and architecture diagrams |

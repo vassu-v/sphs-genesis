@@ -1,4 +1,4 @@
-# OUTPUTS.md: what the user sees (guard demo, Targets 1 to 4)
+# OUTPUTS.md: what the user sees (guard, Targets 1 to 4)
 
 ## 1. Agent view
 
@@ -30,7 +30,7 @@ Base: `http://127.0.0.1:3200/s/<session_id>` (same link the agent prints; read-o
   - BLOCK: red
 - Expanded row fields: reason, findings list (kind plus short detail), target element id, mode (`observe` or `enforce`), whether enforced.
 - Header chip: `Guard: enforce, 2 blocked, 3 rewritten` (mode plus running counters).
-- Guard filter next to the existing timeline filters, with a count. Cheapest fallback if UI code is missing: a BLOCK already renders as a red error row with the reason; REWRITE would be invisible without the badge, so the UI work is needed for the demo.
+- Guard filter next to the existing timeline filters, with a count. Cheapest fallback if UI code is missing: a BLOCK already renders as a red error row with the reason; REWRITE would be invisible without the badge, so the UI work is needed.
 - Guard event shape (`type: "guard"`, attached by `call_id`): stage (`ingress` or `egress`), tool, verdict (`ALLOW`, `REWRITE`, `BLOCK`, `ESCALATE`), mode, enforced flag, reason, findings (`kind`, `detail`), target (`element_id`). Documented in `live-ui/CONTRACT.md`.
 
 ## 3. Machine view (logs and API)
