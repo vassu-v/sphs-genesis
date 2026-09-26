@@ -142,7 +142,13 @@ code { font-family: var(--font-mono); }
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 28px;
+  gap: 32px;
+}
+
+.nav-dropdown-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .nav-link {
@@ -150,8 +156,13 @@ code { font-family: var(--font-mono); }
   font-size: 14.5px;
   font-weight: 500;
   color: var(--ink-2);
-  padding: 4px 0;
+  padding: 6px 0;
   transition: color 0.2s var(--ease);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  text-decoration: none;
 }
 
 .nav-link::after {
@@ -159,8 +170,8 @@ code { font-family: var(--font-mono); }
   position: absolute;
   left: 0;
   right: 100%;
-  bottom: -4px;
-  height: 1px;
+  bottom: -2px;
+  height: 2px;
   background: var(--red);
   transition: right 0.25s var(--ease);
 }
@@ -170,9 +181,91 @@ code { font-family: var(--font-mono); }
 
 .nav-link.active {
   color: var(--ink);
+  font-weight: 600;
 }
 
 .nav-link.active::after { right: 0; }
+
+.dropdown-caret {
+  width: 12px;
+  height: 12px;
+  color: var(--ink-3);
+  transition: transform 0.25s var(--ease), color 0.2s var(--ease);
+  cursor: pointer;
+}
+
+.nav-dropdown-wrapper:hover .dropdown-caret,
+.nav-dropdown-wrapper.open .dropdown-caret {
+  transform: rotate(180deg);
+  color: var(--red);
+}
+
+/* Horizontal sub-section dropdown */
+.nav-horizontal-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: rgba(18, 18, 22, 0.96);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid var(--rule-strong);
+  border-radius: 9999px;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(6px);
+  transition: opacity 0.2s var(--ease), transform 0.2s var(--ease), visibility 0.2s;
+  white-space: nowrap;
+  z-index: 1000;
+}
+
+/* Hover bridge so moving cursor down to dropdown doesn't lose hover */
+.nav-horizontal-dropdown::before {
+  content: '';
+  position: absolute;
+  top: -14px;
+  left: 0;
+  right: 0;
+  height: 14px;
+}
+
+.nav-dropdown-wrapper:hover .nav-horizontal-dropdown,
+.nav-dropdown-wrapper:focus-within .nav-horizontal-dropdown,
+.nav-dropdown-wrapper.open .nav-horizontal-dropdown {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.subnav-link {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-2);
+  text-decoration: none;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  transition: color 0.15s var(--ease), background 0.15s var(--ease);
+}
+
+.subnav-link:hover {
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.subnav-sep {
+  color: var(--ink-4);
+  font-size: 8px;
+  user-select: none;
+  opacity: 0.5;
+}
 
 .header-actions {
   display: flex;
