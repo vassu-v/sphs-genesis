@@ -1,8 +1,10 @@
 # MCP/plan.md: integrating the S.H.O.A.V. filters into the Auto Browser MCP
 
 Self-contained plan. Hand this file to any lead agent and tell it to run subagents per category below.
-Everything here is grounded in a read-only research pass over `external/automcp` and `shoav-mcp/filters`
+Everything here is grounded in a read-only research pass over `shoav-mcp/MCP/auto-browser` and `shoav-mcp/filters`
 (line numbers are approximate, from 2026-09-25; re-check before editing).
+
+Ports: controller 18500, live UI 3200, fixture server 186xx. Never use 8000, 18480, or 3100.
 
 ## 1. Goal and demo scope
 
@@ -22,7 +24,7 @@ Pass means the task completed AND zero compromise events. Any LLM stays advisory
 
 - `shoav-mcp/filters/`: pure Python decision core (ingress, egress, session state), 90 tests passing, JS probes
   verified in real Chromium. See `filters/plan.md`.
-- `external/automcp/auto-browser/`: FastAPI controller (MCP at `/mcp`), live view recorder, Next.js live UI on 3100,
+- `shoav-mcp/MCP/auto-browser/`: FastAPI controller (MCP at `/mcp`), live view recorder, Next.js live UI on 3200,
   native start script. Its own git repo (upstream clone). Full suite 1092 passed.
 
 ## 3. Architecture
@@ -52,7 +54,7 @@ Key rules:
 
 ## 4. Where each part goes
 
-Two repos are touched. Commit separately. The controller hook code goes in `external/automcp/auto-browser`
+Two repos are touched. Commit separately. The controller hook code goes in `shoav-mcp/MCP/auto-browser`
 (a separate git repo). The reusable adapter goes in `shoav-mcp/connectors/`.
 
 | Part | Location | Notes |
@@ -111,7 +113,7 @@ Agent sees:
 - Nothing else changes. No new tools needed for v1, so tool name style is unaffected. (If `shoav.status` is added
   later, register it in a new pack, add it to `EXPECTED_OTHER` in `tests/test_live_view.py`.)
 
-Human sees, in the existing live UI at `http://127.0.0.1:3100/s/<session_id>`:
+Human sees, in the existing live UI at `http://127.0.0.1:3200/s/<session_id>`:
 - A guard badge on each tool row: ALLOW (quiet), REWRITE (amber), ESCALATE (orange), BLOCK (red).
 - Expanded row: reason, findings list (kind, short detail), target element id, mode, whether enforced.
 - Header chip: `Guard: enforce, 2 blocked, 3 rewritten`.
@@ -193,7 +195,7 @@ Suggested subagent count: 5 to 6 in wave 1 (FILTERS, ADAPTERS, CONTROLLER x2, UI
 - TOCTOU between the guard probe and the real click. Closing it needs the in-service hook in `actions.py`.
 - `op-sN` ids reset on navigation. FORM_STATE_SCRIPT must stamp with the same `window.__shoavSeq` counter.
 - Claude Code passes only `structuredContent` when present. Guard notes must live inside the result dict.
-- Compact result mode (planned in automcp) must run after the guard hook.
+- Compact result mode (planned in MCP/auto-browser) must run after the guard hook.
 - Two repos: commit separately. The controller repo is an upstream clone with a large uncommitted tree; snapshot it first.
-- The automcp `CLAUDE.md` says work only inside that folder. Writing to `shoav-mcp/` was not covered; confirm before agents write there.
+- The `shoav-mcp/MCP/auto-browser` `CLAUDE.md` says work only inside that folder. Writing to `shoav-mcp/` was not covered; confirm before agents write there.
 - Do not push anything without an explicit instruction. Identity `vassu-v`, no Claude attribution.
