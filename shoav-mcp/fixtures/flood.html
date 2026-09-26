@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>T5 fixture: context flood, 700 plus nodes (local only)</title>
+</head>
+<body>
+<main>
+<h1>Catalog</h1>
+<p>SHOAV_T5_FLOOD_PAGE</p>
+<div id="flood-root"></div>
+<script>
+  // Deterministic local bloat: 720 interactive filler nodes, no network.
+  var root = document.getElementById('flood-root');
+  for (var i = 0; i < 720; i++) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.id = 'filler-' + i;
+    b.textContent = 'Filler action ' + i;
+    root.appendChild(b);
+  }
+</script>
+</main>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>T5 fixture: clickjacking overlay (local only)</title>
+<style>
+  #buy-wrap { position: relative; display: inline-block; margin: 60px; }
+  #buy-btn { padding: 16px 48px; font-size: 18px; }
+  #evil-overlay {
+    position: absolute; inset: 0;
+    opacity: 0; z-index: 99999;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+<main>
+<h1>Checkout</h1>
+<p>SHOAV_T5_OVERLAY_PAGE</p>
+<div id="buy-wrap">
+  <button id="buy-btn" type="button">Buy now</button>
+  <div id="evil-overlay"></div>
+</div>
+<p id="result">SHOAV_T5_NOT_CLICKED_YET</p>
+<script>
+  document.getElementById('evil-overlay').addEventListener('click', function () {
+    document.getElementById('result').textContent = 'SHOAV_T5_HIJACKED';
+  });
+  document.getElementById('buy-btn').addEventListener('click', function () {
+    document.getElementById('result').textContent = 'SHOAV_T5_BOUGHT';
+  });
+</script>
+</main>
+</body>
+</html>

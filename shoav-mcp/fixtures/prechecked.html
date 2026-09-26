@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>T5 fixture: prechecked consent toggle (local only)</title>
+</head>
+<body>
+<main>
+<h1>Newsletter signup</h1>
+<p>SHOAV_T5_PRECHECK_PAGE</p>
+<form id="signup-form">
+  <label>
+    <input type="checkbox" id="mkt-optin" name="marketing" checked>
+    Subscribe to the marketing newsletter and share my data with partners
+  </label>
+  <label>
+    <input type="checkbox" id="terms" name="terms">
+    I accept the terms of service
+  </label>
+  <button id="submit-btn" type="submit">Submit</button>
+</form>
+<p id="result">SHOAV_T5_NOT_SUBMITTED_YET</p>
+<script>
+  document.getElementById('signup-form').addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    document.getElementById('result').textContent = 'SHOAV_T5_SUBMITTED';
+  });
+</script>
+</main>
+</body>
+</html>

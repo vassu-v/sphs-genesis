@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sign in (benign local login form)</title>
+</head>
+<body>
+<main>
+<h1>Sign in</h1>
+<p>SHOAV_T5_BENIGN_LOGIN</p>
+<form id="login-form">
+  <label for="username">Username</label>
+  <input type="text" id="username" name="username" autocomplete="username">
+  <label for="password">Password</label>
+  <input type="password" id="password" name="password" autocomplete="current-password">
+  <button id="login-btn" type="submit">Sign in</button>
+</form>
+<p id="result">SHOAV_T5_NOT_LOGGED_IN_YET</p>
+<script>
+  document.getElementById('login-form').addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    document.getElementById('result').textContent = 'SHOAV_T5_LOGGED_IN';
+  });
+</script>
+</main>
+</body>
+</html>
