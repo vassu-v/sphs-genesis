@@ -54,7 +54,7 @@ export const homeHtml = `
   <section class="hero-section">
     <div class="container">
       <div class="hero-meta-row">
-        <span>GENESIS HACKATHON 2026 / TRACK 03</span>
+        <span>OPEN SOURCE / ALPHA</span>
         <span>BUILT ON AUTO BROWSER / MIT</span>
       </div>
 
@@ -620,8 +620,8 @@ export const homeHtml = `
             <span>S.H.O.A.V.</span>
           </div>
           <p class="footer-tagline">
-            Shield for Hostile Operations &amp; Agent Vulnerability. Built for Genesis Hackathon 2026,
-            Track 03.
+            Shield for Hostile Operations &amp; Agent Vulnerability. Open source, alpha. A deterministic
+            guard for AI agents that browse.
           </p>
         </div>
 

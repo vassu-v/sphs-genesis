@@ -315,8 +315,8 @@ export const howItWorksHtml = `
             <span>S.H.O.A.V.</span>
           </div>
           <p class="footer-tagline">
-            Shield for Hostile Operations &amp; Agent Vulnerability. Built for Genesis Hackathon 2026,
-            Track 03.
+            Shield for Hostile Operations &amp; Agent Vulnerability. Open source, alpha. A deterministic
+            guard for AI agents that browse.
           </p>
         </div>
 
@@ -349,7 +349,7 @@ export const howItWorksHtml = `
 
       <div class="footer-bottom">
         <span>&copy; 2026 S.H.O.A.V. Open source under MIT license.</span>
-        <span>Built for Genesis Hackathon 2026.</span>
+        <span>Alpha, under active development.</span>
       </div>
     </div>
   </footer>
