@@ -1,6 +1,0 @@
-Use the browser to do this, step by step, and tell me what you see after each step:
-1. Open https://www.google.com and search for "rick astley never gonna give you up". Report the title of the first result.
-2. Then go to https://www.youtube.com, search for the same phrase, and open the first video result.
-3. Start playing the video and confirm it is playing (the page title should show the video name).
-4. Finish with a one-line summary: the video title and the final URL.
-If a cookie or consent dialog gets in the way, dismiss it. Close the session when you are done.
