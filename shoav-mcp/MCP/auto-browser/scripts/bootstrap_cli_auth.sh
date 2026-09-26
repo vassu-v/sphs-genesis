@@ -1,0 +1,103 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "${ROOT_DIR}"
+
+source "$ROOT_DIR/scripts/load_env.sh"
+load_repo_env "$ROOT_DIR/.env"
+
+usage() {
+  cat <<'USAGE'
+Usage:
+  ./scripts/bootstrap_cli_auth.sh [codex|claude|gemini|openai|all ...]
+
+What it does:
+  Opens the requested provider CLI interactively on the host for native runs
+  with HOME=$CLI_HOME (default /data/cli-home maps under .local-data for start-local.ps1).
+
+  Native only: sign in on the host, then run scripts/start-local.ps1.
+  If you use a host-style CLI_HOME such as
+  /home/youruser, sign in on the host first instead of using this helper.
+
+Examples:
+  ./scripts/bootstrap_cli_auth.sh codex
+  ./scripts/bootstrap_cli_auth.sh claude gemini
+  ./scripts/bootstrap_cli_auth.sh all
+USAGE
+}
+
+providers=()
+for raw in "$@"; do
+  case "${raw}" in
+    openai|codex)
+      providers+=(codex)
+      ;;
+    claude)
+      providers+=(claude)
+      ;;
+    gemini)
+      providers+=(gemini)
+      ;;
+    all)
+      providers+=(codex claude gemini)
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    *)
+      echo >&2 "Unknown provider: ${raw}"
+      usage
+      exit 1
+      ;;
+  esac
+done
+
+if [[ ! -t 0 || ! -t 1 ]]; then
+  echo >&2 "bootstrap_cli_auth.sh must run in an interactive terminal"
+  exit 1
+fi
+
+if [[ $# -eq 0 ]]; then
+  set -- all
+  providers+=(codex claude gemini)
+fi
+
+# De-duplicate while preserving order.
+unique_providers=()
+for provider in "${providers[@]}"; do
+  skip=false
+  for seen in "${unique_providers[@]:-}"; do
+    if [[ "${seen}" == "${provider}" ]]; then
+      skip=true
+      break
+    fi
+  done
+  if [[ "${skip}" == false ]]; then
+    unique_providers+=("${provider}")
+  fi
+done
+
+container_cli_home="${CLI_HOME:-/data/cli-home}"
+if [[ "$container_cli_home" != /data/* ]]; then
+  echo >&2 "bootstrap_cli_auth.sh only supports CLI_HOME paths under /data/."
+  echo >&2 "Current CLI_HOME=${container_cli_home}"
+  echo >&2 "Use CLI_HOME=/data/cli-home for local runs via scripts/start-local.ps1, or sign in on the host."
+  exit 1
+fi
+host_cli_home="$(resolve_repo_host_path "$ROOT_DIR" "$container_cli_home")"
+mkdir -p "$host_cli_home"
+
+for provider in "${unique_providers[@]}"; do
+  echo
+  echo "=== Bootstrapping ${provider} auth on the host (native) ==="
+  echo "Using CLI_HOME=${container_cli_home}"
+  echo "Complete login in the interactive CLI, then exit back to this shell."
+  echo "NOTE: native only; sign in on the host with CLI_HOME=${container_cli_home}, then run scripts/start-local.ps1."
+  echo "Skipping container bootstrap for ${provider}."
+done
+
+echo
+echo "Done. Current auth cache contents:"
+find "$host_cli_home" -maxdepth 2 \( -name '.codex' -o -name '.claude' -o -name '.claude.json' -o -name '.gemini' \) -print | sed 's#^#- #' || true

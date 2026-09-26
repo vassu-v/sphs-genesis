@@ -1,0 +1,15 @@
+{
+  "name": "online-mind2web-stage1",
+  "status": "tracked-not-scored",
+  "competitive_score_allowed": false,
+  "notes": [
+    "This lane is reserved for live browser execution after the Stage 0 fixture and WebArena-style contracts are green.",
+    "Runs must preserve provider, workflow profile, auth profile, final URL, action sequence, and verifier result for each saved result file."
+  ],
+  "required_before_scoring": [
+    "pin task subset and source revision",
+    "record per-task allowed domains and mutation policy",
+    "run fast and governed profiles separately",
+    "publish raw result JSON and aggregate markdown report"
+  ]
+}
