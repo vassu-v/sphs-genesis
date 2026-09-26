@@ -16,7 +16,7 @@
 ### Project Context & Authority
 
 ![Updated](https://img.shields.io/badge/updated-2026--09--25-0ea5e9?style=flat-square)
-![Phase](https://img.shields.io/badge/phase-architecture_and_build-f59e0b?style=flat-square)
+![Phase](https://img.shields.io/badge/phase-final_stitching-f59e0b?style=flat-square)
 ![Pillar_1](https://img.shields.io/badge/pillar_1-Hardened_MCP_Tool-2563eb?style=flat-square)
 ![Pillar_2](https://img.shields.io/badge/pillar_2-Cognitive_Vigilance_Skill-8b5cf6?style=flat-square)
 ![Pillar_3](https://img.shields.io/badge/pillar_3-Sandboxed_Subagent-10b981?style=flat-square)
@@ -50,9 +50,9 @@
 | Event | Genesis Hackathon 2026, **Track 03** (AI Bodyguard, codename S.H.O.A.V.) |
 | Format | 48-hour hackathon, kickoff Thu 2026-09-24 08:30 |
 | Deadlines | 4-pillar technical report + 3-min video **Fri 2026-09-25 23:30**; in-person rounds **Sat 2026-09-26** |
-| Current Phase | Architecture and MCP filter implementation; Workstream 10 research complete |
+| Current Phase | Submission polish. Filters, skill and MCP wiring are done and measured (enforce 27/27, observe 17/17, off 22/22) |
 | Prior Code | `track3/` prototype is permanently superseded (circular benchmark). Do not build on it |
-| Git Repository | Branch `main`, committed as `vassu-v` (`coderscode17@gmail.com`). Push only on explicit instruction |
+| Git Repository | `main` on `vassu-v/sphs-genesis` (commits as `vassu-v`, `coderscode17@gmail.com`). Push only on explicit instruction |
 | Scoring Rubric | **UI/UX: 30** · **Functionality: 30** · **Demo: 15** · **Round 2 Live Problem Solving Bonus: +30** |
 
 ---
@@ -65,14 +65,14 @@ We are building three tightly integrated components to deliver complete defense,
 +----------------------------------------------------------------------------------------+
 |                               S.H.O.A.V. ECOSYSTEM                                     |
 +----------------------------------------------------------------------------------------+
-| 1. THE TOOL: HARDENED MCP PROXY (Primary Build Target)                                 |
+| 1. THE TOOL: HARDENED BROWSER MCP (filters built and wired into the gateway)                      |
 |    - Sits between any agent (agy, Claude Desktop, Cursor) and the browser MCP runtime. |
 |    - Deterministic Ingress Filter: audits opacity, hidden CSS, context overloading,    |
 |      dummy DOM diffs, and non-rendered text. Verdicts: ALLOW, BLOCK, REWRITE/SANITIZE. |
 |    - Deterministic Egress Filter: performs physical hit-testing (elementFromPoint) at   |
 |      action coordinates before execution. Verdicts: ALLOW, BLOCK.                      |
 +----------------------------------------------------------------------------------------+
-| 2. THE SKILL: COGNITIVE VIGILANCE & DARK PATTERN ADVISOR (skills/shoav-guard/)         |
+| 2. THE SKILL: COGNITIVE VIGILANCE & DARK PATTERN ADVISOR (shoav-skill/, built)         |
 |    - Installable agent skill on dark patterns, human cognitive biases, and psychology. |
 |    - Teaches agents how malicious sites hack heuristics (loss aversion, default effect)|
 |      and how LLM reasoning paradoxically over-rationalizes deceptive UI.               |
@@ -156,7 +156,7 @@ We modify/wrap the MCP tool interface to insert two deterministic filters:
 
 ## Expanded Agent Manipulation Landscape
 
-Detailed in [`research/10-agent-manipulation-and-mitigations/FINDINGS.md`](research/10-agent-manipulation-and-mitigations/FINDINGS.md):
+Detailed in [`docs/research/10-agent-manipulation-and-mitigations/FINDINGS.md`](docs/research/10-agent-manipulation-and-mitigations/FINDINGS.md):
 
 1. **Context Overloading & Context Flooding**:
    * *Mechanism*: Flooding the DOM with thousands of filler tokens, deeply nested dummy structures, or repetitive text.
@@ -263,7 +263,7 @@ agy --dangerously-skip-permissions --print "Navigate to https://agenttrickydps.v
 
 ## Current Active Work & Status Log
 
-* **2026-09-25 08:35**: Created `research/10-agent-manipulation-and-mitigations/FINDINGS.md` documenting context overloading, dummy DOM diffs, dark pattern cognitive mechanics, Jev model capabilities, and dual-filter MCP integration.
+* **2026-09-25 08:35**: Created `docs/research/10-agent-manipulation-and-mitigations/FINDINGS.md` documenting context overloading, dummy DOM diffs, dark pattern cognitive mechanics, Jev model capabilities, and dual-filter MCP integration.
 * **2026-09-25 08:40**: Codified the **Three-Pillar Product Vision** (Hardened MCP Tool + Cognitive Vigilance Skill + Sandboxed Subagent).
 * **2026-09-25 08:45**: Cloned and inspected `external/liteagent` benchmark testbed and evaluation suite.
 * **2026-09-25 11:00**: Configured `external/auto-browser` for native standalone execution without Docker; removed Docker files; enabled Playwright visible/headed browser mode.
@@ -276,7 +276,10 @@ agy --dangerously-skip-permissions --print "Navigate to https://agenttrickydps.v
 * **2026-09-25 15:26**: Created `shoav-mcp/DETERMINISTIC_TARGETS.md` specifying purely computational dark pattern targets (opacity, clickjacking hit-test mismatch, pre-checked toggles, context bloat) separated from skill-based psychological patterns.
 * **2026-09-25 15:30**: Created `shoav-mcp/filters/PLAN_AND_ROUGH_SKETCH.md` detailing the Ingress (ALLOW/BLOCK/REWRITE with telemetry) and Egress (ALLOW/BLOCK with elementFromPoint hit-testing) pipeline, JevEmbed local acceleration, and evaluating internal Auto-Browser modification vs. external proxy.
 * **2026-09-25 17:25**: Analyzed and integrated **Agent Gaslighting & Tool Misattribution** into the S.H.O.A.V. architecture. Updated `shoav-mcp/filters/PLAN_AND_ROUGH_SKETCH.md` and `shoav-mcp/filters/context.md` with deterministic defenses: Ingress synthetic error quarantine and Egress post-action input/focus integrity verification.
-* **Next Immediate Engineering Step**: Implement the deterministic filter modules in `shoav-mcp/filters/` and hook them into `external/auto-browser` controller pipeline for live dashboard telemetry.
+* **2026-09-25 (evening)**: Deterministic ingress/egress filter core implemented in `shoav-mcp/filters/` (90 tests, JS probes verified in Chromium). Teammate shipped `shoav-skill/` (defense manual, audit scripts, npx installer) and the project report. Tracking moved from `external/auto-browser/` to `external/automcp/` (our reworked copy). Work pushed to `modules-parted-mcp-patch` as a backdated, staged history.
+* **2026-09-26 (morning)**: Copied the reworked Auto Browser to `shoav-mcp/MCP/auto-browser/` and wired the guard into its gateway (`controller/app/guard/`, hooks in `tool_gateway/gateway.py`). Added `shoav-mcp/connectors/`, `shoav-mcp/fixtures/`, the `t5_e2e` runner, a CLI (`shoav-mcp/MCP/shoav/`) and agent templates. Fixed the live gaps (T1 rewrite marker, T2 actionable block, T3 submit escalation, egress counters). Measured: enforce 27/27, observe 17/17, off 22/22. Real `agy` runs confirmed hidden-text rewrite and overlay block. Report: `shoav-mcp/MCP/REPORT.md`.
+* **2026-09-26 (late morning)**: Closed the last real-agent gap: a submit with an untouched pre-checked box is now held even if the agent never called observe (the gateway probes the live form itself). Research moved to `docs/research/`. README, AGENTS.md and DESIGN.md brought in line with the measured state.
+* **Not done, on purpose**: full rename of the MCP server to SHOAV (server still reports as auto-browser), live mutation-rate feed, Claude Code as a measured client, iframe and Shadow DOM hit tests.
 
 ---
 
@@ -297,10 +300,16 @@ agy --dangerously-skip-permissions --print "Navigate to https://agenttrickydps.v
 | `CLAUDE.md` | Development rules, git conventions, commit author standards |
 | `external/context.auto-browser.md` | Deep technical context and modification log for the Auto-Browser MCP |
 | `external/AGENT_HANDOFF_CONTEXT.md` | Portable agent handoff context brief (copy-pasteable for any LLM/agent) |
-| `external/auto-browser/` | Tracked. Decoupled standalone Playwright MCP server with Per-Session Live Dashboard |
+| `shoav-mcp/MCP/` | The product: reworked Auto Browser (`auto-browser/`), live UI, CLI (`shoav/`), agent templates, plan, report |
+| `shoav-mcp/connectors/`, `fixtures/`, `t5_e2e/` | Payload adapters, synthetic pages, the off, observe, enforce runner |
+| `web/` | Project website (Next.js) |
+| `external/` | Local only, git-ignored. Holds the frozen original and third-party clones |
+| `shoav-mcp/filters/` | Deterministic ingress/egress core, session state, tests, plan |
+| `shoav-mcp/MCP/plan.md`, `REPORT.md` | The wiring plan and the measured integration report |
+| `shoav-skill/` | Agent skill, audit scripts, npx installer (Pillar 2) |
 | `external/liteagent/` | TrickyArena benchmark suite and evaluation checks |
-| `research/10-agent-manipulation-and-mitigations/` | Workstream 10: Expanded attack landscape, context overloading, and MCP mitigations |
-| `research/08-synthesis/` | Master synthesis, prioritized detection targets, open questions |
-| `research/09-verification-closeout/` | Report safety rules, resolved claims, paper disambiguation |
+| `docs/research/10-agent-manipulation-and-mitigations/` | Workstream 10: Expanded attack landscape, context overloading, and MCP mitigations |
+| `docs/research/08-synthesis/` | Master synthesis, prioritized detection targets, open questions |
+| `docs/research/09-verification-closeout/` | Report safety rules, resolved claims, paper disambiguation |
 | `track3/` | Old prototype. Local only, git-ignored and no longer tracked. Do not use |
 | `assets/` | Tracked project images and architecture diagrams |
