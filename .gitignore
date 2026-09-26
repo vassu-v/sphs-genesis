@@ -67,3 +67,7 @@ external/automcp/**/controller/data/
 track3/
 CLAUDE.md
 GEMINI.md
+
+# --- Local runtime data (controller state, artifacts, proof runs) ---
+.local-data*/
+shoav-mcp/tmp_*
