@@ -42,7 +42,7 @@ browser CVEs. Unless a paper ties them to agent workflows.
 
 **Never invent a citation.** A fabricated paper, author, arXiv ID or DOI is the single
 worst outcome of this task; it is worse than returning nothing. We may put these in a
-formal report, and a judge may look one up.
+formal report, and a reader may look one up.
 
 Therefore:
 

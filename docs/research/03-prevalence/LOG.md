@@ -1,4 +1,4 @@
-# LOG — Track 03: Prevalence / Evidence Base
+# LOG — Prevalence / Evidence Base
 
 [2026-09-24T14:25:47Z] Started. Read BRIEF.md. Plan: search arXiv/USENIX for agent benchmarks (WebArena/VisualWebArena/Mind2Web with adversarial variants), injection ASR papers, dark pattern prevalence crawls.
 [2026-09-24T14:35:44Z] Fetched and verified WASP, AgentDojo, InjecAgent, ASB abstracts; fetched Mathur 2019 dark-pattern crawl; fetched 2604.27202 (in-the-wild IPI crawl); fetched SusBench and CHI2026 dark-pattern-vs-agents abstracts; fetched Unit42 real-world IDPI report and Brave PoC disclosure; fetched OWASP LLM01:2025 page. Wrote FINDINGS.md and sources.json (16 claims, all fetched, none unverified). Discarded BragJack and OpenAI Atlas leads as unverified (only found via secondary WebSearch summaries, not fetched directly) -- flagged as follow-up leads in FINDINGS.md section 4 but not cited as sourced claims.

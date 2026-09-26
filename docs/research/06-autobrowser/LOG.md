@@ -1,6 +1,6 @@
 # Analysis Log — Auto Browser
 
-2026-09-24T00:00 — Started analysis of D:\work\genesishackathon\external\auto-browser (read-only). Goal: determine whether Auto Browser can supply computed styles / bbox / ancestry / elementFromPoint for a deterministic clickjacking/dark-pattern guard, enumerate its full MCP tool surface, find the cleanest interception point, catalogue existing safety machinery for overlap, and document how to run it on Windows 11 with OpenRouter/Gemini keys.
+2026-09-24T00:00 — Started analysis of <repo>\external\auto-browser (read-only). Goal: determine whether Auto Browser can supply computed styles / bbox / ancestry / elementFromPoint for a deterministic clickjacking/dark-pattern guard, enumerate its full MCP tool surface, find the cleanest interception point, catalogue existing safety machinery for overlap, and document how to run it on Windows 11 with OpenRouter/Gemini keys.
 
 2026-09-24T00:05 — Read controller/app/browser/services/observation.py in full (352 lines). Confirmed observation payload shape for all four perception presets (fast/text/normal/rich). No elementFromPoint, no computed-style dump, no full ancestry chain anywhere in this file.
 

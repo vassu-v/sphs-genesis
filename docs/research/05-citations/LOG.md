@@ -1,7 +1,7 @@
 # LOG — Citations & Verification agent
 
 ## 2026-09-24
-- 00:00 Read BRIEF.md. Confirmed directory D:\work\genesishackathon\research\05-citations\ as sole write target.
+- 00:00 Read BRIEF.md. Confirmed directory <repo>\research\05-citations\ as sole write target.
 - 00:01 Checked for other agents' sources.json (01-04): none exist yet (workstreams just starting).
 - 00:02 Starting JOB 1: assembling canonical bibliography via WebSearch/WebFetch (arXiv abs pages, Semantic Scholar, OWASP/NIST/FTC/EC sites).
 - 00:10 Fetched and confirmed arXiv abstract pages for: 2302.12173 (Greshake indirect prompt injection), 2211.09527 (Perez & Ribeiro PromptInject), 2306.05499 (Liu et al. HouYi), 2307.15043 (Zou et al. GCG), 2406.13352 (AgentDojo), 2403.02691 (InjecAgent). All resolved correctly, no fabrications.

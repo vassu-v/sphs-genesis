@@ -176,7 +176,7 @@ The core tool is implemented by hardening the MCP layer that bridges the agent (
 
 ## 5. The Three-Pillar Product Architecture
 
-To maximize hackathon impact, score on the 30-point UI/UX rubric, and provide modular utility, the project is structured into three clear pillars:
+To maximize impact and provide modular utility, the project is structured into three clear pillars:
 
 ### Pillar 1: The Hardened MCP Tool (The Core Shield)
 * **What it is**: The defensive middleware proxy wrapping the browser MCP server.

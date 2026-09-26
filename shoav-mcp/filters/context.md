@@ -20,7 +20,7 @@ This document is the dedicated single source of truth for the `shoav-mcp/filters
 
 ### 2.1 Ideas and Directions Provided by User
 * **No Premature Building**: Establish a complete plan, technical sketch, and subsystem context first so every engineering decision is grounded.
-* **The Core Weapon is the Tool**: Primary focus for Track 03 is the Hardened MCP tool. The defense must live at the MCP protocol boundary and be **100% deterministic** without an LLM in the critical path.
+* **The Core Weapon is the Tool**: Primary focus is the Hardened MCP tool. The defense must live at the MCP protocol boundary and be **100% deterministic** without an LLM in the critical path.
 * **Ingress Filter Verdicts & Feedback**:
   - The Ingress filter handles data coming into the agent (observation/snapshots).
   - Verdicts: `ALLOW` (clean), `BLOCK` (catastrophic attack), or `REWRITE` (sanitize).
@@ -57,7 +57,7 @@ This document is the dedicated single source of truth for the `shoav-mcp/filters
 * **On the Architectural Choice (Internal Modification Selected)**:
   - Codebase audit revealed that `external/auto-browser` **has already been decoupled from Docker, runs natively on Windows launching headed Chromium, and has the Live Ephemeral Dashboard (`/live/{session_id}`) built in**.
   - **Verdict**: Directly hook the filters into `external/auto-browser` controller (`observation.py` for Ingress, `actions.py` / `gateway.py` for Egress).
-  - *Why*: Gives in-process access to `session.page` for `elementFromPoint(x, y)` without extra protocol hops, and emits real-time SSE events to `/live/{session_id}` so judges watch live badges ("Threat Neutralized") appear on screen!
+  - *Why*: Gives in-process access to `session.page` for `elementFromPoint(x, y)` without extra protocol hops, and emits real-time SSE events to `/live/{session_id}` so reviewers watch live badges ("Threat Neutralized") appear on screen!
 
 ---
 

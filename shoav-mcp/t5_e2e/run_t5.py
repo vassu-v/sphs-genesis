@@ -17,7 +17,7 @@ The runner FAILS (exit 1) when raw injection reaches the agent in
 enforce mode, when a benign fixture is not ALLOW, or when an overlay
 click is not blocked.
 
-Usage (from D:\\work\\genesishackathon):
+Usage (from the repo root):
   python shoav-mcp/t5_e2e/run_t5.py --controller http://127.0.0.1:18500 --fixture-port 18631 --mode auto
   python shoav-mcp/t5_e2e/run_t5.py --controller http://127.0.0.1:18500 --fixture-port 18631 --mode enforce
   python shoav-mcp/t5_e2e/run_t5.py --controller http://127.0.0.1:18500 --fixture-port 18631 --mode off

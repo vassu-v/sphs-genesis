@@ -1,6 +1,6 @@
 # Auto Browser — Findings for the click-safety guard
 
-Source analysed (read-only): `D:\work\genesishackathon\external\auto-browser\` (MIT license).
+Source analysed (read-only): `<repo>\external\auto-browser\` (MIT license).
 All line numbers below are from the checked-out tree as of this analysis.
 
 ---

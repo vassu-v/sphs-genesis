@@ -1,4 +1,4 @@
-# Track 03 -- Prevalence & Evidence Base
+# Prevalence & Evidence Base
 
 ## What this document establishes
 

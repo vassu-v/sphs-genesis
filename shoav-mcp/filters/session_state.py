@@ -7,7 +7,7 @@ The two design sketches in PLAN_AND_ROUGH_SKETCH.md and context.md treat
 ingress/egress as stateless request->response filters and never say where
 that T0 snapshot lives. This is that missing piece: an in-memory cache keyed
 by session_id, since Auto Browser already hands us a session_id on every
-call. No persistence, no eviction policy — a hackathon-weekend session
+call. No persistence, no eviction policy — a short-lived session
 cache, not a production store.
 """
 

@@ -16,7 +16,7 @@ This document records the complete conceptual design, architectural trade-offs, 
 3. **The Role of Fast Specialized Models (Jev & Embeddings)**:
    - Can we leverage local embedding models or specialized "System One" decision models like **Jev** (TypeSafe AI, released Sept 15, 2026: 70-500ms, non-autoregressive, 200-400x cheaper than LLMs)?
    - Using local embeddings for vector cosine similarity against dark pattern phrasing is 100% deterministic (mathematical vector math, zero generation, zero prompt injection risk).
-   - Running something like Jev or the open-source `JevEmbed` framework locally would be a high-scoring novelty for hackathon judges.
+   - Running something like Jev or the open-source `JevEmbed` framework locally would be a notable novelty.
 4. **Agent Gaslighting / Fault Injection / Tool Misattribution (User Insight)**:
    - A critical, agent-specific attack: A hostile or malfunctioning site deliberately deflects user inputs (focus stealing, silent event interception) or renders fake system/tool error popups.
    - The agent is tricked into believing the error is within its own tool or code rather than on the malicious page.
@@ -72,7 +72,7 @@ Here is the deep-dive analysis of both options:
 * **Severe Drawbacks & Risks**:
   1. *Heavy Execution Stack*: Requires running the full Auto Browser stack (Docker Compose or manual Python 3.12 uvicorn controller + Node `browser-node` sidecar).
   2. *Raw Mouse Event Vulnerability*: Auto Browser's `actions.py::click()` resolves element bounding-box centers and dispatches raw `mouse.move(x, y)` and `mouse.down()`. It bypasses Playwright's native actionability checks. To fix this internally, we would have to rewrite their action dispatcher.
-  3. *Git & Upstream Friction*: Modifying git-ignored third-party code in `external/` risks merge conflicts and is harder to package as an independent deliverable for judges.
+  3. *Git & Upstream Friction*: Modifying git-ignored third-party code in `external/` risks merge conflicts and is harder to package as an independent deliverable.
 
 ### Option B: External Stdio Reverse Proxy (`shoav_proxy.py`)
 * **How it works**: A standalone Python process that sits between `agy` and the browser MCP server (e.g. `bun x @playwright/mcp@latest --image-responses=allow --snapshot-boxes`). It intercepts standard input and output (JSON-RPC 2.0).
@@ -90,7 +90,7 @@ We should **not** lock ourselves into either extreme. Instead:
    - `shoav-mcp/filters/egress.py`: Pure geometric hit-tester, coordinate calculator, and overlay checker.
 2. Provide **two lightweight adapters**:
    - `shoav-mcp/proxy.py`: Stdio MCP reverse proxy for `agy` + `@playwright/mcp` (primary demo vehicle).
-   - `shoav-mcp/gateway_patch.py`: A clean decorator/subclass for `McpToolGateway.call_tool()` if the teammate or judges want to run `external/auto-browser`.
+   - `shoav-mcp/gateway_patch.py`: A clean decorator/subclass for `McpToolGateway.call_tool()` if the teammate or other users want to run `external/auto-browser`.
 *Why this wins*: The core logic is written once, 100% unit-tested, and works under both runtimes!
 
 ---

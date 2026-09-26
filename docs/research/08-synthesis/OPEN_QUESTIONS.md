@@ -124,7 +124,7 @@ similar artifacts before we repeat their headline numbers in a pitch deck.
 
 **Architectural bet risk: LOW for the build, MEDIUM for anything we say publicly.**
 This doesn't change what we build, but it could change what numbers we're willing to
-put in front of a judge.
+put in front of a reviewer.
 
 ## 7. Does dark-pattern susceptibility break down by pattern type for agents, or only in aggregate?
 
