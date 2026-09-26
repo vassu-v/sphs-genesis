@@ -6,6 +6,7 @@ function initAll() {
   initCliTabSwitcher();
   initCopyButtons();
   initThreatSimulator();
+  initNavDropdowns();
 }
 
 // This script loads after Next.js hydration (strategy="afterInteractive"),
@@ -194,5 +195,28 @@ function initThreatSimulator() {
       restartAnimation(rawLog);
       restartAnimation(shoavLog);
     });
+  });
+}
+
+/* --- Horizontal Nav Dropdowns --- */
+function initNavDropdowns() {
+  const wrappers = document.querySelectorAll('.nav-dropdown-wrapper');
+  wrappers.forEach(wrapper => {
+    const caret = wrapper.querySelector('.dropdown-caret');
+    if (caret) {
+      caret.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const isOpen = wrapper.classList.contains('open');
+        wrappers.forEach(w => w.classList.remove('open'));
+        if (!isOpen) wrapper.classList.add('open');
+      });
+    }
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.nav-dropdown-wrapper')) {
+      document.querySelectorAll('.nav-dropdown-wrapper').forEach(w => w.classList.remove('open'));
+    }
   });
 }

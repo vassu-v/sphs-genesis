@@ -10,12 +10,37 @@ export const howItWorksHtml = `
       </a>
 
       <nav class="nav-links">
-        <a href="/" class="nav-link">Overview</a>
-        <a href="/how-it-works/" class="nav-link active">How It Works</a>
-        <a href="#pipeline" class="nav-link">Pipeline</a>
-        <a href="#stack" class="nav-link">Tech Stack</a>
-        <a href="#matrix" class="nav-link">Comparison</a>
-        <a href="#built-on" class="nav-link">Built On</a>
+        <div class="nav-dropdown-wrapper">
+          <a href="/" class="nav-link">
+            <span>Overview</span>
+            <svg class="dropdown-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          </a>
+          <div class="nav-horizontal-dropdown">
+            <a href="/#packet" class="subnav-link">The Packet</a>
+            <span class="subnav-sep">&bull;</span>
+            <a href="/#quickstart" class="subnav-link">Quickstart</a>
+            <span class="subnav-sep">&bull;</span>
+            <a href="/#threats" class="subnav-link">What It Stops</a>
+            <span class="subnav-sep">&bull;</span>
+            <a href="/#simulator" class="subnav-link">Sandbox</a>
+          </div>
+        </div>
+
+        <div class="nav-dropdown-wrapper">
+          <a href="/how-it-works/" class="nav-link active">
+            <span>How It Works</span>
+            <svg class="dropdown-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          </a>
+          <div class="nav-horizontal-dropdown">
+            <a href="#pipeline" class="subnav-link">Pipeline</a>
+            <span class="subnav-sep">&bull;</span>
+            <a href="#stack" class="subnav-link">Tech Stack</a>
+            <span class="subnav-sep">&bull;</span>
+            <a href="#matrix" class="subnav-link">Comparison</a>
+            <span class="subnav-sep">&bull;</span>
+            <a href="#built-on" class="subnav-link">Built On</a>
+          </div>
+        </div>
       </nav>
 
       <div class="header-actions">

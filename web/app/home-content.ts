@@ -10,12 +10,37 @@ export const homeHtml = `
       </a>
 
       <nav class="nav-links">
-        <a href="/" class="nav-link active">Overview</a>
-        <a href="/how-it-works/" class="nav-link">How It Works</a>
-        <a href="#packet" class="nav-link">The Packet</a>
-        <a href="#quickstart" class="nav-link">Quickstart</a>
-        <a href="#threats" class="nav-link">What It Stops</a>
-        <a href="#simulator" class="nav-link">Sandbox</a>
+        <div class="nav-dropdown-wrapper">
+          <a href="/" class="nav-link active">
+            <span>Overview</span>
+            <svg class="dropdown-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          </a>
+          <div class="nav-horizontal-dropdown">
+            <a href="#packet" class="subnav-link">The Packet</a>
+            <span class="subnav-sep">&bull;</span>
+            <a href="#quickstart" class="subnav-link">Quickstart</a>
+            <span class="subnav-sep">&bull;</span>
+            <a href="#threats" class="subnav-link">What It Stops</a>
+            <span class="subnav-sep">&bull;</span>
+            <a href="#simulator" class="subnav-link">Sandbox</a>
+          </div>
+        </div>
+
+        <div class="nav-dropdown-wrapper">
+          <a href="/how-it-works/" class="nav-link">
+            <span>How It Works</span>
+            <svg class="dropdown-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          </a>
+          <div class="nav-horizontal-dropdown">
+            <a href="/how-it-works/#pipeline" class="subnav-link">Pipeline</a>
+            <span class="subnav-sep">&bull;</span>
+            <a href="/how-it-works/#stack" class="subnav-link">Tech Stack</a>
+            <span class="subnav-sep">&bull;</span>
+            <a href="/how-it-works/#matrix" class="subnav-link">Comparison</a>
+            <span class="subnav-sep">&bull;</span>
+            <a href="/how-it-works/#built-on" class="subnav-link">Built On</a>
+          </div>
+        </div>
       </nav>
 
       <div class="header-actions">
